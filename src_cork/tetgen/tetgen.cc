@@ -65,8 +65,9 @@ bool tetgenio::load_node_call(FILE* infile, int markers, int uvflag,
     }
   }
   if (uvflag) {
-    pointparamlist = new pointparam[numberofpoints];
-    if (pointparamlist == NULL) {
+    std::vector<pointparam> pointrparamlist;
+    pointparamlist.resize(numberofpoints);
+    if (pointparamlist.size() == 0) {
       terminatetetgen(NULL, 1);
     }
   }
@@ -923,7 +924,9 @@ bool tetgenio::load_poly(char* filebasename)
     }
 
     // Initialize the 'facetlist', 'facetmarkerlist'.
-    facetlist = new facet[numberoffacets];
+    std::vector<facet> facetlist;
+    facetlist.resize(numberoffacets);
+    
     if (markers == 1) {
       facetmarkerlist.resize(numberoffacets);
     }
@@ -1272,7 +1275,8 @@ bool tetgenio::load_off(char* filebasename)
         }
         if (nfaces > 0) {        
           numberoffacets = nfaces;
-          facetlist = new tetgenio::facet[nfaces];
+          std::vector<tetgenio::facet> facetlist;
+          facetlist.resize(nfaces);
         }
       }
     } else if (iverts < nverts) {
@@ -1469,7 +1473,9 @@ bool tetgenio::load_ply(char* filebasename)
               // Allocate memory for 'tetgenio'
               if (nfaces > 0) {        
                 numberoffacets = nfaces;
-                facetlist = new tetgenio::facet[nfaces];
+                std::vector<tetgenio::facet> facetlist;
+                facetlist.resize(nfaces);
+               
               }
             }
           }
@@ -1741,8 +1747,9 @@ bool tetgenio::load_stl(char* filebasename)
 
   nfaces = (int) (nverts / 3);
   numberoffacets = nfaces;
-  facetlist = new tetgenio::facet[nfaces];
 
+  std::vector<tetgenio::facet> facetlist;
+  facetlist.resize(nfaces);
   // Default use '1' as the array starting index.
   firstnumber = 1;
   iverts = firstnumber;
@@ -1976,7 +1983,9 @@ bool tetgenio::load_medit(char* filebasename, int istetmesh)
               std::vector<tetgenio::facet> tmpflist;
               tmpflist.resize(numberoffacets + nfaces);
               // tetgenio::facet[(numberoffacets + nfaces)] tmpflist ;
-              tmpfmlist = new int[numberoffacets + nfaces];
+              std::vector<int> tmpfmlist;
+              tmpfmlist.resize(numberoffacets + nfaces);
+              
               // Copy the data of old arrays into new arrays.
               for (i = 0; i < numberoffacets; i++) {
                 f = &(tmpflist[i]);
@@ -2264,7 +2273,9 @@ bool tetgenio::load_vtk(char* filebasename)
       sscanf(line, "%s %d  %d", id, &nfaces, &dummy);
       if (nfaces > 0) {
         numberoffacets = nfaces;
-        facetlist = new tetgenio::facet[nfaces];
+        
+        std::vector<tetgenio::facet> facetlist;
+        facetlist.resize(nfaces);
       }
 
       if(!strcmp(mode, "BINARY")) {
@@ -4256,7 +4267,6 @@ void tetgenmesh::makeindex2pointmap(point*& idx2verlist)
   if (b->verbose > 1) {
     printf("  Constructing mapping from indices to points.\n");
   }
-
   idx2verlist = new point[points->items + 1];
 
   points->traversalinit();
@@ -29805,8 +29815,8 @@ void tetgenmesh::outnodes(tetgenio* out)
       }
     }
     if (b->psc) {
-      out->pointparamlist = new tetgenio::pointparam[points->items];
-      if (out->pointparamlist == NULL) {
+      out->pointparamlist.resize(points->items);
+      if (out->pointparamlist.size() == 0) {
         printf("Error:  Out of memory.\n");
         terminatetetgen(this, 1);
       }
@@ -30221,7 +30231,7 @@ void tetgenmesh::outfaces(tetgenio* out)
   face checkmark;
   point torg, tdest, tapex;
   long ntets, faces;
-  std::vector<int> elist, emlist;
+
   int neigh1 = 0, neigh2 = 0;
   int marker = 0;
   int firstindex, shift;
@@ -30288,8 +30298,6 @@ void tetgenmesh::outfaces(tetgenio* out)
       }
     }
     out->numberoftrifaces = faces;
-    elist = out->trifacelist;
-    emlist = out->trifacemarkerlist;
   }
 
   if (b->neighout > 1) { // -nn option
@@ -30383,16 +30391,16 @@ void tetgenmesh::outfaces(tetgenio* out)
           fprintf(outfile, "\n");
         } else {
           // Output indices of three vertices.
-          elist[index++] = pointmark(torg) - shift;
-          elist[index++] = pointmark(tdest) - shift;
-          elist[index++] = pointmark(tapex) - shift;
+          out->trifacelist[index++] = pointmark(torg) - shift;
+          out->trifacelist[index++] = pointmark(tdest) - shift;
+          out->trifacelist[index++] = pointmark(tapex) - shift;
           if (b->order == 2) { // -o2
             out->o2facelist[o2index++] = pointmark(pp[0]) - shift;
             out->o2facelist[o2index++] = pointmark(pp[1]) - shift;
             out->o2facelist[o2index++] = pointmark(pp[2]) - shift;
           }
           if (!b->nobound) {
-            emlist[facenumber - in->firstnumber] = marker;
+            out->trifacemarkerlist[facenumber - in->firstnumber] = marker;
           }
           if (b->neighout > 1) {
             out->face2tetlist[(facenumber - in->firstnumber) * 2]     = neigh1;
@@ -30454,7 +30462,6 @@ void tetgenmesh::outhullfaces(tetgenio* out)
   char facefilename[FILENAMESIZE];
   triface hulltet;
   point torg, tdest, tapex;
-  std::vector<int> elist ;
   int firstindex, shift;
   int facenumber;
   int index;
@@ -30487,7 +30494,6 @@ void tetgenmesh::outhullfaces(tetgenio* out)
       terminatetetgen(this, 1);
     }
     out->numberoftrifaces = hullsize;
-    elist = out->trifacelist;
     index = 0;
   }
 
@@ -30514,9 +30520,9 @@ void tetgenmesh::outhullfaces(tetgenio* out)
         fprintf(outfile, "\n");
       } else {
         // Output indices of three vertices.
-        elist[index++] = pointmark(torg) - shift;
-        elist[index++] = pointmark(tdest) - shift;
-        elist[index++] = pointmark(tapex) - shift;
+        out->trifacelist[index++] = pointmark(torg) - shift;
+        out->trifacelist[index++] = pointmark(tdest) - shift;
+        out->trifacelist[index++] = pointmark(tapex) - shift;
       }
       facenumber++;
     }
@@ -30544,7 +30550,6 @@ void tetgenmesh::outsubfaces(tetgenio* out)
 {
   FILE *outfile = NULL;
   char facefilename[FILENAMESIZE];
-  std::vector<int> elist, emlist;
   int index = 0, index1 = 0, index2 = 0;
   triface abuttingtet;
   face faceloop;
@@ -30607,8 +30612,6 @@ void tetgenmesh::outsubfaces(tetgenio* out)
       }
     }
     out->numberoftrifaces = subfaces->items;
-    elist = out->trifacelist;
-    emlist = out->trifacemarkerlist;
   }
 
   // Determine the first index (0 or 1).
@@ -30691,16 +30694,16 @@ void tetgenmesh::outsubfaces(tetgenio* out)
       fprintf(outfile, "\n");
     } else {
       // Output three vertices of this face;
-      elist[index++] = pointmark(torg) - shift;
-      elist[index++] = pointmark(tdest) - shift;
-      elist[index++] = pointmark(tapex) - shift;
+      out->trifacelist[index++] = pointmark(torg) - shift;
+      out->trifacelist[index++] = pointmark(tdest) - shift;
+      out->trifacelist[index++] = pointmark(tapex) - shift;
       if (b->order == 2) { // -o2
         out->o2facelist[o2index++] = pointmark(pp[0]) - shift;
         out->o2facelist[o2index++] = pointmark(pp[1]) - shift;
         out->o2facelist[o2index++] = pointmark(pp[2]) - shift;
       }
       if (!b->nobound) {
-        emlist[index1++] = marker;
+        out->trifacemarkerlist[index1++] = marker;
       }
       if (b->neighout > 1) {
         out->face2tetlist[index2++] = neigh1;
@@ -31067,7 +31070,7 @@ void tetgenmesh::outsubsegments(tetgenio* out)
       out->edge2tetlist.resize(subsegs->items);
     }
     out->numberofedges = subsegs->items;
-    elist = out->edgelist;
+   
   }
 
   // Determine the first index (0 or 1).
@@ -31133,8 +31136,8 @@ void tetgenmesh::outsubsegments(tetgenio* out)
       fprintf(outfile, "\n");
     } else {
       // Output three vertices of this face;
-      elist[index++] = pointmark(torg) - shift;
-      elist[index++] = pointmark(tdest) - shift;
+      out->edgelist[index++] = pointmark(torg) - shift;
+      out->edgelist[index++] = pointmark(tdest) - shift;
       if (b->order == 2) { // -o2
         out->o2edgelist[o2index++] = pointmark(pp) - shift;
       }

@@ -19,6 +19,7 @@
 #ifndef tetgenH
 #define tetgenH
 
+#include <vector>
 // To compile TetGen as a library instead of an executable program, define
 //   the TETLIBRARY symbol.
 #ifndef TETLIBRARY
@@ -117,7 +118,7 @@ public:
   //   either counterclockwise or clockwise order and they form a ring, so 
   //   every two consecutive points forms an edge of the polygon.
   typedef struct {
-    int *vertexlist;
+    std::vector<int> vertexlist;
     int numberofvertices;
   } polygon;
 
@@ -125,9 +126,9 @@ public:
   //   points floating in it.  Each facet consists of a list of polygons and
   //   a list of hole points (which lie strictly inside holes).
   typedef struct {
-    polygon *polygonlist;
+    std::vector<polygon> polygonlist;
     int numberofpolygons;
-    REAL *holelist;
+    std::vector<REAL> holelist;
     int numberofholes;
   } facet;
 
@@ -152,7 +153,7 @@ public:
   //   (including rays) of this facet.
   typedef struct {
     int c1, c2;
-    int *elist;
+    std::vector<int> elist;
   } vorofacet;
 
 
@@ -193,12 +194,12 @@ public:
   //   tensor occupies 'numberofpointmtr' REALs.
   // 'pointmarkerlist':  An array of point markers; one integer per point.
   // 'point2tetlist': An array of tetrahedra indices; one integer per point.
-  REAL *pointlist;
-  REAL *pointattributelist;
-  REAL *pointmtrlist;
-  int  *pointmarkerlist;
-  int  *point2tetlist;
-  pointparam *pointparamlist;
+  std::vector<REAL> pointlist;
+  std::vector<REAL> pointattributelist;
+  std::vector<REAL> pointmtrlist;
+  std::vector<int> pointmarkerlist;
+  std::vector<int> point2tetlist;
+  std::vector<pointparam> pointparamlist;
   int numberofpoints;
   int numberofpointattributes;
   int numberofpointmtrs;
@@ -215,12 +216,12 @@ public:
   // 'neighborlist':  An array of tetrahedron neighbors; 4 ints per element. 
   // 'tet2facelist':  An array of tetrahedron face indices; 4 ints per element.
   // 'tet2edgelist':  An array of tetrahedron edge indices; 6 ints per element.
-  int  *tetrahedronlist;
-  REAL *tetrahedronattributelist;
-  REAL *tetrahedronvolumelist;
-  int  *neighborlist;
-  int  *tet2facelist;
-  int  *tet2edgelist;
+  std::vector<int> tetrahedronlist;
+  std::vector<REAL> tetrahedronattributelist;
+  std::vector<REAL> tetrahedronvolumelist;
+  std::vector<int>neighborlist;
+  std::vector<int>tet2facelist;
+  std::vector<int>tet2edgelist;
   int numberoftetrahedra;
   int numberofcorners;
   int numberoftetrahedronattributes;
@@ -228,14 +229,14 @@ public:
   // 'facetlist':  An array of facets.  Each entry is a structure of facet.
   // 'facetmarkerlist':  An array of facet markers; one int per facet.
   facet *facetlist;
-  int *facetmarkerlist;
+  std::vector<int> facetmarkerlist;
   int numberoffacets;
 
   // 'holelist':  An array of holes (in volume).  Each hole is given by a
   //   seed (point) which lies strictly inside it. The first seed's x, y and z
   //   coordinates are at indices [0], [1] and [2], followed by the
   //   remaining seeds.  Three REALs per hole. 
-  REAL *holelist;
+  std::vector<REAL> holelist;
   int numberofholes;
 
   // 'regionlist': An array of regions (subdomains).  Each region is given by
@@ -246,7 +247,7 @@ public:
   // Note that each regional attribute is used only if you select the 'A'
   //   switch, and each volume constraint is used only if you select the
   //   'a' switch (with no number following).
-  REAL *regionlist;
+  std::vector<REAL> regionlist;
   int numberofregions;
 
   // 'facetconstraintlist':  An array of facet constraints.  Each constraint
@@ -255,7 +256,7 @@ public:
   //   maximum area bound at index [1], followed by the remaining facet con-
   //   straints. Two REALs per facet constraint.  Note: the facet marker is
   //   actually an integer.
-  REAL *facetconstraintlist;
+  std::vector<REAL> facetconstraintlist;
   int numberoffacetconstraints;
 
   // 'segmentconstraintlist': An array of segment constraints. Each constraint 
@@ -264,7 +265,7 @@ public:
   //   index [0] and [1], and the maximum length bound at index [2], followed
   //   by the remaining segment constraints.  Three REALs per constraint. 
   //   Note the segment endpoints are actually integers.
-  REAL *segmentconstraintlist;
+  std::vector<REAL> segmentconstraintlist;
   int numberofsegmentconstraints;
 
 
@@ -278,11 +279,11 @@ public:
   //   followed by the remaining faces.  Three ints per face.
   // 'face2tetlist':  An array of tetrahedra indices; 2 ints per face.
   // 'face2edgelist':  An array of edge indices; 3 ints per face.
-  int *trifacelist;
-  int *trifacemarkerlist;
-  int *o2facelist;
-  int *face2tetlist;
-  int *face2edgelist;
+  std::vector<int> trifacelist;
+  std::vector<int> trifacemarkerlist;
+  std::vector<int> o2facelist;
+  std::vector<int> face2tetlist;
+  std::vector<int> face2edgelist;
   int numberoftrifaces;
 
   // 'edgelist':  An array of edge endpoints.  The first edge's endpoints
@@ -291,11 +292,11 @@ public:
   // 'edgemarkerlist':  An array of edge markers; one int per edge.
   // 'o2edgelist':  An array of midpoints of edges. It is output only if the
   //   second order option (-o2) is applied. One int per edge.
-  // 'edge2tetlist':  An array of tetrahedra indices.  One int per edge.
-  int *edgelist;
-  int *edgemarkerlist;
-  int *o2edgelist;
-  int *edge2tetlist;
+  // 'edge2tetlist':  An array of tetrahedra indices.  One int per edgelist;
+  std::vector<int> edgelist;
+  std::vector<int> edgemarkerlist;
+  std::vector<int> o2edgelist;
+  std::vector<int> edge2tetlist;
   int numberofedges;
 
   // 'vpointlist':  An array of Voronoi vertex coordinates (like pointlist).
@@ -304,10 +305,10 @@ public:
   // 'vcelllist':  An array of Voronoi cells.  Each entry is an array of
   //   indices pointing into 'vfacetlist'. The 0th entry is used to store
   //   the length of this array.
-  REAL *vpointlist;
-  voroedge *vedgelist;
-  vorofacet *vfacetlist;
-  int **vcelllist;
+  std::vector<REAL> vpointlist;
+  std::vector<voroedge> vedgelist;
+  std::vector<vorofacet> vfacetlist;
+  std::vector<std::vector<int>> vcelllist;
   int numberofvpoints;
   int numberofvedges;
   int numberofvfacets;
@@ -359,14 +360,14 @@ public:
   char *findnextnumber(char* string);
 
   static void init(polygon* p) {
-    p->vertexlist = (int *) NULL;
+    // p->vertexlist = (int *) NULL;
     p->numberofvertices = 0;
   }
 
   static void init(facet* f) {
-    f->polygonlist = (polygon *) NULL;
+    // f->polygonlist = (polygon *) NULL;
     f->numberofpolygons = 0;
-    f->holelist = (REAL *) NULL;
+    // f->holelist = (REAL *) NULL;
     f->numberofholes = 0;
   }
 
@@ -377,198 +378,198 @@ public:
     mesh_dim = 3;
     useindex = 1;
 
-    pointlist = (REAL *) NULL;
-    pointattributelist = (REAL *) NULL;
-    pointmtrlist = (REAL *) NULL;
-    pointmarkerlist = (int *) NULL;
-	point2tetlist = (int *) NULL;
-    pointparamlist = (pointparam *) NULL;
+    // pointlist = (REAL *) NULL;
+    // pointattributelist = (REAL *) NULL;
+    // pointmtrlist = (REAL *) NULL;
+    // pointmarkerlist = (int *) NULL;
+	// point2tetlist = (int *) NULL;
+    // pointparamlist = (pointparam *) NULL;
     numberofpoints = 0;
     numberofpointattributes = 0;
     numberofpointmtrs = 0;
 
-    tetrahedronlist = (int *) NULL;
-    tetrahedronattributelist = (REAL *) NULL;
-    tetrahedronvolumelist = (REAL *) NULL;
-    neighborlist = (int *) NULL;
-	tet2facelist = (int *) NULL;
-	tet2edgelist = (int *) NULL;
+    // tetrahedronlist = (int *) NULL;
+    // tetrahedronattributelist = (REAL *) NULL;
+    // tetrahedronvolumelist = (REAL *) NULL;
+    // neighborlist = (int *) NULL;
+	// tet2facelist = (int *) NULL;
+	// tet2edgelist = (int *) NULL;
     numberoftetrahedra = 0;
     numberofcorners = 4; 
     numberoftetrahedronattributes = 0;
 
-    trifacelist = (int *) NULL;
-    trifacemarkerlist = (int *) NULL;
-    o2facelist = (int *) NULL;
-    face2tetlist = (int *) NULL;
-	face2edgelist = (int *) NULL;
+    // trifacelist = (int *) NULL;
+    // trifacemarkerlist = (int *) NULL;
+    // o2facelist = (int *) NULL;
+    // face2tetlist = (int *) NULL;
+	// face2edgelist = (int *) NULL;
     numberoftrifaces = 0; 
 
-    edgelist = (int *) NULL;
-    edgemarkerlist = (int *) NULL;
-    o2edgelist = (int *) NULL;
-    edge2tetlist = (int *) NULL;
+    // edgelist = (int *) NULL;
+    // edgemarkerlist = (int *) NULL;
+    // o2edgelist = (int *) NULL;
+    // edge2tetlist = (int *) NULL;
     numberofedges = 0;
 
-    facetlist = (facet *) NULL;
-    facetmarkerlist = (int *) NULL;
+    // facetlist = (facet *) NULL;
+    // facetmarkerlist = (int *) NULL;
     numberoffacets = 0; 
 
-    holelist = (REAL *) NULL;
+    // holelist = (REAL *) NULL;
     numberofholes = 0;
 
-    regionlist = (REAL *) NULL;
+    // regionlist = (REAL *) NULL;
     numberofregions = 0;
 
-    facetconstraintlist = (REAL *) NULL;
+    // facetconstraintlist = (REAL *) NULL;
     numberoffacetconstraints = 0;
-    segmentconstraintlist = (REAL *) NULL;
+    // segmentconstraintlist = (REAL *) NULL;
     numberofsegmentconstraints = 0;
 
 
-    vpointlist = (REAL *) NULL;
-    vedgelist = (voroedge *) NULL;
-    vfacetlist = (vorofacet *) NULL; 
-    vcelllist = (int **) NULL; 
+    // vpointlist = (REAL *) NULL;
+    // vedgelist = (voroedge *) NULL;
+    // vfacetlist = (vorofacet *) NULL; 
+    // vcelllist = (int **) NULL; 
     numberofvpoints = 0;
     numberofvedges = 0;
     numberofvfacets = 0;
     numberofvcells = 0;
 
 
-    tetunsuitable = NULL;
+    // tetunsuitable = NULL;
 
-    geomhandle = NULL;
-    getvertexparamonedge = NULL;
-    getsteineronedge = NULL;
-    getvertexparamonface = NULL;
-    getedgesteinerparamonface = NULL;
-    getsteineronface = NULL;
+    // geomhandle = NULL;
+    // getvertexparamonedge = NULL;
+    // getsteineronedge = NULL;
+    // getvertexparamonface = NULL;
+    // getedgesteinerparamonface = NULL;
+    // getsteineronface = NULL;
   }
 
   // Free the memory allocated in 'tetgenio'.  Note that it assumes that the 
   //   memory was allocated by the "new" operator (C++).
   void deinitialize()
   {
-    int i, j;
+    // int i, j;
 
-    if (pointlist != (REAL *) NULL) {
-      delete [] pointlist;
-    }
-    if (pointattributelist != (REAL *) NULL) {
-      delete [] pointattributelist;
-    }
-    if (pointmtrlist != (REAL *) NULL) {
-      delete [] pointmtrlist;
-    }
-    if (pointmarkerlist != (int *) NULL) {
-      delete [] pointmarkerlist;
-    }
-	if (point2tetlist != (int *) NULL) {
-      delete [] point2tetlist;
-    }
-    if (pointparamlist != (pointparam *) NULL) {
-      delete [] pointparamlist;
-    }
+    // if (pointlist != (REAL *) NULL) {
+    //   delete [] pointlist;
+    // }
+    // if (pointattributelist != (REAL *) NULL) {
+    //   delete [] pointattributelist;
+    // }
+    // if (pointmtrlist != (REAL *) NULL) {
+    //   delete [] pointmtrlist;
+    // }
+    // if (pointmarkerlist != (int *) NULL) {
+    //   delete [] pointmarkerlist;
+    // }
+	// if (point2tetlist != (int *) NULL) {
+    //   delete [] point2tetlist;
+    // }
+    // if (pointparamlist != (pointparam *) NULL) {
+    //   delete [] pointparamlist;
+    // }
 
-    if (tetrahedronlist != (int *) NULL) {
-      delete [] tetrahedronlist;
-    }
-    if (tetrahedronattributelist != (REAL *) NULL) {
-      delete [] tetrahedronattributelist;
-    }
-    if (tetrahedronvolumelist != (REAL *) NULL) {
-      delete [] tetrahedronvolumelist;
-    }
-    if (neighborlist != (int *) NULL) {
-      delete [] neighborlist;
-    }
-    if (tet2facelist != (int *) NULL) {
-	  delete [] tet2facelist;
-	}
-	if (tet2edgelist != (int *) NULL) {
-	  delete [] tet2edgelist;
-	}
+    // if (tetrahedronlist != (int *) NULL) {
+    //   delete [] tetrahedronlist;
+    // }
+    // if (tetrahedronattributelist != (REAL *) NULL) {
+    //   delete [] tetrahedronattributelist;
+    // }
+    // if (tetrahedronvolumelist != (REAL *) NULL) {
+    //   delete [] tetrahedronvolumelist;
+    // }
+    // if (neighborlist != (int *) NULL) {
+    //   delete [] neighborlist;
+    // }
+    // if (tet2facelist != (int *) NULL) {
+	//   delete [] tet2facelist;
+	// }
+	// if (tet2edgelist != (int *) NULL) {
+	//   delete [] tet2edgelist;
+	// }
 
-    if (trifacelist != (int *) NULL) {
-      delete [] trifacelist;
-    }
-    if (trifacemarkerlist != (int *) NULL) {
-      delete [] trifacemarkerlist;
-    }
-    if (o2facelist != (int *) NULL) {
-      delete [] o2facelist;
-    }
-    if (face2tetlist != (int *) NULL) {
-      delete [] face2tetlist;
-    }
-	if (face2edgelist != (int *) NULL) {
-      delete [] face2edgelist;
-    }
+    // if (trifacelist != (int *) NULL) {
+    //   delete [] trifacelist;
+    // }
+    // if (trifacemarkerlist != (int *) NULL) {
+    //   delete [] trifacemarkerlist;
+    // }
+    // if (o2facelist != (int *) NULL) {
+    //   delete [] o2facelist;
+    // }
+    // if (face2tetlist != (int *) NULL) {
+    //   delete [] face2tetlist;
+    // }
+	// if (face2edgelist != (int *) NULL) {
+    //   delete [] face2edgelist;
+    // }
 
-    if (edgelist != (int *) NULL) {
-      delete [] edgelist;
-    }
-    if (edgemarkerlist != (int *) NULL) {
-      delete [] edgemarkerlist;
-    }
-    if (o2edgelist != (int *) NULL) {
-      delete [] o2edgelist;
-    }
-    if (edge2tetlist != (int *) NULL) {
-      delete [] edge2tetlist;
-    }
+    // if (edgelist != (int *) NULL) {
+    //   delete [] edgelist;
+    // }
+    // if (edgemarkerlist != (int *) NULL) {
+    //   delete [] edgemarkerlist;
+    // }
+    // if (o2edgelist != (int *) NULL) {
+    //   delete [] o2edgelist;
+    // }
+    // if (edge2tetlist != (int *) NULL) {
+    //   delete [] edge2tetlist;
+    // }
 
-    if (facetlist != (facet *) NULL) {
-      facet *f;
-      polygon *p;
-      for (i = 0; i < numberoffacets; i++) {
-        f = &facetlist[i];
-        for (j = 0; j < f->numberofpolygons; j++) {
-          p = &f->polygonlist[j];
-          delete [] p->vertexlist;
-        }
-        delete [] f->polygonlist;
-        if (f->holelist != (REAL *) NULL) {
-          delete [] f->holelist;
-        }
-      }
-      delete [] facetlist;
-    }
-    if (facetmarkerlist != (int *) NULL) {
-      delete [] facetmarkerlist;
-    }
+    // if (facetlist != (facet *) NULL) {
+    //   facet *f;
+    //   polygon *p;
+    //   for (i = 0; i < numberoffacets; i++) {
+    //     f = &facetlist[i];
+    //     for (j = 0; j < f->numberofpolygons; j++) {
+    //       p = &f->polygonlist[j];
+    //       delete [] p->vertexlist;
+    //     }
+    //     delete [] f->polygonlist;
+    //     if (f->holelist != (REAL *) NULL) {
+    //       delete [] f->holelist;
+    //     }
+    //   }
+    //   delete [] facetlist;
+    // }
+    // if (facetmarkerlist != (int *) NULL) {
+    //   delete [] facetmarkerlist;
+    // }
 
-    if (holelist != (REAL *) NULL) {
-      delete [] holelist;
-    }
-    if (regionlist != (REAL *) NULL) {
-      delete [] regionlist;
-    }
-    if (facetconstraintlist != (REAL *) NULL) {
-      delete [] facetconstraintlist;
-    }
-    if (segmentconstraintlist != (REAL *) NULL) {
-      delete [] segmentconstraintlist;
-    }
-    if (vpointlist != (REAL *) NULL) {
-      delete [] vpointlist;
-    }
-    if (vedgelist != (voroedge *) NULL) {
-      delete [] vedgelist;
-    }
-    if (vfacetlist != (vorofacet *) NULL) {
-      for (i = 0; i < numberofvfacets; i++) {
-        delete [] vfacetlist[i].elist;
-      }
-      delete [] vfacetlist;
-    }
-    if (vcelllist != (int **) NULL) {
-      for (i = 0; i < numberofvcells; i++) {
-        delete [] vcelllist[i];
-      }
-      delete [] vcelllist;
-    }
+    // if (holelist != (REAL *) NULL) {
+    //   delete [] holelist;
+    // }
+    // if (regionlist != (REAL *) NULL) {
+    //   delete [] regionlist;
+    // }
+    // if (facetconstraintlist != (REAL *) NULL) {
+    //   delete [] facetconstraintlist;
+    // }
+    // if (segmentconstraintlist != (REAL *) NULL) {
+    //   delete [] segmentconstraintlist;
+    // }
+    // if (vpointlist != (REAL *) NULL) {
+    //   delete [] vpointlist;
+    // }
+    // if (vedgelist != (voroedge *) NULL) {
+    //   delete [] vedgelist;
+    // }
+    // if (vfacetlist != (vorofacet *) NULL) {
+    //   for (i = 0; i < numberofvfacets; i++) {
+    //     delete [] vfacetlist[i].elist;
+    //   }
+    //   delete [] vfacetlist;
+    // }
+    // if (vcelllist != (int **) NULL) {
+    //   for (i = 0; i < numberofvcells; i++) {
+    //     delete [] vcelllist[i];
+    //   }
+    //   delete [] vcelllist;
+    // }
   }
 
   // Constructor & destructor.
@@ -1811,8 +1812,8 @@ public:
 
   enum locateresult slocate(point, face*, int, int, int);
   enum interresult sscoutsegment(face*, point, int, int, int);
-  void scarveholes(int, REAL*);
-  int triangulate(int, arraypool*, arraypool*, int, REAL*);
+  void scarveholes(int, std::vector<REAL>);
+  int triangulate(int, arraypool*, arraypool*, int, std::vector<REAL>);
 
   void unifysegments();
   void identifyinputedges(point*);
