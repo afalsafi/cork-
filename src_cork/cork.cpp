@@ -23,15 +23,15 @@
 // |    of the GNU Lesser General Public License
 // |    along with Cork.  If not, see <http://www.gnu.org/licenses/>.
 // +-------------------------------------------------------------------------
-#include "cork.h"
+#include "cork.hh"
 
 #include "mesh.h"
 
 
 void freeCorkTriMesh(CorkTriMesh *mesh)
 {
-    delete[] mesh->triangles;
-    delete[] mesh->vertices;
+    // delete[] mesh->triangles;
+    // delete[] mesh->vertices;
     mesh->n_triangles = 0;
     mesh->n_vertices = 0;
 }
@@ -159,20 +159,19 @@ void corkMesh2CorkTriMesh(
     
     out->n_triangles = raw.triangles.size();
     out->n_vertices  = raw.vertices.size();
-    
-    out->triangles = new uint[(out->n_triangles) * 3];
-    out->vertices  = new double[(out->n_vertices) * 3];
+    out->vertices.resize(3 * out->n_vertices);
+    out->triangles.resize(3 * out->n_triangles);;
     
     for(uint i=0; i<out->n_triangles; i++) {
-        (out->triangles)[3*i+0] = raw.triangles[i].a;
-        (out->triangles)[3*i+1] = raw.triangles[i].b;
-        (out->triangles)[3*i+2] = raw.triangles[i].c;
+        out->triangles[3*i+0] = raw.triangles[i].a;
+        out->triangles[3*i+1] = raw.triangles[i].b;
+        out->triangles[3*i+2] = raw.triangles[i].c;
     }
     
     for(uint i=0; i<out->n_vertices; i++) {
-        (out->vertices)[3*i+0] = raw.vertices[i].pos.x;
-        (out->vertices)[3*i+1] = raw.vertices[i].pos.y;
-        (out->vertices)[3*i+2] = raw.vertices[i].pos.z;
+        out->vertices[3*i+0] = raw.vertices[i].pos.x;
+        out->vertices[3*i+1] = raw.vertices[i].pos.y;
+        out->vertices[3*i+2] = raw.vertices[i].pos.z;
     }
 }
 

@@ -39,9 +39,7 @@ using std::stringstream;
 
 #ifndef CORK_INTERFACE_HH
 #define CORK_INTERFACE_HH
-extern "C" {
-#include "cork.h"
-}
+#include "cork.hh"
 #include "tetgen/tetgen_interface.hh"
 
 using face_t = std::array<uint, 3>;

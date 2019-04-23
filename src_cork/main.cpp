@@ -29,7 +29,7 @@
 // any code.
 
 
-#include "cork.h"
+#include "cork.hh"
 #include "cork_interface.hh"
 
 int main(int argc, char *argv[]) {
@@ -64,14 +64,14 @@ int main(int argc, char *argv[]) {
   std::cout << "the normal vector is:" << std::endl <<normal << std::endl;
   std::cout << "the volume is:" << std::endl <<vol << std::endl;
 
-  delete[] in0.vertices;
-  delete[] in0.triangles;
-  delete[] in1.vertices;
-  delete[] in1.triangles;
-  delete[] intersection.vertices;
-  delete[] intersection.triangles;
-  delete[] difference.vertices;
-  delete[] difference.triangles;
+  // delete[] in0.vertices;
+  // delete[] in0.triangles;
+  // delete[] in1.vertices;
+  // delete[] in1.triangles;
+  // delete[] intersection.vertices;
+  // delete[] intersection.triangles;
+  // delete[] difference.vertices;
+  // delete[] difference.triangles;
   // delete[] intersection_and_difference.vertices;
   // delete[] intersection_and_difference.triangles;
   return 0;
