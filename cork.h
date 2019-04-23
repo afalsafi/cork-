@@ -43,7 +43,7 @@ DLLEXPORT struct CorkTriMesh
     uint    n_triangles;
     uint    n_vertices;
     uint    *triangles;
-    float   *vertices;
+    double   *vertices;
 };
 
 DLLEXPORT void freeCorkTriMesh(CorkTriMesh *mesh);

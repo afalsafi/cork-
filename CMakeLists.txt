@@ -13,7 +13,8 @@ include_directories("./mpz")
 include_directories("./mesh")
 include_directories("./rawmesh")
 include_directories("./util")
-
+include_directories("./tetgen")
+add_subdirectory("./tetgen")
 #link mpir. Requires pulling and initializing the submodule
 include_directories("./mpir-generic")
 
@@ -23,7 +24,9 @@ add_subdirectory("./mpir-generic")
 file(
 	GLOB cork_SRC
 	"./*.cpp"
-	"./*.h"		
+	"./*.h"
+    "./*.cc"
+    "./*.hh"
 	"./accel/*.cpp"
 	"./accel/*.h"
 	"./file_formats/*.cpp"
@@ -41,6 +44,10 @@ file(
 	"./rawmesh/*.h"
 	"./util/*.cpp"
 	"./util/*.h"
+    "./tetgen/*.h"
+    "./tetgen/*.c"
+    "./tetgen/*.hh"
+    "./tetgen/*.cc"
 )
 
 file(
@@ -63,10 +70,14 @@ add_definitions(
 add_library(cork64 ${cork_SRC})
 
 #link mpir
-target_link_libraries(cork64 mpir)
+target_link_libraries(cork64 PUBLIC mpir)
 
+#link tetgen 
+target_link_libraries(cork64 PUBLIC tetgen)
 
 #install public facing headers and lib
-install (TARGETS cork64 DESTINATION ${PROJECT_SOURCE_DIR}/lib)
-install (FILES ${public_headers} DESTINATION ${PROJECT_SOURCE_DIR}/include)
+# install (TARGETS cork64 DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+# install (FILES ${public_headers} DESTINATION ${PROJECT_SOURCE_DIR}/include)
 
+add_executable(cork_exe ./main.cpp)
+target_link_libraries(cork_exe PUBLIC cork64)
