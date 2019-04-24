@@ -213,7 +213,7 @@
 #ifdef SINGLE
 #define REAL float
 #else /* not SINGLE */
-#define REAL double
+// #define REAL double
 #endif /* not SINGLE */
 
 /* If yours is not a Unix system, define the NO_TIMER compiler switch to     */
@@ -14377,16 +14377,15 @@ char **argv;
   }
   /* Allocate memory for output vertices if necessary. */
   if (pointlist.size() == 0) {
-    // *pointlist = (REAL *) trimalloc((__int64) (outvertices * 2 * sizeof(REAL)));
+    pointlist.resize(outvertices * 2 );
   }
   /* Allocate memory for output vertex attributes if necessary. */
   if ((m->nextras > 0) && (pointattriblist.size() == 0)) {
-    // *pointattriblist = (REAL *) trimalloc((__int64) (outvertices * m->nextras *
-                                                 // sizeof(REAL)));
+    pointattriblist.resize(outvertices * m->nextras);
   }
   /* Allocate memory for output vertex markers if necessary. */
   if (!b->nobound && (pointmarkerlist.size() == 0)) {
-    // *pointmarkerlist = (__int64 *) trimalloc((__int64) (outvertices * sizeof(__int64)));
+    pointmarkerlist.resize(outvertices);
   }
   coordindex = 0;
   attribindex = 0;
@@ -14540,15 +14539,12 @@ char **argv;
   }
   /* Allocate memory for output triangles if necessary. */
   if (trianglelist.size() == 0) {
-    // *trianglelist = (__int64 *) trimalloc((__int64) (m->triangles.items *
-    //                                          ((b->order + 1) * (b->order + 2) /
-    //                                           2) * sizeof(__int64)));
+    trianglelist.resize(m->triangles.items *
+                        ((b->order + 1) * (b->order + 2) / 2));
   }
   /* Allocate memory for output triangle attributes if necessary. */
   if ((m->eextras > 0) && (triangleattriblist.size() == 0)) {
-    // *triangleattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
-    //                                                 m->eextras *
-    //                                                 sizeof(REAL)));
+    triangleattriblist.resize(m->triangles.items * m->eextras);
   }
   // tlist = trianglelist;
   // talist = triangleattriblist;
@@ -14684,13 +14680,11 @@ char **argv;
   }
   /* Allocate memory for output segments if necessary. */
   if (segmentlist.size() == 0) {
-  //   *segmentlist = (__int64 *) trimalloc((__int64) (m->subsegs.items * 2 *
-  //                                           sizeof(__int64)));
+    segmentlist.resize(m->subsegs.items * 2);
   }
   /* Allocate memory for output segment markers if necessary. */
   if (!b->nobound && (segmentmarkerlist.size() == 0)) {
-    // *segmentmarkerlist = (__int64 *) trimalloc((__int64) (m->subsegs.items *
-    //                                               sizeof(__int64)));
+    segmentmarkerlist.resize(m->subsegs.items);
   }
   // slist = *segmentlist;
   // smlist = *segmentmarkerlist;
@@ -14826,13 +14820,11 @@ char **argv;
   }
   /* Allocate memory for edges if necessary. */
   if (edgelist.size() == 0) {
-    // *edgelist = (__int64 *) trimalloc((__int64) (m->edges * 2 *
-    // sizeof(__int64)));
+    edgelist.resize(m->edges * 2);
   }
   /* Allocate memory for edge markers if necessary. */
   if (!b->nobound && (edgemarkerlist.size() == 0)) {
-    // *edgemarkerlist = (__int64 *) trimalloc((__int64) (m->edges *
-    // sizeof(__int64)));
+    edgemarkerlist.resize(m->edges);
   }
   index = 0;
 #else /* not TRILIBRARY */
@@ -14993,13 +14985,11 @@ char **argv;
   }
   /* Allocate memory for Voronoi vertices if necessary. */
   if (vpointlist.size() == 0) {
-    // *vpointlist = (REAL *) trimalloc((__int64) (m->triangles.items * 2 *
-    //                                         sizeof(REAL)));
+    vpointlist.resize(m->triangles.items * 2 );
   }
   /* Allocate memory for Voronoi vertex attributes if necessary. */
   if (vpointattriblist.size() == 0) {
-    // *vpointattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
-    //                                               m->nextras * sizeof(REAL)));
+    vpointattriblist.resize(m->triangles.items * m->nextras);
   }
   // *vpointmarkerlist = (__int64 *) NULL;
   // plist = *vpointlist;

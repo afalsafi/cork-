@@ -33,7 +33,7 @@
 
 #include "aabvh.h"
 
-#define REAL double
+// #define REAL double
 
 #include "triangle.hh"
 
@@ -428,9 +428,9 @@ public:
         /* Define input points. */
         in.numberofpoints           = points.size();
         in.numberofpointattributes  = 0;
-        // in.pointlist                = new REAL[in.numberofpoints * 2];
+        in.pointlist.resize(in.numberofpoints * 2);
         // in.pointattributelist       = nullptr;
-        // in.pointmarkerlist          = new __int64[in.numberofpoints];
+        in.pointmarkerlist.resize(in.numberofpoints);
         for(int k=0; k<in.numberofpoints; k++) {
             in.pointlist[k*2 + 0] = points[k]->coord.v[dim0];
             in.pointlist[k*2 + 1] = points[k]->coord.v[dim1] * sign_flip;
@@ -441,8 +441,8 @@ public:
         in.numberofsegments = edges.size();
         in.numberofholes = 0;// yes, zero
         in.numberofregions = 0;// not using regions
-        // in.segmentlist = new __int64[in.numberofsegments * 2];
-        // in.segmentmarkerlist = new __int64[in.numberofsegments];
+        in.segmentlist.resize(in.numberofsegments * 2);
+        in.segmentmarkerlist.resize(in.numberofsegments);
         for(int k=0; k<in.numberofsegments; k++) {
             in.segmentlist[k*2 + 0] = edges[k]->ends[0]->idx;
             in.segmentlist[k*2 + 1] = edges[k]->ends[1]->idx;

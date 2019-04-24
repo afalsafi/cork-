@@ -113,9 +113,11 @@
 /*                                                                           */
 /*****************************************************************************/
 
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <math.h>
+
 #ifdef CPU86
 #include <float.h>
 #endif /* CPU86 */
@@ -126,7 +128,7 @@
 #include "../isct/triangle.hh"
 #include "tetgen.hh" // Defines the symbol REAL (float or double).
 typedef REAL *vertex;
-REAL incircleadapt(vertex pa, vertex pb, vertex pc, vertex pd, REAL permanent)
+REAL incircleadapt(vertex pa, vertex pb, vertex pc, vertex pd, REAL permanent);
 
 #ifdef USE_CGAL_PREDICATES
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -218,7 +220,6 @@ cgalEpick cgal_pred_obj;
   abig = (REAL)(c - a);                                                        \
   ahi = c - abig;                                                              \
   alo = a - ahi
-
 #define Two_Product_Tail(a, b, x, y)                                           \
   Split(a, ahi, alo);                                                          \
   Split(b, bhi, blo);                                                          \
