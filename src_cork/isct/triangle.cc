@@ -9764,7 +9764,7 @@ struct otri *farright;
   __int64 divider;
 
   if (b->verbose > 2) {
-    printf("  Triangulating %d vertices.\n", vertices);
+    printf("  Triangulating %lx vertices.\n", vertices);
   }
   if (vertices == 2) {
     /* The triangulation of two vertices is an edge.  An edge is */
@@ -9898,7 +9898,7 @@ struct otri *farright;
     divconqrecurse(m, b, &sortarray[divider], vertices - divider, 1 - axis,
                    &innerright, farright);
     if (b->verbose > 1) {
-      printf("  Joining triangulations with %d and %d vertices.\n", divider,
+      printf("  Joining triangulations with %lx and %lx vertices.\n", divider,
              vertices - divider);
     }
     /* Merge the two triangulations into one. */
@@ -12524,13 +12524,13 @@ char *polyfilename;
       if ((end1 < b->firstnumber) ||
           (end1 >= b->firstnumber + m->invertices)) {
         if (!b->quiet) {
-          printf("Warning:  Invalid first endpoint of segment %d in %s.\n",
+          printf("Warning:  Invalid first endpoint of segment %lx in %s.\n",
                  b->firstnumber + i, polyfilename);
         }
       } else if ((end2 < b->firstnumber) ||
                  (end2 >= b->firstnumber + m->invertices)) {
         if (!b->quiet) {
-          printf("Warning:  Invalid second endpoint of segment %d in %s.\n",
+          printf("Warning:  Invalid second endpoint of segment %lx in %s.\n",
                  b->firstnumber + i, polyfilename);
         }
       } else {
@@ -12539,7 +12539,7 @@ char *polyfilename;
         endpoint2 = getvertex(m, b, end2);
         if ((endpoint1[0] == endpoint2[0]) && (endpoint1[1] == endpoint2[1])) {
           if (!b->quiet) {
-            printf("Warning:  Endpoints of segment %d are coincident in %s.\n",
+            printf("Warning:  Endpoints of segment %lx are coincident in %s.\n",
                    b->firstnumber + i, polyfilename);
           }
         } else {
@@ -14333,8 +14333,7 @@ void writenodes(struct mesh *m, struct behavior *b, std::vector<REAL> pointlist,
 void writenodes(m, b, pointlist, pointattriblist, pointmarkerlist)
 struct mesh *m;
 struct behavior *b;
-REAL **pointlist;
-REAL **pointattriblist;
+
 __int64 **pointmarkerlist;
 #endif /* not ANSI_DECLARATORS */
 
@@ -14523,7 +14522,7 @@ char **argv;
 {
 #ifdef TRILIBRARY
   // __int64 *tlist;
-  REAL *talist;
+
   __int64 vertexindex;
   __int64 attribindex;
 #else /* not TRILIBRARY */
@@ -14636,7 +14635,8 @@ char **argv;
 
 #ifdef ANSI_DECLARATORS
 void writepoly(struct mesh *m, struct behavior *b,
-               __int64 **segmentlist, __int64 **segmentmarkerlist)
+               std::vector<__int64> segmentlist,
+               std::vector<__int64> segmentmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writepoly(m, b, segmentlist, segmentmarkerlist)
 struct mesh *m;
@@ -14669,8 +14669,6 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  __int64 *slist;
-  __int64 *smlist;
   __int64 index;
 #else /* not TRILIBRARY */
   FILE *outfile;
@@ -14685,17 +14683,17 @@ char **argv;
     printf("Writing segments.\n");
   }
   /* Allocate memory for output segments if necessary. */
-  if (*segmentlist == (__int64 *) NULL) {
-    *segmentlist = (__int64 *) trimalloc((__int64) (m->subsegs.items * 2 *
-                                            sizeof(__int64)));
+  if (segmentlist.size() == 0) {
+  //   *segmentlist = (__int64 *) trimalloc((__int64) (m->subsegs.items * 2 *
+  //                                           sizeof(__int64)));
   }
   /* Allocate memory for output segment markers if necessary. */
-  if (!b->nobound && (*segmentmarkerlist == (__int64 *) NULL)) {
-    *segmentmarkerlist = (__int64 *) trimalloc((__int64) (m->subsegs.items *
-                                                  sizeof(__int64)));
+  if (!b->nobound && (segmentmarkerlist.size() == 0)) {
+    // *segmentmarkerlist = (__int64 *) trimalloc((__int64) (m->subsegs.items *
+    //                                               sizeof(__int64)));
   }
-  slist = *segmentlist;
-  smlist = *segmentmarkerlist;
+  // slist = *segmentlist;
+  // smlist = *segmentmarkerlist;
   index = 0;
 #else /* not TRILIBRARY */
   if (!b->quiet) {
@@ -14724,11 +14722,11 @@ char **argv;
     sdest(subsegloop, endpoint2);
 #ifdef TRILIBRARY
     /* Copy indices of the segment's two endpoints. */
-    slist[index++] = vertexmark(endpoint1);
-    slist[index++] = vertexmark(endpoint2);
+    segmentlist[index++] = vertexmark(endpoint1);
+    segmentlist[index++] = vertexmark(endpoint2);
     if (!b->nobound) {
       /* Copy the boundary marker. */
-      smlist[subsegnumber - b->firstnumber] = mark(subsegloop);
+      segmentmarkerlist[subsegnumber - b->firstnumber] = mark(subsegloop);
     }
 #else /* not TRILIBRARY */
     /* Segment number, indices of its two endpoints, and possibly a marker. */
@@ -14782,7 +14780,8 @@ char **argv;
 
 #ifdef ANSI_DECLARATORS
 void writeedges(struct mesh *m, struct behavior *b,
-                __int64 **edgelist, __int64 **edgemarkerlist)
+                std::vector<__int64> edgelist,
+                std::vector<__int64> edgemarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writeedges(m, b, edgelist, edgemarkerlist)
 struct mesh *m;
@@ -14809,8 +14808,7 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  __int64 *elist;
-  __int64 *emlist;
+
   __int64 index;
 #else /* not TRILIBRARY */
   FILE *outfile;
@@ -14827,15 +14825,15 @@ char **argv;
     printf("Writing edges.\n");
   }
   /* Allocate memory for edges if necessary. */
-  if (*edgelist == (__int64 *) NULL) {
-    *edgelist = (__int64 *) trimalloc((__int64) (m->edges * 2 * sizeof(__int64)));
+  if (edgelist.size() == 0) {
+    // *edgelist = (__int64 *) trimalloc((__int64) (m->edges * 2 *
+    // sizeof(__int64)));
   }
   /* Allocate memory for edge markers if necessary. */
-  if (!b->nobound && (*edgemarkerlist == (__int64 *) NULL)) {
-    *edgemarkerlist = (__int64 *) trimalloc((__int64) (m->edges * sizeof(__int64)));
+  if (!b->nobound && (edgemarkerlist.size() == 0)) {
+    // *edgemarkerlist = (__int64 *) trimalloc((__int64) (m->edges *
+    // sizeof(__int64)));
   }
-  elist = *edgelist;
-  emlist = *edgemarkerlist;
   index = 0;
 #else /* not TRILIBRARY */
   if (!b->quiet) {
@@ -14867,8 +14865,8 @@ char **argv;
         org(triangleloop, p1);
         dest(triangleloop, p2);
 #ifdef TRILIBRARY
-        elist[index++] = vertexmark(p1);
-        elist[index++] = vertexmark(p2);
+        edgelist[index++] = vertexmark(p1);
+        edgelist[index++] = vertexmark(p2);
 #endif /* TRILIBRARY */
         if (b->nobound) {
 #ifndef TRILIBRARY
@@ -14883,14 +14881,14 @@ char **argv;
             tspivot(triangleloop, checkmark);
             if (checkmark.ss == m->dummysub) {
 #ifdef TRILIBRARY
-              emlist[edgenumber - b->firstnumber] = 0;
+              edgemarkerlist[edgenumber - b->firstnumber] = 0;
 #else /* not TRILIBRARY */
               fprintf(outfile, "%4ld   %d  %d  %d\n", edgenumber,
                       vertexmark(p1), vertexmark(p2), 0);
 #endif /* not TRILIBRARY */
             } else {
 #ifdef TRILIBRARY
-              emlist[edgenumber - b->firstnumber] = mark(checkmark);
+              edgemarkerlist[edgenumber - b->firstnumber] = mark(checkmark);
 #else /* not TRILIBRARY */
               fprintf(outfile, "%4ld   %d  %d  %d\n", edgenumber,
                       vertexmark(p1), vertexmark(p2), mark(checkmark));
@@ -14898,7 +14896,7 @@ char **argv;
             }
           } else {
 #ifdef TRILIBRARY
-            emlist[edgenumber - b->firstnumber] = trisym.tri == m->dummytri;
+            edgemarkerlist[edgenumber - b->firstnumber] = trisym.tri == m->dummytri;
 #else /* not TRILIBRARY */
             fprintf(outfile, "%4ld   %d  %d  %d\n", edgenumber,
                     vertexmark(p1), vertexmark(p2), trisym.tri == m->dummytri);
@@ -14935,9 +14933,13 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writevoronoi(struct mesh *m, struct behavior *b, REAL **vpointlist,
-                  REAL **vpointattriblist, __int64 **vpointmarkerlist,
-                  __int64 **vedgelist, __int64 **vedgemarkerlist, REAL **vnormlist)
+void writevoronoi(struct mesh *m, struct behavior *b,
+                  std::vector<REAL> vpointlist,
+                  std::vector<REAL> vpointattriblist,
+                  std::vector<__int64> vpointmarkerlist,
+                  std::vector<__int64> vedgelist,
+                  std::vector<__int64> vedgemarkerlist,
+                  std::vector<REAL> vnormlist)
 #else /* not ANSI_DECLARATORS */
 void writevoronoi(m, b, vpointlist, vpointattriblist, vpointmarkerlist,
                   vedgelist, vedgemarkerlist, vnormlist)
@@ -14970,10 +14972,7 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  REAL *plist;
-  REAL *palist;
-  __int64 *elist;
-  REAL *normlist;
+
   __int64 coordindex;
   __int64 attribindex;
 #else /* not TRILIBRARY */
@@ -14993,18 +14992,18 @@ char **argv;
     printf("Writing Voronoi vertices.\n");
   }
   /* Allocate memory for Voronoi vertices if necessary. */
-  if (*vpointlist == (REAL *) NULL) {
-    *vpointlist = (REAL *) trimalloc((__int64) (m->triangles.items * 2 *
-                                            sizeof(REAL)));
+  if (vpointlist.size() == 0) {
+    // *vpointlist = (REAL *) trimalloc((__int64) (m->triangles.items * 2 *
+    //                                         sizeof(REAL)));
   }
   /* Allocate memory for Voronoi vertex attributes if necessary. */
-  if (*vpointattriblist == (REAL *) NULL) {
-    *vpointattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
-                                                  m->nextras * sizeof(REAL)));
+  if (vpointattriblist.size() == 0) {
+    // *vpointattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
+    //                                               m->nextras * sizeof(REAL)));
   }
-  *vpointmarkerlist = (__int64 *) NULL;
-  plist = *vpointlist;
-  palist = *vpointattriblist;
+  // *vpointmarkerlist = (__int64 *) NULL;
+  // plist = *vpointlist;
+  // palist = *vpointattriblist;
   coordindex = 0;
   attribindex = 0;
 #else /* not TRILIBRARY */
@@ -15032,11 +15031,11 @@ char **argv;
     findcircumcenter(m, b, torg, tdest, tapex, circumcenter, &xi, &eta, 0);
 #ifdef TRILIBRARY
     /* X and y coordinates. */
-    plist[coordindex++] = circumcenter[0];
-    plist[coordindex++] = circumcenter[1];
+    vpointlist[coordindex++] = circumcenter[0];
+    vpointlist[coordindex++] = circumcenter[1];
     for (i = 2; i < 2 + m->nextras; i++) {
       /* Interpolate the vertex attributes at the circumcenter. */
-      palist[attribindex++] = torg[i] + xi * (tdest[i] - torg[i])
+      vpointattriblist[attribindex++] = torg[i] + xi * (tdest[i] - torg[i])
                                      + eta * (tapex[i] - torg[i]);
     }
 #else /* not TRILIBRARY */
@@ -15065,16 +15064,16 @@ char **argv;
     printf("Writing Voronoi edges.\n");
   }
   /* Allocate memory for output Voronoi edges if necessary. */
-  if (*vedgelist == (__int64 *) NULL) {
-    *vedgelist = (__int64 *) trimalloc((__int64) (m->edges * 2 * sizeof(__int64)));
+  if (vedgelist.size() == 0) {
+    vedgelist.resize(m->edges * 2 );
   }
-  *vedgemarkerlist = (__int64 *) NULL;
+  // *vedgemarkerlist = (__int64 *) NULL;
   /* Allocate memory for output Voronoi norms if necessary. */
-  if (*vnormlist == (REAL *) NULL) {
-    *vnormlist = (REAL *) trimalloc((__int64) (m->edges * 2 * sizeof(REAL)));
+  if (vnormlist.size() == 0) {
+    vnormlist.resize(m->edges * 2 * sizeof(REAL));
   }
-  elist = *vedgelist;
-  normlist = *vnormlist;
+  // elist = *vedgelist;
+  // normlist = *vnormlist;
   coordindex = 0;
 #else /* not TRILIBRARY */
   if (!b->quiet) {
@@ -15110,10 +15109,10 @@ char **argv;
           dest(triangleloop, tdest);
 #ifdef TRILIBRARY
           /* Copy an infinite ray.  Index of one endpoint, and -1. */
-          elist[coordindex] = p1;
-          normlist[coordindex++] = tdest[1] - torg[1];
-          elist[coordindex] = -1;
-          normlist[coordindex++] = torg[0] - tdest[0];
+          vedgelist[coordindex] = p1;
+          vnormlist[coordindex++] = tdest[1] - torg[1];
+          vedgelist[coordindex] = -1;
+          vnormlist[coordindex++] = torg[0] - tdest[0];
 #else /* not TRILIBRARY */
           /* Write an infinite ray.  Edge number, index of one endpoint, -1, */
           /*   and x and y coordinates of a vector representing the          */
@@ -15126,10 +15125,10 @@ char **argv;
           p2 = * (__int64 *) (trisym.tri + 6);
           /* Finite edge.  Write indices of two endpoints. */
 #ifdef TRILIBRARY
-          elist[coordindex] = p1;
-          normlist[coordindex++] = 0.0;
-          elist[coordindex] = p2;
-          normlist[coordindex++] = 0.0;
+          vedgelist[coordindex] = p1;
+          vnormlist[coordindex++] = 0.0;
+          vedgelist[coordindex] = p2;
+          vnormlist[coordindex++] = 0.0;
 #else /* not TRILIBRARY */
           fprintf(outfile, "%4ld   %d  %d\n", vedgenumber, p1, p2);
 #endif /* not TRILIBRARY */
@@ -15148,7 +15147,8 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writeneighbors(struct mesh *m, struct behavior *b, __int64 **neighborlist)
+void writeneighbors(struct mesh *m, struct behavior *b,
+                    std::vector<__int64> neighborlist)
 #else /* not ANSI_DECLARATORS */
 void writeneighbors(m, b, neighborlist)
 struct mesh *m;
@@ -15174,7 +15174,7 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  __int64 *nlist;
+  // __int64 *nlist;
   __int64 index;
 #else /* not TRILIBRARY */
   FILE *outfile;
@@ -15189,11 +15189,10 @@ char **argv;
     printf("Writing neighbors.\n");
   }
   /* Allocate memory for neighbors if necessary. */
-  if (*neighborlist == (__int64 *) NULL) {
-    *neighborlist = (__int64 *) trimalloc((__int64) (m->triangles.items * 3 *
-                                             sizeof(__int64)));
+  if (neighborlist.size() == 0) {
+    neighborlist.resize(m->triangles.items * 3 );
   }
-  nlist = *neighborlist;
+  // nlist = *neighborlist;
   index = 0;
 #else /* not TRILIBRARY */
   if (!b->quiet) {
@@ -15233,9 +15232,9 @@ char **argv;
     sym(triangleloop, trisym);
     neighbor3 = * (__int64 *) (trisym.tri + 6);
 #ifdef TRILIBRARY
-    nlist[index++] = neighbor1;
-    nlist[index++] = neighbor2;
-    nlist[index++] = neighbor3;
+    neighborlist[index++] = neighbor1;
+    neighborlist[index++] = neighbor2;
+    neighborlist[index++] = neighbor3;
 #else /* not TRILIBRARY */
     /* Triangle number, neighboring triangle numbers. */
     fprintf(outfile, "%4ld    %d  %d  %d\n", elementnumber,
@@ -15517,16 +15516,16 @@ struct behavior *b;
 
   printf("  Triangle aspect ratio histogram:\n");
   printf("  1.1547 - %-6.6g    :  %8d    | %6.6g - %-6.6g     :  %8d\n",
-         ratiotable[0], aspecttable[0], ratiotable[7], ratiotable[8],
-         aspecttable[8]);
+         ratiotable[0], (int)aspecttable[0], ratiotable[7], ratiotable[8],
+         (int)aspecttable[8]);
   for (i = 1; i < 7; i++) {
     printf("  %6.6g - %-6.6g    :  %8d    | %6.6g - %-6.6g     :  %8d\n",
-           ratiotable[i - 1], ratiotable[i], aspecttable[i],
-           ratiotable[i + 7], ratiotable[i + 8], aspecttable[i + 8]);
+           ratiotable[i - 1], ratiotable[i], (int)aspecttable[i],
+           ratiotable[i + 7], ratiotable[i + 8], (int)aspecttable[i + 8]);
   }
   printf("  %6.6g - %-6.6g    :  %8d    | %6.6g -            :  %8d\n",
-         ratiotable[6], ratiotable[7], aspecttable[7], ratiotable[14],
-         aspecttable[15]);
+         ratiotable[6], ratiotable[7], (int)aspecttable[7], ratiotable[14],
+         (int) aspecttable[15]);
   printf("  (Aspect ratio is longest edge divided by shortest altitude)\n\n");
 
   printf("  Smallest angle: %15.5g   |  Largest angle: %15.5g\n\n",
@@ -15535,8 +15534,8 @@ struct behavior *b;
   printf("  Angle histogram:\n");
   for (i = 0; i < 9; i++) {
     printf("    %3d - %3d degrees:  %8d    |    %3d - %3d degrees:  %8d\n",
-           i * 10, i * 10 + 10, angletable[i],
-           i * 10 + 90, i * 10 + 100, angletable[i + 9]);
+           (int)i * 10, (int)i * 10 + 10, (int)angletable[i],
+           (int)i * 10 + 90, (int)i * 10 + 100, (int)angletable[i + 9]);
   }
   printf("\n");
 }
@@ -15557,14 +15556,14 @@ struct behavior *b;
 
 {
   printf("\nStatistics:\n\n");
-  printf("  Input vertices: %d\n", m->invertices);
+  printf("  Input vertices: %d\n", (int)m->invertices);
   if (b->refine) {
-    printf("  Input triangles: %d\n", m->inelements);
+    printf("  Input triangles: %d\n", (int)m->inelements);
   }
   if (b->poly) {
-    printf("  Input segments: %d\n", m->insegments);
+    printf("  Input segments: %d\n", (int)m->insegments);
     if (!b->refine) {
-      printf("  Input holes: %d\n", m->holes);
+      printf("  Input holes: %d\n", (int)m->holes);
     }
   }
 
@@ -15893,8 +15892,8 @@ char **argv;
   } else {
     /* writenodes() numbers the vertices too. */
 #ifdef TRILIBRARY
-    writenodes(&m, &b, &out->pointlist, &out->pointattributelist,
-               &out->pointmarkerlist);
+    writenodes(&m, &b, out->pointlist, out->pointattributelist,
+               out->pointmarkerlist);
 #else /* not TRILIBRARY */
     writenodes(&m, &b, b.outnodefilename, argc, argv);
 #endif /* TRILIBRARY */
@@ -15909,7 +15908,7 @@ char **argv;
     }
   } else {
 #ifdef TRILIBRARY
-    writeelements(&m, &b, &out->trianglelist, &out->triangleattributelist);
+    writeelements(&m, &b, out->trianglelist, out->triangleattributelist);
 #else /* not TRILIBRARY */
     writeelements(&m, &b, b.outelefilename, argc, argv);
 #endif /* not TRILIBRARY */
@@ -15928,7 +15927,7 @@ char **argv;
       }
     } else {
 #ifdef TRILIBRARY
-      writepoly(&m, &b, &out->segmentlist, &out->segmentmarkerlist);
+      writepoly(&m, &b, out->segmentlist, out->segmentmarkerlist);
       out->numberofholes = m.holes;
       out->numberofregions = m.regions;
       if (b.poly) {
@@ -15959,23 +15958,23 @@ char **argv;
 #endif /* not TRILIBRARY */
   if (b.edgesout) {
 #ifdef TRILIBRARY
-    writeedges(&m, &b, &out->edgelist, &out->edgemarkerlist);
+    writeedges(&m, &b, out->edgelist, out->edgemarkerlist);
 #else /* not TRILIBRARY */
     writeedges(&m, &b, b.edgefilename, argc, argv);
 #endif /* not TRILIBRARY */
   }
   if (b.voronoi) {
 #ifdef TRILIBRARY
-    writevoronoi(&m, &b, &vorout->pointlist, &vorout->pointattributelist,
-                 &vorout->pointmarkerlist, &vorout->edgelist,
-                 &vorout->edgemarkerlist, &vorout->normlist);
+    writevoronoi(&m, &b, vorout->pointlist, vorout->pointattributelist,
+                 vorout->pointmarkerlist, vorout->edgelist,
+                 vorout->edgemarkerlist, vorout->normlist);
 #else /* not TRILIBRARY */
     writevoronoi(&m, &b, b.vnodefilename, b.vedgefilename, argc, argv);
 #endif /* not TRILIBRARY */
   }
   if (b.neighbors) {
 #ifdef TRILIBRARY
-    writeneighbors(&m, &b, &out->neighborlist);
+    writeneighbors(&m, &b, out->neighborlist);
 #else /* not TRILIBRARY */
     writeneighbors(&m, &b, b.neighborfilename, argc, argv);
 #endif /* not TRILIBRARY */

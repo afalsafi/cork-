@@ -428,9 +428,9 @@ public:
         /* Define input points. */
         in.numberofpoints           = points.size();
         in.numberofpointattributes  = 0;
-        in.pointlist                = new REAL[in.numberofpoints * 2];
-        in.pointattributelist       = nullptr;
-        in.pointmarkerlist          = new __int64[in.numberofpoints];
+        // in.pointlist                = new REAL[in.numberofpoints * 2];
+        // in.pointattributelist       = nullptr;
+        // in.pointmarkerlist          = new __int64[in.numberofpoints];
         for(int k=0; k<in.numberofpoints; k++) {
             in.pointlist[k*2 + 0] = points[k]->coord.v[dim0];
             in.pointlist[k*2 + 1] = points[k]->coord.v[dim1] * sign_flip;
@@ -441,8 +441,8 @@ public:
         in.numberofsegments = edges.size();
         in.numberofholes = 0;// yes, zero
         in.numberofregions = 0;// not using regions
-        in.segmentlist = new __int64[in.numberofsegments * 2];
-        in.segmentmarkerlist = new __int64[in.numberofsegments];
+        // in.segmentlist = new __int64[in.numberofsegments * 2];
+        // in.segmentmarkerlist = new __int64[in.numberofsegments];
         for(int k=0; k<in.numberofsegments; k++) {
             in.segmentlist[k*2 + 0] = edges[k]->ends[0]->idx;
             in.segmentlist[k*2 + 1] = edges[k]->ends[1]->idx;
@@ -454,15 +454,15 @@ public:
         in.numberoftriangleattributes = 0;
         
         /* set for flags.... */
-        out.pointlist = nullptr;
-        out.pointattributelist = nullptr; // not necessary if using -N or 0 attr
+        // out.pointlist = nullptr;
+        // out.pointattributelist = nullptr; // not necessary if using -N or 0 attr
         // out.pointmarkerlist = nullptr;
         // out.trianglelist = nullptr; // not necessary if using -E
         //out.triangleattributelist = null; // not necessary if using -E or 0 attr
         //out.trianglearealist = // only needed with -r and -a
         //out.neighborlist = null; // only neccesary if -n is used
-        out.segmentlist = nullptr; // NEED THIS; output segments go here
-        out.segmentmarkerlist = nullptr; // NEED THIS for OUTPUT SEGMENTS
+        // out.segmentlist = nullptr; // NEED THIS; output segments go here
+        // out.segmentmarkerlist = nullptr; // NEED THIS for OUTPUT SEGMENTS
         //out.edgelist = null; // only necessary if -e is used
         //out.edgemarkerlist = null; // only necessary if -e is used
                 
@@ -518,20 +518,20 @@ public:
         
         // clean up after triangulate...
             // in free
-        free(in.pointlist);
-        free(in.pointmarkerlist);
-        free(in.segmentlist);
-        free(in.segmentmarkerlist);
-            // out free
-        free(out.pointlist);
-        //free(out.pointattributelist);
-        free(out.pointmarkerlist);
-        free(out.trianglelist);
-        //free(out.triangleattributelist);
-        //free(out.trianglearealist);
-        //free(out.neighborlist);
-        free(out.segmentlist);
-        free(out.segmentmarkerlist);
+        // free(in.pointlist);
+        // free(in.pointmarkerlist);
+        // free(in.segmentlist);
+        // free(in.segmentmarkerlist);
+        //     // out free
+        // free(out.pointlist);
+        // //free(out.pointattributelist);
+        // free(out.pointmarkerlist);
+        // free(out.trianglelist);
+        // //free(out.triangleattributelist);
+        // //free(out.trianglearealist);
+        // //free(out.neighborlist);
+        // free(out.segmentlist);
+        // free(out.segmentmarkerlist);
         //free(out.edgelist);
         //free(out.edgemarkerlist);
     }
