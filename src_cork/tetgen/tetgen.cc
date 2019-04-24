@@ -1792,7 +1792,7 @@ bool tetgenio::load_medit(char* filebasename, int istetmesh)
   char buffer[INPUTLINESIZE];
   char *bufferp, *str;
   double *coord;
-  int *tmpfmlist;
+  // int *tmpfmlist;
   int dimension = 0;
   int nverts = 0;
   int nfaces = 0;

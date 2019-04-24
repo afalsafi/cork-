@@ -14326,9 +14326,9 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writenodes(struct mesh *m, struct behavior *b, std::vector<REAL> pointlist,
-                std::vector<REAL> pointattriblist,
-                std::vector<__int64> pointmarkerlist)
+void writenodes(struct mesh *m, struct behavior *b, std::vector<REAL> &pointlist,
+                std::vector<REAL> &pointattriblist,
+                std::vector<__int64> &pointmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writenodes(m, b, pointlist, pointattriblist, pointmarkerlist)
 struct mesh *m;
@@ -14492,8 +14492,8 @@ struct behavior *b;
 
 #ifdef ANSI_DECLARATORS
 void writeelements(struct mesh *m, struct behavior *b,
-                   std::vector<__int64> trianglelist,
-                   std::vector<REAL> triangleattriblist)
+                   std::vector<__int64> &trianglelist,
+                   std::vector<REAL> &triangleattriblist)
 #else /* not ANSI_DECLARATORS */
 void writeelements(m, b, trianglelist, triangleattriblist)
 struct mesh *m;
@@ -14631,8 +14631,8 @@ char **argv;
 
 #ifdef ANSI_DECLARATORS
 void writepoly(struct mesh *m, struct behavior *b,
-               std::vector<__int64> segmentlist,
-               std::vector<__int64> segmentmarkerlist)
+               std::vector<__int64> &segmentlist,
+               std::vector<__int64> &segmentmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writepoly(m, b, segmentlist, segmentmarkerlist)
 struct mesh *m;
@@ -14774,8 +14774,8 @@ char **argv;
 
 #ifdef ANSI_DECLARATORS
 void writeedges(struct mesh *m, struct behavior *b,
-                std::vector<__int64> edgelist,
-                std::vector<__int64> edgemarkerlist)
+                std::vector<__int64> &edgelist,
+                std::vector<__int64> &edgemarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writeedges(m, b, edgelist, edgemarkerlist)
 struct mesh *m;
@@ -14926,12 +14926,12 @@ char **argv;
 
 #ifdef ANSI_DECLARATORS
 void writevoronoi(struct mesh *m, struct behavior *b,
-                  std::vector<REAL> vpointlist,
-                  std::vector<REAL> vpointattriblist,
-                  std::vector<__int64> vpointmarkerlist,
-                  std::vector<__int64> vedgelist,
-                  std::vector<__int64> vedgemarkerlist,
-                  std::vector<REAL> vnormlist)
+                  std::vector<REAL> &vpointlist,
+                  std::vector<REAL> &vpointattriblist,
+                  std::vector<__int64> &vpointmarkerlist,
+                  std::vector<__int64> &vedgelist,
+                  std::vector<__int64> &vedgemarkerlist,
+                  std::vector<REAL> &vnormlist)
 #else /* not ANSI_DECLARATORS */
 void writevoronoi(m, b, vpointlist, vpointattriblist, vpointmarkerlist,
                   vedgelist, vedgemarkerlist, vnormlist)
