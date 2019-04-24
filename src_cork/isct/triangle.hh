@@ -249,37 +249,39 @@
 /*****************************************************************************/
 
 #include <inttypes.h>
+#include <vector>
 typedef int64_t __int64;
 
 struct triangulateio {
-  REAL *pointlist;                                               /* In / out */
-  REAL *pointattributelist;                                      /* In / out */
-  __int64 *pointmarkerlist;                                          /* In / out */
-  int numberofpoints;                                            /* In / out */
-  int numberofpointattributes;                                   /* In / out */
+  std::vector<REAL> pointlist;          /* In / out */
+  std::vector<REAL> pointattributelist; /* In / out */
+  std::vector<__int64> pointmarkerlist; /* In / out */
+  int numberofpoints;                   /* In / out */
+  int numberofpointattributes;          /* In / out */
 
-  __int64 *trianglelist;                                             /* In / out */
-  REAL *triangleattributelist;                                   /* In / out */
-  REAL *trianglearealist;                                         /* In only */
-  __int64 *neighborlist;                                             /* Out only */
-  int numberoftriangles;                                         /* In / out */
-  int numberofcorners;                                           /* In / out */
-  int numberoftriangleattributes;                                /* In / out */
+  std::vector<__int64> trianglelist;       /* In / out */
+  std::vector<REAL> triangleattributelist; /* In / out */
+  std::vector<REAL> trianglearealist;      /* In only */
+  std::vector<__int64> neighborlist;       /* Out only */
+  int numberoftriangles;                   /* In / out */
+  int numberofcorners;                     /* In / out */
+  int numberoftriangleattributes;          /* In / out */
 
-  __int64 *segmentlist;                                              /* In / out */
-  __int64 *segmentmarkerlist;                                        /* In / out */
-  int numberofsegments;                                          /* In / out */
+  std::vector<__int64> segmentlist;       /* In / out */
+  std::vector<__int64> segmentmarkerlist; /* In / out */
+  int numberofsegments;                   /* In / out */
 
-  REAL *holelist;                        /* In / pointer to array copied out */
-  int numberofholes;                                      /* In / copied out */
+  std::vector<REAL> holelist; /* In / pointer to array copied out */
+  int numberofholes;          /* In / copied out */
 
-  REAL *regionlist;                      /* In / pointer to array copied out */
-  int numberofregions;                                    /* In / copied out */
+  std::vector<REAL> regionlist; /* In / pointer to array copied out */
+  int numberofregions;          /* In / copied out */
 
-  __int64 *edgelist;                                                 /* Out only */
-  __int64 *edgemarkerlist;            /* Not used with Voronoi diagram; out only */
-  REAL *normlist;                /* Used only with Voronoi diagram; out only */
-  int numberofedges;                                             /* Out only */
+  std::vector<__int64> edgelist; /* Out only */
+  std::vector<__int64>
+      edgemarkerlist;         /* Not used with Voronoi diagram; out only */
+  std::vector<REAL> normlist; /* Used only with Voronoi diagram; out only */
+  int numberofedges;          /* Out only */
 };
 
 /*#ifdef ANSI_DECLARATORS*/

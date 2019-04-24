@@ -29841,7 +29841,7 @@ void tetgenmesh::outnodes(tetgenio* out)
       // Is it an input vertex?
       if (index < in->numberofpoints) {
         // Input point's marker is directly copied to output.
-        marker = in->pointmarkerlist[index];       
+        marker = in->pointmarkerlist[index]; 
       } else {
         if ((pointtype(pointloop) == FREESEGVERTEX) ||
             (pointtype(pointloop) == FREEFACETVERTEX)) {

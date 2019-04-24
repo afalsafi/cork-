@@ -34,9 +34,9 @@
 #include "aabvh.h"
 
 #define REAL double
-extern "C" {
-#include "triangle.h"
-}
+
+#include "triangle.hh"
+
 
 struct GenericVertType;
     struct IsctVertType;
@@ -456,8 +456,8 @@ public:
         /* set for flags.... */
         out.pointlist = nullptr;
         out.pointattributelist = nullptr; // not necessary if using -N or 0 attr
-        out.pointmarkerlist = nullptr;
-        out.trianglelist = nullptr; // not necessary if using -E
+        // out.pointmarkerlist = nullptr;
+        // out.trianglelist = nullptr; // not necessary if using -E
         //out.triangleattributelist = null; // not necessary if using -E or 0 attr
         //out.trianglearealist = // only needed with -r and -a
         //out.neighborlist = null; // only neccesary if -n is used

@@ -354,7 +354,7 @@
 #include <fpu_control.h>
 #endif /* LINUX */
 #ifdef TRILIBRARY
-#include "triangle.h"
+#include "triangle.hh"
 #endif /* TRILIBRARY */
 
 /* A few forward declarations.                                               */
@@ -504,6 +504,8 @@ enum finddirectionresult {WITHIN, LEFTCOLLINEAR, RIGHTCOLLINEAR};
 /*   runtime, I haven't simply declared the type `triangle' as a struct.     */
 
 typedef REAL **triangle;            /* Really:  typedef triangle *triangle   */
+
+typedef int64_t __int64;
 
 /* An oriented triangle:  includes a pointer to a triangle and orientation.  */
 /*   The orientation denotes an edge of the triangle.  Hence, there are      */
@@ -3295,8 +3297,8 @@ struct behavior *b;
   __int64 increment;
   __int64 meshnumber;
 #endif /* not TRILIBRARY */
-  __int64 i, j, k;
-  char workstring[FILENAMESIZE];
+  __int64 i, j;
+  // char workstring[FILENAMESIZE];
 
   b->poly = b->refine = b->quality = 0;
   b->vararea = b->fixedarea = b->usertest = 0;
@@ -3675,66 +3677,66 @@ struct otri *t;
   vertex printvertex;
 
   printf("triangle x%lx with orientation %d:\n", (__int64) t->tri,
-         t->orient);
+         (int)t->orient);
   decode(t->tri[0], printtri);
   if (printtri.tri == m->dummytri) {
     printf("    [0] = Outer space\n");
   } else {
     printf("    [0] = x%lx  %d\n", (__int64) printtri.tri,
-           printtri.orient);
+           (int)printtri.orient);
   }
   decode(t->tri[1], printtri);
   if (printtri.tri == m->dummytri) {
     printf("    [1] = Outer space\n");
   } else {
     printf("    [1] = x%lx  %d\n", (__int64) printtri.tri,
-           printtri.orient);
+           (int)printtri.orient);
   }
   decode(t->tri[2], printtri);
   if (printtri.tri == m->dummytri) {
     printf("    [2] = Outer space\n");
   } else {
     printf("    [2] = x%lx  %d\n", (__int64) printtri.tri,
-           printtri.orient);
+           (int)printtri.orient);
   }
 
   org(*t, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Origin[%d] = NULL\n", (t->orient + 1) % 3 + 3);
+    printf("    Origin[%d] = NULL\n", (int)(t->orient + 1) % 3 + 3);
   else
     printf("    Origin[%d] = x%lx  (%.12g, %.12g)\n",
-           (t->orient + 1) % 3 + 3, (__int64) printvertex,
+           (int)(t->orient + 1) % 3 + 3, (__int64) printvertex,
            printvertex[0], printvertex[1]);
   dest(*t, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Dest  [%d] = NULL\n", (t->orient + 2) % 3 + 3);
+    printf("    Dest  [%d] = NULL\n", (int)(t->orient + 2) % 3 + 3);
   else
     printf("    Dest  [%d] = x%lx  (%.12g, %.12g)\n",
-           (t->orient + 2) % 3 + 3, (__int64) printvertex,
+           (int)(t->orient + 2) % 3 + 3, (__int64) printvertex,
            printvertex[0], printvertex[1]);
   apex(*t, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Apex  [%d] = NULL\n", t->orient + 3);
+    printf("    Apex  [%d] = NULL\n",(int) t->orient + 3);
   else
     printf("    Apex  [%d] = x%lx  (%.12g, %.12g)\n",
-           t->orient + 3, (__int64) printvertex,
+           (int)t->orient + 3, (__int64) printvertex,
            printvertex[0], printvertex[1]);
 
   if (b->usesegments) {
     sdecode(t->tri[6], printsh);
     if (printsh.ss != m->dummysub) {
       printf("    [6] = x%lx  %d\n", (__int64) printsh.ss,
-             printsh.ssorient);
+             (int)printsh.ssorient);
     }
     sdecode(t->tri[7], printsh);
     if (printsh.ss != m->dummysub) {
       printf("    [7] = x%lx  %d\n", (__int64) printsh.ss,
-             printsh.ssorient);
+             (int)printsh.ssorient);
     }
     sdecode(t->tri[8], printsh);
     if (printsh.ss != m->dummysub) {
       printf("    [8] = x%lx  %d\n", (__int64) printsh.ss,
-             printsh.ssorient);
+             (int)printsh.ssorient);
     }
   }
 
@@ -3769,35 +3771,35 @@ struct osub *s;
   vertex printvertex;
 
   printf("subsegment x%lx with orientation %d and mark %d:\n",
-         (__int64) s->ss, s->ssorient, mark(*s));
+         (__int64) s->ss, (int)s->ssorient, (int)mark(*s));
   sdecode(s->ss[0], printsh);
   if (printsh.ss == m->dummysub) {
     printf("    [0] = No subsegment\n");
   } else {
     printf("    [0] = x%lx  %d\n", (__int64) printsh.ss,
-           printsh.ssorient);
+           (int)printsh.ssorient);
   }
   sdecode(s->ss[1], printsh);
   if (printsh.ss == m->dummysub) {
     printf("    [1] = No subsegment\n");
   } else {
     printf("    [1] = x%lx  %d\n", (__int64) printsh.ss,
-           printsh.ssorient);
+           (int)printsh.ssorient);
   }
 
   sorg(*s, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Origin[%d] = NULL\n", 2 + s->ssorient);
+    printf("    Origin[%d] = NULL\n",  2 + (int) s->ssorient);
   else
     printf("    Origin[%d] = x%lx  (%.12g, %.12g)\n",
-           2 + s->ssorient, (__int64) printvertex,
+          (int) 2 +(int) s->ssorient, (__int64) printvertex,
            printvertex[0], printvertex[1]);
   sdest(*s, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Dest  [%d] = NULL\n", 3 - s->ssorient);
+    printf("    Dest  [%d] = NULL\n", 3 - (int)s->ssorient);
   else
     printf("    Dest  [%d] = x%lx  (%.12g, %.12g)\n",
-           3 - s->ssorient, (__int64) printvertex,
+           3 - (int)s->ssorient, (__int64) printvertex,
            printvertex[0], printvertex[1]);
 
   decode(s->ss[6], printtri);
@@ -3805,29 +3807,29 @@ struct osub *s;
     printf("    [6] = Outer space\n");
   } else {
     printf("    [6] = x%lx  %d\n", (__int64) printtri.tri,
-           printtri.orient);
+           (int)printtri.orient);
   }
   decode(s->ss[7], printtri);
   if (printtri.tri == m->dummytri) {
     printf("    [7] = Outer space\n");
   } else {
     printf("    [7] = x%lx  %d\n", (__int64) printtri.tri,
-           printtri.orient);
+           (int)printtri.orient);
   }
 
   segorg(*s, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Segment origin[%d] = NULL\n", 4 + s->ssorient);
+    printf("    Segment origin[%d] = NULL\n", 4 +(int) s->ssorient);
   else
     printf("    Segment origin[%d] = x%lx  (%.12g, %.12g)\n",
-           4 + s->ssorient, (__int64) printvertex,
+           4 + (int)s->ssorient, (__int64) printvertex,
            printvertex[0], printvertex[1]);
   segdest(*s, printvertex);
   if (printvertex == (vertex) NULL)
-    printf("    Segment dest  [%d] = NULL\n", 5 - s->ssorient);
+    printf("    Segment dest  [%d] = NULL\n", 5 - (int)s->ssorient);
   else
     printf("    Segment dest  [%d] = x%lx  (%.12g, %.12g)\n",
-           5 - s->ssorient, (__int64) printvertex,
+           5 - (int)s->ssorient, (__int64) printvertex,
            printvertex[0], printvertex[1]);
 }
 
@@ -12405,8 +12407,10 @@ struct behavior *b;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void formskeleton(struct mesh *m, struct behavior *b, __int64 *segmentlist,
-                  __int64 *segmentmarkerlist, __int64 numberofsegments)
+void formskeleton(struct mesh *m, struct behavior *b,
+                  std::vector<__int64> segmentlist,
+                  std::vector<__int64> segmentmarkerlist,
+                  __int64 numberofsegments)
 #else /* not ANSI_DECLARATORS */
 void formskeleton(m, b, segmentlist, segmentmarkerlist, numberofsegments)
 struct mesh *m;
@@ -12452,7 +12456,7 @@ char *polyfilename;
 #ifdef TRILIBRARY
     strcpy(polyfilename, "input");
     m->insegments = numberofsegments;
-    segmentmarkers = segmentmarkerlist != (__int64 *) NULL;
+    segmentmarkers = segmentmarkerlist.size() != 0;
     index = 0;
 #else /* not TRILIBRARY */
     /* Read the segments from a .poly file. */
@@ -12977,8 +12981,8 @@ REAL area;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void carveholes(struct mesh *m, struct behavior *b, REAL *holelist, __int64 holes,
-                REAL *regionlist, __int64 regions)
+void carveholes(struct mesh *m, struct behavior *b, std::vector<REAL> holelist,
+                __int64 holes, std::vector<REAL> regionlist, __int64 regions)
 #else /* not ANSI_DECLARATORS */
 void carveholes(m, b, holelist, holes, regionlist, regions)
 struct mesh *m;
@@ -14081,17 +14085,20 @@ FILE **polyfile;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void transfernodes(struct mesh *m, struct behavior *b, REAL *pointlist,
-                   REAL *pointattriblist, __int64 *pointmarkerlist,
-                   __int64 numberofpoints, __int64 numberofpointattribs)
+void transfernodes(struct mesh *m, struct behavior *b,
+                   std::vector<REAL> pointlist,
+                   std::vector<REAL> pointattriblist,
+                   std::vector<__int64> pointmarkerlist,
+                   __int64 numberofpoints,
+                   __int64 numberofpointattribs)
 #else /* not ANSI_DECLARATORS */
 void transfernodes(m, b, pointlist, pointattriblist, pointmarkerlist,
                    numberofpoints, numberofpointattribs)
 struct mesh *m;
 struct behavior *b;
-REAL *pointlist;
-REAL *pointattriblist;
-__int64 *pointmarkerlist;
+std::vector<REAL> pointlist;
+std::vector<REAL> pointattriblist;
+std::vector<__int64> pointmarkerlist;
 __int64 numberofpoints;
 __int64 numberofpointattribs;
 #endif /* not ANSI_DECLARATORS */
@@ -14129,7 +14136,7 @@ __int64 numberofpointattribs;
     for (j = 0; j < numberofpointattribs; j++) {
       vertexloop[2 + j] = pointattriblist[attribindex++];
     }
-    if (pointmarkerlist != (__int64 *) NULL) {
+    if (pointmarkerlist.size() != 0) {
       /* Read a vertex marker. */
       setvertexmark(vertexloop, pointmarkerlist[i]);
     } else {
@@ -14319,8 +14326,9 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writenodes(struct mesh *m, struct behavior *b, REAL **pointlist,
-                REAL **pointattriblist, __int64 **pointmarkerlist)
+void writenodes(struct mesh *m, struct behavior *b, std::vector<REAL> pointlist,
+                std::vector<REAL> pointattriblist,
+                std::vector<__int64> pointmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writenodes(m, b, pointlist, pointattriblist, pointmarkerlist)
 struct mesh *m;
@@ -14348,9 +14356,6 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  REAL *plist;
-  REAL *palist;
-  __int64 *pmlist;
   __int64 coordindex;
   __int64 attribindex;
 #else /* not TRILIBRARY */
@@ -14372,21 +14377,18 @@ char **argv;
     printf("Writing vertices.\n");
   }
   /* Allocate memory for output vertices if necessary. */
-  if (*pointlist == (REAL *) NULL) {
-    *pointlist = (REAL *) trimalloc((__int64) (outvertices * 2 * sizeof(REAL)));
+  if (pointlist.size() == 0) {
+    // *pointlist = (REAL *) trimalloc((__int64) (outvertices * 2 * sizeof(REAL)));
   }
   /* Allocate memory for output vertex attributes if necessary. */
-  if ((m->nextras > 0) && (*pointattriblist == (REAL *) NULL)) {
-    *pointattriblist = (REAL *) trimalloc((__int64) (outvertices * m->nextras *
-                                                 sizeof(REAL)));
+  if ((m->nextras > 0) && (pointattriblist.size() == 0)) {
+    // *pointattriblist = (REAL *) trimalloc((__int64) (outvertices * m->nextras *
+                                                 // sizeof(REAL)));
   }
   /* Allocate memory for output vertex markers if necessary. */
-  if (!b->nobound && (*pointmarkerlist == (__int64 *) NULL)) {
-    *pointmarkerlist = (__int64 *) trimalloc((__int64) (outvertices * sizeof(__int64)));
+  if (!b->nobound && (pointmarkerlist.size() == 0)) {
+    // *pointmarkerlist = (__int64 *) trimalloc((__int64) (outvertices * sizeof(__int64)));
   }
-  plist = *pointlist;
-  palist = *pointattriblist;
-  pmlist = *pointmarkerlist;
   coordindex = 0;
   attribindex = 0;
 #else /* not TRILIBRARY */
@@ -14411,15 +14413,15 @@ char **argv;
     if (!b->jettison || (vertextype(vertexloop) != UNDEADVERTEX)) {
 #ifdef TRILIBRARY
       /* X and y coordinates. */
-      plist[coordindex++] = vertexloop[0];
-      plist[coordindex++] = vertexloop[1];
+      pointlist[coordindex++] = vertexloop[0];
+      pointlist[coordindex++] = vertexloop[1];
       /* Vertex attributes. */
       for (i = 0; i < m->nextras; i++) {
-        palist[attribindex++] = vertexloop[2 + i];
+        pointattriblist[attribindex++] = vertexloop[2 + i];
       }
       if (!b->nobound) {
         /* Copy the boundary marker. */
-        pmlist[vertexnumber - b->firstnumber] = vertexmark(vertexloop);
+        pointmarkerlist[vertexnumber - b->firstnumber] = vertexmark(vertexloop);
       }
 #else /* not TRILIBRARY */
       /* Vertex number, x and y coordinates. */
@@ -14492,7 +14494,8 @@ struct behavior *b;
 
 #ifdef ANSI_DECLARATORS
 void writeelements(struct mesh *m, struct behavior *b,
-                   __int64 **trianglelist, REAL **triangleattriblist)
+                   std::vector<__int64> trianglelist,
+                   std::vector<REAL> triangleattriblist)
 #else /* not ANSI_DECLARATORS */
 void writeelements(m, b, trianglelist, triangleattriblist)
 struct mesh *m;
@@ -14519,7 +14522,7 @@ char **argv;
 
 {
 #ifdef TRILIBRARY
-  __int64 *tlist;
+  // __int64 *tlist;
   REAL *talist;
   __int64 vertexindex;
   __int64 attribindex;
@@ -14537,19 +14540,19 @@ char **argv;
     printf("Writing triangles.\n");
   }
   /* Allocate memory for output triangles if necessary. */
-  if (*trianglelist == (__int64 *) NULL) {
-    *trianglelist = (__int64 *) trimalloc((__int64) (m->triangles.items *
-                                             ((b->order + 1) * (b->order + 2) /
-                                              2) * sizeof(__int64)));
+  if (trianglelist.size() == 0) {
+    // *trianglelist = (__int64 *) trimalloc((__int64) (m->triangles.items *
+    //                                          ((b->order + 1) * (b->order + 2) /
+    //                                           2) * sizeof(__int64)));
   }
   /* Allocate memory for output triangle attributes if necessary. */
-  if ((m->eextras > 0) && (*triangleattriblist == (REAL *) NULL)) {
-    *triangleattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
-                                                    m->eextras *
-                                                    sizeof(REAL)));
+  if ((m->eextras > 0) && (triangleattriblist.size() == 0)) {
+    // *triangleattriblist = (REAL *) trimalloc((__int64) (m->triangles.items *
+    //                                                 m->eextras *
+    //                                                 sizeof(REAL)));
   }
-  tlist = *trianglelist;
-  talist = *triangleattriblist;
+  // tlist = trianglelist;
+  // talist = triangleattriblist;
   vertexindex = 0;
   attribindex = 0;
 #else /* not TRILIBRARY */
@@ -14576,9 +14579,9 @@ char **argv;
     apex(triangleloop, p3);
     if (b->order == 1) {
 #ifdef TRILIBRARY
-      tlist[vertexindex++] = vertexmark(p1);
-      tlist[vertexindex++] = vertexmark(p2);
-      tlist[vertexindex++] = vertexmark(p3);
+      trianglelist[vertexindex++] = vertexmark(p1);
+      trianglelist[vertexindex++] = vertexmark(p2);
+      trianglelist[vertexindex++] = vertexmark(p3);
 #else /* not TRILIBRARY */
       /* Triangle number, indices for three vertices. */
       fprintf(outfile, "%4ld    %4d  %4d  %4d", elementnumber,
@@ -14589,12 +14592,12 @@ char **argv;
       mid2 = (vertex) triangleloop.tri[m->highorderindex + 2];
       mid3 = (vertex) triangleloop.tri[m->highorderindex];
 #ifdef TRILIBRARY
-      tlist[vertexindex++] = vertexmark(p1);
-      tlist[vertexindex++] = vertexmark(p2);
-      tlist[vertexindex++] = vertexmark(p3);
-      tlist[vertexindex++] = vertexmark(mid1);
-      tlist[vertexindex++] = vertexmark(mid2);
-      tlist[vertexindex++] = vertexmark(mid3);
+      trianglelist[vertexindex++] = vertexmark(p1);
+      trianglelist[vertexindex++] = vertexmark(p2);
+      trianglelist[vertexindex++] = vertexmark(p3);
+      trianglelist[vertexindex++] = vertexmark(mid1);
+      trianglelist[vertexindex++] = vertexmark(mid2);
+      trianglelist[vertexindex++] = vertexmark(mid3);
 #else /* not TRILIBRARY */
       /* Triangle number, indices for six vertices. */
       fprintf(outfile, "%4ld    %4d  %4d  %4d  %4d  %4d  %4d", elementnumber,
@@ -14605,7 +14608,7 @@ char **argv;
 
 #ifdef TRILIBRARY
     for (i = 0; i < m->eextras; i++) {
-      talist[attribindex++] = elemattribute(triangleloop, i);
+      triangleattriblist[attribindex++] = elemattribute(triangleloop, i);
     }
 #else /* not TRILIBRARY */
     for (i = 0; i < m->eextras; i++) {
@@ -15690,8 +15693,9 @@ char **argv;
 {
   struct mesh m;
   struct behavior b;
-  REAL *holearray;                                        /* Array of holes. */
-  REAL *regionarray;   /* Array of regional attributes and area constraints. */
+  std::vector<REAL> holearray; /* Array of holes. */
+  std::vector<REAL>
+      regionarray; /* Array of regional attributes and area constraints. */
 #ifndef TRILIBRARY
   FILE *polyfile;
 #endif /* not TRILIBRARY */
@@ -15931,8 +15935,8 @@ char **argv;
         out->holelist = in->holelist;
         out->regionlist = in->regionlist;
       } else {
-        out->holelist = (REAL *) NULL;
-        out->regionlist = (REAL *) NULL;
+        // out->holelist = (REAL *) NULL;
+        // out->regionlist = (REAL *) NULL;
       }
 #else /* not TRILIBRARY */
       writepoly(&m, &b, b.outpolyfilename, holearray, m.holes, regionarray,
