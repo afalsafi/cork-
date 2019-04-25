@@ -30,13 +30,13 @@
 // namespace corkpp {
 int main(int argc, char * argv[]) {
   std::vector<corkpp::point_t> vertices0;
-  corkpp::point_t origin0{0.0, 0.0, 0.0};
+  corkpp::point_t origin0{0.5, 0.5, 0.5};
   corkpp::point_t size0{1.0, 1.0, 1.0};
   vertices0 = corkpp::cube_vertice_maker(origin0, size0);
 
   std::vector<corkpp::point_t> vertices1;
-  corkpp::point_t origin1{0.5, 0.5, 0.5};
-  corkpp::point_t size1{1.0, 1.5, 1.0};
+  corkpp::point_t origin1{0.0, 0.0, 0.0};
+  corkpp::point_t size1{1.0, 1.0, 1.0};
   vertices1 = corkpp::cube_vertice_maker(origin1, size1);
 
   auto && vol_norm = corkpp::calculate_normal_volume(vertices0, vertices1);
