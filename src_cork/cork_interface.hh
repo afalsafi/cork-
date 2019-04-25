@@ -49,10 +49,22 @@ namespace corkpp {
   using poly_t = Eigen::Matrix3Xf;
   constexpr float tolerance = 1e-3;
 
-  // namespace muSpectre {
-  // namespace Cork {
   /**
-   * This functionmakes a corktirmesh list of nodes of a polyhedron
+   * This function recieves to set of vertices "vertices_pre" &
+   * "vertices_precipitate" and it does:
+   * 1. it computes its triangulized facets
+   * 2. by passing triangulated facets and vertice coordinates it will
+   * 2a. calculate their intersection volume
+   * 2b. cvalculate the average normal vector of the facets of
+   * "vertices_precipitate" that lie inside "vertices_pixel"
+   */
+
+  auto calculate_normal_volume(const std::vector<point_t> vertices_precipitate,
+                               const std::vector<point_t> vertices_pixel)
+      -> std::array<REAL, 4>;
+
+  /**
+   * This function makes a corktirmesh list of nodes of a polyhedron
    */
   void CorkTriMesh_maker(const std::vector<point_t> & precipitate_vertices,
                          const std::vector<face_t> & faces, CorkTriMesh * out);
@@ -108,14 +120,14 @@ namespace corkpp {
    * belong to "in0" and does not belong to "in1"
    */
   void diff_of_faces(const CorkTriMesh & in0, const CorkTriMesh & in1,
-                     CorkTriMesh & out);
+                     CorkTriMesh & out, REAL pixel_size = 1);
 
   /**
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to both "in0" and "in1"
    */
   void intersect_of_faces(const CorkTriMesh & in0, const CorkTriMesh & in1,
-                          CorkTriMesh & out);
+                          CorkTriMesh & out, REAL pixel_size = 1);
   /**
    * This function retruns a list of cube vertices given one of its corner's
    * coordinates and the vector connecting that to its farthest corner

@@ -1,6 +1,37 @@
 #include "cork_interface.hh"
 
 namespace corkpp {
+
+  /*-----------------------------------------------------------------------------*/
+
+  auto calculate_normal_volume(const std::vector<point_t> vertices_precipitate,
+                               const std::vector<point_t> vertices_pixel)
+      -> std::array<REAL, 4> {
+    std::vector<face_t> faces_precipitate, faces_pixel;
+    std::array <REAL, 4> ret_vol_norm;
+    make_faces_from_nodes(vertices_precipitate, faces_precipitate);
+    make_faces_from_nodes(vertices_pixel, faces_pixel);
+    CorkTriMesh in0;
+    CorkTriMesh in1;
+    CorkTriMesh intersection;
+    CorkTriMesh difference;
+    CorkTriMesh intersection_and_difference;
+    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate, in0);
+    corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
+
+    computeIntersection(in0, in1, intersection);
+    computeDifference(in1, in0, difference);
+    intersect_of_faces(intersection, difference, intersection_and_difference);
+    auto && vol = volume_calculator(intersection);
+    auto && normal = average_normal_calculator(intersection_and_difference);
+    ret_vol_norm [0] = vol ;
+    ret_vol_norm [1] = normal(0);
+    ret_vol_norm [2] = normal(1);
+    ret_vol_norm [3] = normal(2);
+    return ret_vol_norm;
+  }
+
+  /*-----------------------------------------------------------------------------*/
   void CokrTriMesh_maker(const std::vector<point_t> & precipitate_vertices,
                          const std::vector<face_t> & faces, CorkTriMesh * out) {
     out->n_vertices = precipitate_vertices.size();
@@ -122,7 +153,7 @@ namespace corkpp {
   }
   /*-----------------------------------------------------------------------------*/
   void intersect_of_faces(const CorkTriMesh & in0, const CorkTriMesh & in1,
-                          CorkTriMesh & out) {
+                          CorkTriMesh & out, REAL pixel_size) {
     vector_t normal0;
     normal0 << 0.0, 0.0, 0.0;
     std::vector<vector_t> normals1(in1.n_triangles, normal0);
@@ -133,7 +164,8 @@ namespace corkpp {
     double constant0;
     face_t face;
     std::vector<bool> new_face_checker(in0.n_triangles, false);
-    // here we calculate the normal and the constants of all facets of in1
+    // here we calculate the normal and the constants of all facets of in1 and
+    // normalize constants by dividing by pixel size;
     for (uint i = 0; i < in1.n_vertices; ++i) {
       vertices1[i] = {in1.vertices[3 * i + 0], in1.vertices[3 * i + 1],
                       in1.vertices[3 * i + 2]};
@@ -142,11 +174,13 @@ namespace corkpp {
       face = {in1.triangles[3 * i + 0], in1.triangles[3 * i + 1],
               in1.triangles[3 * i + 2]};
       normals1[i] = face_normal_calculator(vertices1, face);
-      constants1[i] = face_constant_calculator(vertices1, face, normals1[i]);
+      constants1[i] =
+          face_constant_calculator(vertices1, face, normals1[i]) / pixel_size;
     }
     uint counter1 = 0;
     // here we calculate the normal and the constants of all facets of in0 and
-    // loop over all of the facets of the in1 to check their similarity
+    // loop over all of the facets of the in1 to check their similarity and
+    // divide the constant by the size of the pixel
     for (uint i = 0; i < in0.n_vertices; ++i) {
       vertices0[i] = {in0.vertices[3 * i + 0], in0.vertices[3 * i + 1],
                       in0.vertices[3 * i + 2]};
@@ -156,7 +190,8 @@ namespace corkpp {
       face = {in0.triangles[3 * i + 0], in0.triangles[3 * i + 1],
               in0.triangles[3 * i + 2]};
       normal0 = face_normal_calculator(vertices0, face);
-      constant0 = face_constant_calculator(vertices0, face, normal0);
+      constant0 =
+          face_constant_calculator(vertices0, face, normal0) / pixel_size;
       for (uint j = 0; j < in1.n_triangles; ++j) {
         if (abs(constants1[j] - constant0) < tolerance) {
           for (uint k = 0; k < 3; ++k) {
