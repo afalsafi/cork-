@@ -111,14 +111,14 @@ typedef Mesh<CorkVertex, CorkTriangle>      CorkMesh;
 
 void corkTriMesh2CorkMesh(
     CorkTriMesh in,
-    CorkMesh *mesh_out
+    CorkMesh &mesh_out
 ) {
     RawCorkMesh raw;
     raw.vertices.resize(in.n_vertices);
     raw.triangles.resize(in.n_triangles);
     if(in.n_vertices == 0 || in.n_triangles == 0) {
         CORK_ERROR("empty mesh input to Cork routine.");
-        *mesh_out = CorkMesh(raw);
+        mesh_out = CorkMesh(raw);
         return;
     }
     
@@ -139,7 +139,7 @@ void corkTriMesh2CorkMesh(
               "to a vertex.");
         raw.vertices.clear();
         raw.triangles.clear();
-        *mesh_out = CorkMesh(raw);
+        mesh_out = CorkMesh(raw);
         return;
     }
     
@@ -149,29 +149,29 @@ void corkTriMesh2CorkMesh(
         raw.vertices[i].pos.z = in.vertices[3*i+2];
     }
     
-    *mesh_out = CorkMesh(raw);
+    mesh_out = CorkMesh(raw);
 }
 void corkMesh2CorkTriMesh(
-    CorkMesh *mesh_in,
-    CorkTriMesh *out
+    CorkMesh &mesh_in,
+    CorkTriMesh &out
 ) {
-    RawCorkMesh raw = mesh_in->raw();
+    RawCorkMesh raw = mesh_in.raw();
     
-    out->n_triangles = raw.triangles.size();
-    out->n_vertices  = raw.vertices.size();
-    out->vertices.resize(3 * out->n_vertices);
-    out->triangles.resize(3 * out->n_triangles);;
+    out.n_triangles = raw.triangles.size();
+    out.n_vertices  = raw.vertices.size();
+    out.vertices.resize(3 * out.n_vertices);
+    out.triangles.resize(3 * out.n_triangles);;
     
-    for(uint i=0; i<out->n_triangles; i++) {
-        out->triangles[3*i+0] = raw.triangles[i].a;
-        out->triangles[3*i+1] = raw.triangles[i].b;
-        out->triangles[3*i+2] = raw.triangles[i].c;
+    for(uint i=0; i<out.n_triangles; i++) {
+        out.triangles[3*i+0] = raw.triangles[i].a;
+        out.triangles[3*i+1] = raw.triangles[i].b;
+        out.triangles[3*i+2] = raw.triangles[i].c;
     }
     
-    for(uint i=0; i<out->n_vertices; i++) {
-        out->vertices[3*i+0] = raw.vertices[i].pos.x;
-        out->vertices[3*i+1] = raw.vertices[i].pos.y;
-        out->vertices[3*i+2] = raw.vertices[i].pos.z;
+    for(uint i=0; i<out.n_vertices; i++) {
+        out.vertices[3*i+0] = raw.vertices[i].pos.x;
+        out.vertices[3*i+1] = raw.vertices[i].pos.y;
+        out.vertices[3*i+2] = raw.vertices[i].pos.z;
     }
 }
 
@@ -179,7 +179,7 @@ void corkMesh2CorkTriMesh(
 bool isSolid(CorkTriMesh cmesh)
 {
     CorkMesh mesh;
-    corkTriMesh2CorkMesh(cmesh, &mesh);
+    corkTriMesh2CorkMesh(cmesh, mesh);
     
     bool solid = true;
     
@@ -197,63 +197,63 @@ bool isSolid(CorkTriMesh cmesh)
 }
 
 void computeUnion(
-    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out
+    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out
 ) {
     CorkMesh cmIn0, cmIn1;
-    corkTriMesh2CorkMesh(in0, &cmIn0);
-    corkTriMesh2CorkMesh(in1, &cmIn1);
+    corkTriMesh2CorkMesh(in0, cmIn0);
+    corkTriMesh2CorkMesh(in1, cmIn1);
     
     cmIn0.boolUnion(cmIn1);
     
-    corkMesh2CorkTriMesh(&cmIn0, out);
+    corkMesh2CorkTriMesh(cmIn0, out);
 }
 
 void computeDifference(
-    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out
+    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out
 ) {
     CorkMesh cmIn0, cmIn1;
-    corkTriMesh2CorkMesh(in0, &cmIn0);
-    corkTriMesh2CorkMesh(in1, &cmIn1);
+    corkTriMesh2CorkMesh(in0, cmIn0);
+    corkTriMesh2CorkMesh(in1, cmIn1);
     
     cmIn0.boolDiff(cmIn1);
     
-    corkMesh2CorkTriMesh(&cmIn0, out);
+    corkMesh2CorkTriMesh(cmIn0, out);
 }
 
 void computeIntersection(
-    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out
+    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out
 ) {
     CorkMesh cmIn0, cmIn1;
-    corkTriMesh2CorkMesh(in0, &cmIn0);
-    corkTriMesh2CorkMesh(in1, &cmIn1);
+    corkTriMesh2CorkMesh(in0, cmIn0);
+    corkTriMesh2CorkMesh(in1, cmIn1);
     
     cmIn0.boolIsct(cmIn1);
     
-    corkMesh2CorkTriMesh(&cmIn0, out);
+    corkMesh2CorkTriMesh(cmIn0, out);
 }
 
 void computeSymmetricDifference(
-    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out
+    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out
 ) {
     CorkMesh cmIn0, cmIn1;
-    corkTriMesh2CorkMesh(in0, &cmIn0);
-    corkTriMesh2CorkMesh(in1, &cmIn1);
+    corkTriMesh2CorkMesh(in0, cmIn0);
+    corkTriMesh2CorkMesh(in1, cmIn1);
     
     cmIn0.boolXor(cmIn1);
     
-    corkMesh2CorkTriMesh(&cmIn0, out);
+    corkMesh2CorkTriMesh(cmIn0, out);
 }
 
 void resolveIntersections(
-    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out
+    CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out
 ) {
     CorkMesh cmIn0, cmIn1;
-    corkTriMesh2CorkMesh(in0, &cmIn0);
-    corkTriMesh2CorkMesh(in1, &cmIn1);
+    corkTriMesh2CorkMesh(in0, cmIn0);
+    corkTriMesh2CorkMesh(in1, cmIn1);
     
     cmIn0.disjointUnion(cmIn1);
     cmIn0.resolveIntersections();
     
-    corkMesh2CorkTriMesh(&cmIn0, out);
+    corkMesh2CorkTriMesh(cmIn0, out);
 }
 

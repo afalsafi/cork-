@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
   std::vector<point_t> vertices1;
   std::vector<face_t> faces1;
-  point_t origin1{0.5, 0.5, 0.5};
+  point_t origin1{0.0, 0.0, 0.5};
   point_t size1{1.0, 1.5, 1.0};
   vertices1 = cube_vertice_maker(origin1 ,size1);
   // vertices1.pop_back();
@@ -52,12 +52,12 @@ int main(int argc, char *argv[]) {
   CorkTriMesh intersection;
   CorkTriMesh difference;
   CorkTriMesh intersection_and_difference;
-  corktrimesh_maker_from_node_faces(vertices0, faces0, &in0);
-  corktrimesh_maker_from_node_faces(vertices1, faces1, &in1);
-  
-  computeIntersection(in0, in1, &intersection);
-  computeDifference(in0, in1, &difference);
-  intersect_of_faces(intersection, difference, &intersection_and_difference);
+  corktrimesh_maker_from_node_faces(vertices0, faces0, in0);
+  corktrimesh_maker_from_node_faces(vertices1, faces1, in1);
+
+  computeIntersection(in0, in1, intersection);
+  computeDifference(in0, in1, difference);
+  intersect_of_faces(intersection, difference, intersection_and_difference);
 
   auto &&vol = volume_calculator(intersection);
   auto && normal = average_normal_calculator(intersection_and_difference);

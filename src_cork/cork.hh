@@ -62,21 +62,21 @@ DLLEXPORT bool isSolid(CorkTriMesh mesh);
 
 // Boolean operations follow
 // result = A U B
-DLLEXPORT void computeUnion(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out);
+DLLEXPORT void computeUnion(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out);
 
 // result = A - B
-DLLEXPORT void computeDifference(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out);
+DLLEXPORT void computeDifference(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out);
 
 // result = A ^ B
-DLLEXPORT void computeIntersection(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out);
+DLLEXPORT void computeIntersection(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out);
 
 // result = A XOR B
 DLLEXPORT void computeSymmetricDifference(
-                        CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out);
+                        CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out);
 
 // Not a Boolean operation, but related:
 //  No portion of either surface is deleted.  However, the
 //  curve of intersection between the two surfaces is made explicit,
 //  such that the two surfaces are now connected.
-DLLEXPORT void resolveIntersections(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh *out);
+DLLEXPORT void resolveIntersections(CorkTriMesh in0, CorkTriMesh in1, CorkTriMesh &out);
 

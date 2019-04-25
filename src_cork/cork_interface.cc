@@ -119,7 +119,7 @@ double volume_calculator(const CorkTriMesh &in) {
 }
 /*-----------------------------------------------------------------------------*/
 void intersect_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
-                   CorkTriMesh *out) {
+                   CorkTriMesh &out) {
   vector_t normal0;
   normal0 << 0.0, 0.0, 0.0;
   std::vector<vector_t> normals1(in1.n_triangles, normal0);
@@ -170,18 +170,18 @@ void intersect_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
   }
 
   uint counter = 0;
-  out->n_vertices = in0.n_vertices;
-  out->n_triangles =
+  out.n_vertices = in0.n_vertices;
+  out.n_triangles =
     std::count(new_face_checker.begin(), new_face_checker.end(), true);
   
-  out->vertices.resize(3 * out->n_vertices);
-  out->triangles.resize(3 * out->n_triangles);
-  out->vertices = in0.vertices;
+  out.vertices.resize(3 * out.n_vertices);
+  out.triangles.resize(3 * out.n_triangles);
+  out.vertices = in0.vertices;
   for (uint i = 0; i < in0.n_triangles; ++i) {
     if (new_face_checker[i]) {
-      (out->triangles)[3 * counter + 0] = in0.triangles[3 * i + 0];
-      (out->triangles)[3 * counter + 1] = in0.triangles[3 * i + 1];
-      (out->triangles)[3 * counter + 2] = in0.triangles[3 * i + 2];
+      (out.triangles)[3 * counter + 0] = in0.triangles[3 * i + 0];
+      (out.triangles)[3 * counter + 1] = in0.triangles[3 * i + 1];
+      (out.triangles)[3 * counter + 2] = in0.triangles[3 * i + 2];
       counter++;
     }
   }
@@ -191,7 +191,7 @@ void intersect_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
 
 /*-----------------------------------------------------------------------------*/
 void diff_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
-                   CorkTriMesh *out) {
+                   CorkTriMesh &out) {
   vector_t normal0;
   normal0 << 0.0, 0.0, 0.0;
   std::vector<vector_t> normals1(in1.n_triangles, normal0);
@@ -243,15 +243,15 @@ void diff_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
   }
 
   uint counter = 0;
-  out->n_vertices = in0.n_vertices;
-  out->n_triangles =
+  out.n_vertices = in0.n_vertices;
+  out.n_triangles =
       std::count(new_face_checker.begin(), new_face_checker.end(), true);
-  out->vertices = in0.vertices;
+  out.vertices = in0.vertices;
   for (uint i = 0; i < in0.n_triangles; ++i) {
     if (new_face_checker[i]) {
-      (out->triangles)[3 * counter + 0] = in0.triangles[3 * i + 0];
-      (out->triangles)[3 * counter + 1] = in0.triangles[3 * i + 1];
-      (out->triangles)[3 * counter + 2] = in0.triangles[3 * i + 2];
+      (out.triangles)[3 * counter + 0] = in0.triangles[3 * i + 0];
+      (out.triangles)[3 * counter + 1] = in0.triangles[3 * i + 1];
+      (out.triangles)[3 * counter + 2] = in0.triangles[3 * i + 2];
       counter++;
     }
   }
@@ -274,24 +274,24 @@ std::vector<point_t> cube_vertice_maker(point_t origin, point_t size) {
 /*-----------------------------------------------------------------------------*/
 void corktrimesh_maker_from_node_faces(
     const std::vector<point_t> &precipitate_vertices,
-    const std::vector<face_t> &faces, CorkTriMesh *out) {
-  out->n_vertices = precipitate_vertices.size();
-  out->n_triangles = faces.size();
-  out->vertices.resize(3 * out->n_vertices);
-  out->triangles.resize(3 * out->n_triangles);
+    const std::vector<face_t> &faces, CorkTriMesh &out) {
+  out.n_vertices = precipitate_vertices.size();
+  out.n_triangles = faces.size();
+  out.vertices.resize(3 * out.n_vertices);
+  out.triangles.resize(3 * out.n_triangles);
   
   point_t tmp_point;
   // face_t tmp_face;
   for (uint i = 0; i < faces.size(); ++i) {
     // tmp_face = faces[i];
-    out->triangles[3 * i + 0] = faces[i][0];
-    out->triangles[3 * i + 1] = faces[i][1];
-    out->triangles[3 * i + 2] = faces[i][2];
+    out.triangles[3 * i + 0] = faces[i][0];
+    out.triangles[3 * i + 1] = faces[i][1];
+    out.triangles[3 * i + 2] = faces[i][2];
   }
   for (uint i = 0; i < precipitate_vertices.size(); i++) {
     tmp_point = precipitate_vertices[i];
-    out->vertices[3 * i + 0] = tmp_point[0];
-    out->vertices[3 * i + 1] = tmp_point[1];
-    out->vertices[3 * i + 2] = tmp_point[2];
+    out.vertices[3 * i + 0] = tmp_point[0];
+    out.vertices[3 * i + 1] = tmp_point[1];
+    out.vertices[3 * i + 2] = tmp_point[2];
   }
 }

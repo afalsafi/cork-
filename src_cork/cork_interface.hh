@@ -106,14 +106,14 @@ double volume_calculator(const CorkTriMesh &in);
  * to "in0" and does not belong to "in1"
  */
 void diff_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
-                   CorkTriMesh *out);
+                   CorkTriMesh &out);
 
 /**
  * these function create a "out" CorkTrimesh consists of the facets that belong
  * to both "in0" and "in1"
  */
 void intersect_of_faces(const CorkTriMesh &in0, const CorkTriMesh &in1,
-                        CorkTriMesh *out);
+                        CorkTriMesh &out);
 /**
  * This function retruns a list of cube vertices given one of its corner's
  * coordinates and the vector connecting that to its farthest corner
@@ -126,7 +126,7 @@ std::vector<point_t> cube_vertice_maker(point_t origin, point_t size);
  */
 void corktrimesh_maker_from_node_faces(
     const std::vector<point_t> &precipitate_vertices,
-    const std::vector<face_t> &faces, CorkTriMesh *out);
+    const std::vector<face_t> &faces, CorkTriMesh &out);
 // } // namespace Cork
 
 #endif /* CORK_INTERFACE_H */
