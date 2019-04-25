@@ -37,7 +37,7 @@
 
 #include "triangle.hh"
 
-
+namespace corkpp{
 struct GenericVertType;
     struct IsctVertType;
     struct OrigVertType;
@@ -1523,3 +1523,4 @@ bool Mesh<VertData,TriData>::isSelfIntersecting()
 
 
 
+} // namespace corkpp

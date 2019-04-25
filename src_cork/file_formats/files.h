@@ -1,12 +1,12 @@
 // +-------------------------------------------------------------------------
 // | files.h
-// | 
+// |
 // | Author: Gilbert Bernstein
 // +-------------------------------------------------------------------------
 // | COPYRIGHT:
 // |    Copyright Gilbert Bernstein 2013
 // |    See the included COPYRIGHT file for further details.
-// |    
+// |
 // |    This file is part of the Cork library.
 // |
 // |    Cork is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 // |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // |    GNU Lesser General Public License for more details.
 // |
-// |    You should have received a copy 
+// |    You should have received a copy
 // |    of the GNU Lesser General Public License
 // |    along with Cork.  If not, see <http://www.gnu.org/licenses/>.
 // +-------------------------------------------------------------------------
@@ -37,27 +37,28 @@
  *  to make it easier to support multiple file types using other people's
  *  file importer/exporter code
  */
+namespace corkpp {
+  namespace Files {
 
-namespace Files {
+    // all functions with integer return values here are intended
+    // to return an error count as if they were a main function
 
-// all functions with integer return values here are intended
-// to return an error count as if they were a main function
+    struct FileVertex : public MinimalVertexData {};
+    struct FileTriangle : public MinimalTriangleData {};
+    typedef RawMesh<FileVertex, FileTriangle> FileMesh;
+    // using FileMesh = RawMesh<FileVertex, FileTriangle>;
 
-struct FileVertex : public MinimalVertexData {};
-struct FileTriangle : public MinimalTriangleData {};
-typedef RawMesh<FileVertex,FileTriangle> FileMesh;
-//using FileMesh = RawMesh<FileVertex, FileTriangle>;
+    // generic filetype functions
+    // these detect which filetype to use by inspecting the filename
+    int readTriMesh(std::string filename, FileMesh * mesh);
+    int writeTriMesh(std::string filename, FileMesh * mesh);
 
-// generic filetype functions
-// these detect which filetype to use by inspecting the filename
-int readTriMesh(std::string filename, FileMesh *mesh);
-int writeTriMesh(std::string filename, FileMesh *mesh);
+    // specific filetype functions
+    int readIFS(std::string filename, FileMesh * mesh);
+    int writeIFS(std::string filename, FileMesh * mesh);
 
-// specific filetype functions
-int readIFS(std::string filename, FileMesh *mesh);
-int writeIFS(std::string filename, FileMesh *mesh);
+    int readOFF(std::string filename, FileMesh * mesh);
+    int writeOFF(std::string filename, FileMesh * mesh);
 
-int readOFF(std::string filename, FileMesh *mesh);
-int writeOFF(std::string filename, FileMesh *mesh);
-
-} // end namespace Files
+  }  // end namespace Files
+}  // namespace corkpp

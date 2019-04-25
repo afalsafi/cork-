@@ -1,12 +1,12 @@
 // +-------------------------------------------------------------------------
 // | log.cpp
-// | 
+// |
 // | Author: Gilbert Bernstein
 // +-------------------------------------------------------------------------
 // | COPYRIGHT:
 // |    Copyright Gilbert Bernstein 2013
 // |    See the included COPYRIGHT file for further details.
-// |    
+// |
 // |    This file is part of the Cork library.
 // |
 // |    Cork is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 // |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // |    GNU Lesser General Public License for more details.
 // |
-// |    You should have received a copy 
+// |    You should have received a copy
 // |    of the GNU Lesser General Public License
 // |    along with Cork.  If not, see <http://www.gnu.org/licenses/>.
 // +-------------------------------------------------------------------------
@@ -30,42 +30,40 @@ using std::atexit;
 
 #include <ctime>
 #include <fstream>
-using std::ofstream;
 using std::endl;
+using std::ofstream;
+namespace corkpp {
+  namespace {
 
-namespace {
+    ofstream error_log_stream;
 
-ofstream error_log_stream;
+    void on_exit() {
+      error_log_stream << "Ending error logging at " << endl;
+      std::time_t time_var = std::time(NULL);
+      error_log_stream << std::ctime(&time_var) << endl;
+      error_log_stream.close();
+    }
 
-void on_exit()
-{
-    error_log_stream << "Ending error logging at " << endl;
-    std::time_t time_var = std::time(NULL);
-    error_log_stream << std::ctime(&time_var) << endl;
-    error_log_stream.close();
-}
+  }  // namespace
 
-}
-
-void logInit()
-{
-    error_log_stream.open("error_log.txt", std::ios_base::app | std::ios_base::out );
+  void logInit() {
+    error_log_stream.open("error_log.txt",
+                          std::ios_base::app | std::ios_base::out);
     error_log_stream << "Begining error logging at " << endl;
     std::time_t time_var = std::time(NULL);
-    error_log_stream << std::ctime(&time_var);// << endl;
-    
-    atexit(on_exit);
-}
+    error_log_stream << std::ctime(&time_var);  // << endl;
 
-// exposes the error log for writing
-std::ostream& err()
-{
+    atexit(on_exit);
+  }
+
+  // exposes the error log for writing
+  std::ostream & err() {
     static bool first = true;
-    if(first) {
-        logInit();
-        first = false;
+    if (first) {
+      logInit();
+      first = false;
     }
     return error_log_stream;
-}
+  }
 
-
+}  // namespace corkpp

@@ -29,7 +29,10 @@
 
 #include "vec.h"
 
+
 #include <vector>
+
+namespace corkpp {
 
 // vertex and triangle data must satisfy the following minimal specifications!
 // These exact field names must be used!
@@ -63,5 +66,7 @@ inline RawMesh<VertDataOut,TriDataOut> transduce(
     std::function<void(TriDataOut  &, const TriDataIn  &)> triTransduce
 );
 
-
 #include "rawMesh.tpp"
+} // namespace corkpp
+
+

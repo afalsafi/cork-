@@ -250,45 +250,48 @@
 
 #include <inttypes.h>
 #include <vector>
-typedef int64_t __int64;
-typedef  double REAL;
-struct triangulateio {
-  std::vector<REAL> pointlist;          /* In / out */
-  std::vector<REAL> pointattributelist; /* In / out */
-  std::vector<__int64> pointmarkerlist; /* In / out */
-  int numberofpoints;                   /* In / out */
-  int numberofpointattributes;          /* In / out */
 
-  std::vector<__int64> trianglelist;       /* In / out */
-  std::vector<REAL> triangleattributelist; /* In / out */
-  std::vector<REAL> trianglearealist;      /* In only */
-  std::vector<__int64> neighborlist;       /* Out only */
-  int numberoftriangles;                   /* In / out */
-  int numberofcorners;                     /* In / out */
-  int numberoftriangleattributes;          /* In / out */
+namespace corkpp {
+  typedef int64_t __int64;
+  typedef double REAL;
+  struct triangulateio {
+    std::vector<REAL> pointlist;          /* In / out */
+    std::vector<REAL> pointattributelist; /* In / out */
+    std::vector<__int64> pointmarkerlist; /* In / out */
+    int numberofpoints;                   /* In / out */
+    int numberofpointattributes;          /* In / out */
 
-  std::vector<__int64> segmentlist;       /* In / out */
-  std::vector<__int64> segmentmarkerlist; /* In / out */
-  int numberofsegments;                   /* In / out */
+    std::vector<__int64> trianglelist;       /* In / out */
+    std::vector<REAL> triangleattributelist; /* In / out */
+    std::vector<REAL> trianglearealist;      /* In only */
+    std::vector<__int64> neighborlist;       /* Out only */
+    int numberoftriangles;                   /* In / out */
+    int numberofcorners;                     /* In / out */
+    int numberoftriangleattributes;          /* In / out */
 
-  std::vector<REAL> holelist; /* In / pointer to array copied out */
-  int numberofholes;          /* In / copied out */
+    std::vector<__int64> segmentlist;       /* In / out */
+    std::vector<__int64> segmentmarkerlist; /* In / out */
+    int numberofsegments;                   /* In / out */
 
-  std::vector<REAL> regionlist; /* In / pointer to array copied out */
-  int numberofregions;          /* In / copied out */
+    std::vector<REAL> holelist; /* In / pointer to array copied out */
+    int numberofholes;          /* In / copied out */
 
-  std::vector<__int64> edgelist; /* Out only */
-  std::vector<__int64>
-      edgemarkerlist;         /* Not used with Voronoi diagram; out only */
-  std::vector<REAL> normlist; /* Used only with Voronoi diagram; out only */
-  int numberofedges;          /* Out only */
-};
+    std::vector<REAL> regionlist; /* In / pointer to array copied out */
+    int numberofregions;          /* In / copied out */
 
-/*#ifdef ANSI_DECLARATORS*/
-void triangulate(char *, struct triangulateio *, struct triangulateio *,
-                 struct triangulateio *);
-void trifree(void *memptr);
-/*#else*/ /* not ANSI_DECLARATORS */
-/*void triangulate();
-void trifree();*/
-/*#endif*/ /* not ANSI_DECLARATORS */
+    std::vector<__int64> edgelist; /* Out only */
+    std::vector<__int64>
+        edgemarkerlist;         /* Not used with Voronoi diagram; out only */
+    std::vector<REAL> normlist; /* Used only with Voronoi diagram; out only */
+    int numberofedges;          /* Out only */
+  };
+
+  /*#ifdef ANSI_DECLARATORS*/
+  void triangulate(char *, struct triangulateio *, struct triangulateio *,
+                   struct triangulateio *);
+  void trifree(void * memptr);
+  /*#else*/ /* not ANSI_DECLARATORS */
+  /*void triangulate();
+  void trifree();*/
+  /*#endif*/ /* not ANSI_DECLARATORS */
+}  // namespace corkpp

@@ -1,12 +1,12 @@
 // +-------------------------------------------------------------------------
 // | quantization.h
-// | 
+// |
 // | Author: Gilbert Bernstein
 // +-------------------------------------------------------------------------
 // | COPYRIGHT:
 // |    Copyright Gilbert Bernstein 2013
 // |    See the included COPYRIGHT file for further details.
-// |    
+// |
 // |    This file is part of the Cork library.
 // |
 // |    Cork is free software: you can redistribute it and/or modify
@@ -19,16 +19,17 @@
 // |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // |    GNU Lesser General Public License for more details.
 // |
-// |    You should have received a copy 
+// |    You should have received a copy
 // |    of the GNU Lesser General Public License
 // |    along with Cork.  If not, see <http://www.gnu.org/licenses/>.
 // +-------------------------------------------------------------------------
 #include "quantization.h"
+namespace corkpp {
+  namespace Quantization {
 
-namespace Quantization {
+    double MAGNIFY = 1.0;
+    double RESHRINK = 1.0;
 
-double MAGNIFY = 1.0;
-double RESHRINK = 1.0;
+  }  // end namespace Quantization
 
-} // end namespace Quantization
-
+}  // namespace corkpp

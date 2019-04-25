@@ -25,7 +25,7 @@
 // +-------------------------------------------------------------------------
 #pragma once
 
-
+namespace corkpp {
 template<class VertDataOut, class TriDataOut,
          class VertDataIn,  class TriDataIn>
 inline RawMesh<VertDataOut,TriDataOut> transduce(
@@ -48,3 +48,4 @@ inline RawMesh<VertDataOut,TriDataOut> transduce(
     return output;
 }
 
+} // namespace corkpp

@@ -29,6 +29,7 @@
 
 #include <stack>
 
+namespace corkpp{
 // maximum leaf size
 static const uint LEAF_SIZE = 8;
 
@@ -173,24 +174,4 @@ private:
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} // namespace corkpp
