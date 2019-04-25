@@ -1,6 +1,6 @@
 [submodule "mpir-generic"]
 	path = mpir-generic
 	url = git@github.com:MeshGeometry/mpir-generic.git
-[submodule "src/mpir-generic"]
-	path = src/mpir-generic
+[submodule "src_cork/mpir-generic"]
+	path = src_cork/mpir-generic
 	url = https://github.com/MeshGeometry/mpir-generic.git
