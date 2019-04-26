@@ -77,7 +77,9 @@ namespace corkpp {
   /**
    * this function returns the normal vetor of a triangular facet
    * it should be noted that the order of the facet nodes has influence on
-   * the sign of the normal vector
+   * the sign of the normal vector. If the triangle sets passed to this function
+   * are output of tetgen package we know that the order of the vertices
+   * indeices will make the calculated normal vector pointing outward
    */
   vector_t face_normal_calculator(const std::vector<point_t> & vertices,
                                   const face_t & face);

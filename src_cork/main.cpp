@@ -29,17 +29,19 @@
 
 // namespace corkpp {
 int main(int argc, char * argv[]) {
-  std::vector<corkpp::point_t> vertices0;
-  corkpp::point_t origin0{0.5, 0.5, 0.5};
-  corkpp::point_t size0{1.0, 1.0, 1.0};
-  vertices0 = corkpp::cube_vertice_maker(origin0, size0);
+  std::vector<corkpp::point_t> vertices_precipitate;
+  corkpp::point_t origin_precipitate{-0.5, -0.0, -0.0};
+  corkpp::point_t size_precipitate{1.0, 1.0, 1.0};
+  vertices_precipitate =
+      corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
 
-  std::vector<corkpp::point_t> vertices1;
-  corkpp::point_t origin1{0.0, 0.0, 0.0};
-  corkpp::point_t size1{1.0, 1.0, 1.0};
-  vertices1 = corkpp::cube_vertice_maker(origin1, size1);
+  std::vector<corkpp::point_t> vertices_pixel;
+  corkpp::point_t origin_pixel{0.0, 0.0, 0.0};
+  corkpp::point_t size_pixel{1.0, 1.0, 1.0};
+  vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 
-  auto && vol_norm = corkpp::calculate_normal_volume(vertices0, vertices1);
+  auto && vol_norm =
+      corkpp::calculate_normal_volume(vertices_precipitate, vertices_pixel);
 
   for (uint i = 0; i < vol_norm.size(); ++i) {
     std::cout << vol_norm[i] << std::endl;

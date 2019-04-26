@@ -23,7 +23,7 @@ namespace corkpp {
     computeDifference(in1, in0, difference);
     intersect_of_faces(intersection, difference, intersection_and_difference);
     auto && vol = volume_calculator(intersection);
-    auto && normal = average_normal_calculator(intersection_and_difference);
+    auto && normal = -average_normal_calculator(intersection_and_difference);
     ret_vol_norm [0] = vol ;
     ret_vol_norm [1] = normal(0);
     ret_vol_norm [2] = normal(1);
@@ -99,6 +99,7 @@ namespace corkpp {
       face_vertices[i] << vertices[face[i]][0], vertices[face[i]][1],
           vertices[face[i]][2];
     }
+
     return ((face_vertices[1] - face_vertices[0])
                 .cross(face_vertices[2] - face_vertices[1])
                 .norm()) /
@@ -296,14 +297,14 @@ namespace corkpp {
   /*-----------------------------------------------------------------------------*/
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size) {
     std::vector<point_t> ret_vertices(8, {0.0, 0.0, 0.0});
-    ret_vertices[6] = {origin[0], origin[1], origin[2]};
-    ret_vertices[5] = {origin[0] + size[0], origin[1], origin[2]};
-    ret_vertices[7] = {origin[0], origin[1] + size[1], origin[2]};
-    ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
-    ret_vertices[3] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
-    ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
-    ret_vertices[0] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
-    ret_vertices[2] = {origin[0] + size[0], origin[1] + size[1],
+    ret_vertices[0] = {origin[0], origin[1], origin[2]};
+    ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
+    ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
+    ret_vertices[3] = {origin[0], origin[1], origin[2] + size[2]};
+    ret_vertices[4] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
+    ret_vertices[5] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
+    ret_vertices[6] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
+    ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
     return ret_vertices;
   }
