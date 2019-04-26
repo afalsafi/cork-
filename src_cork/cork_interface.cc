@@ -4,9 +4,9 @@ namespace corkpp {
 
   /*-----------------------------------------------------------------------------*/
 
-  auto calculate_normal_volume(const std::vector<point_t> vertices_precipitate,
-                               const std::vector<point_t> vertices_pixel)
-      -> std::array<REAL, 4> {
+  auto calculate_intersection_normal_volume(
+      const std::vector<point_t> vertices_precipitate,
+      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4> {
     std::vector<face_t> faces_precipitate, faces_pixel;
     std::array <REAL, 4> ret_vol_norm;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
@@ -29,6 +29,24 @@ namespace corkpp {
     ret_vol_norm [2] = normal(1);
     ret_vol_norm [3] = normal(2);
     return ret_vol_norm;
+  }
+
+  /*-----------------------------------------------------------------------------*/
+  auto
+  calculate_intersection_volume(const std::vector<point_t> vertices_precipitate,
+                                const std::vector<point_t> vertices_pixel)
+      -> REAL {
+    std::vector<face_t> faces_precipitate, faces_pixel;
+    make_faces_from_nodes(vertices_precipitate, faces_precipitate);
+    make_faces_from_nodes(vertices_pixel, faces_pixel);
+    CorkTriMesh in0;
+    CorkTriMesh in1;
+    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate, in0);
+    corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
+    CorkTriMesh intersection;
+    computeIntersection(in0, in1, intersection);
+    auto && vol = volume_calculator(intersection);
+    return vol;
   }
 
   /*-----------------------------------------------------------------------------*/

@@ -41,11 +41,13 @@ int main(int argc, char * argv[]) {
   vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 
   auto && vol_norm =
-      corkpp::calculate_normal_volume(vertices_precipitate, vertices_pixel);
+      corkpp::calculate_intersection_normal_volume(vertices_precipitate, vertices_pixel);
 
+  auto && vol = corkpp::calculate_intersection_volume(vertices_precipitate, vertices_pixel);
   for (uint i = 0; i < vol_norm.size(); ++i) {
     std::cout << vol_norm[i] << std::endl;
   }
+  std::cout << vol << std::endl;
 
   return 0;
 }

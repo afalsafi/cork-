@@ -55,13 +55,27 @@ namespace corkpp {
    * 1. it computes its triangulized facets
    * 2. by passing triangulated facets and vertice coordinates it will
    * 2a. calculate their intersection volume
-   * 2b. cvalculate the average normal vector of the facets of
+   * 2b. calculate the average normal vector of the facets of
    * "vertices_precipitate" that lie inside "vertices_pixel"
    */
 
-  auto calculate_normal_volume(const std::vector<point_t> vertices_precipitate,
-                               const std::vector<point_t> vertices_pixel)
-      -> std::array<REAL, 4>;
+  auto calculate_intersection_normal_volume(
+      const std::vector<point_t> vertices_precipitate,
+      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4>;
+
+  /**
+   * This function recieves to set of vertices "vertices_pre" &
+   * "vertices_precipitate" and it does:
+   * 1. it computes its triangulized facets
+   * 2. by passing triangulated facets and vertice coordinates it will
+   * 2a. calculate their intersection volume
+   * "vertices_precipitate" that lie inside "vertices_pixel"
+   */
+
+  auto
+  calculate_intersection_volume(const std::vector<point_t> vertices_precipitate,
+                                const std::vector<point_t> vertices_pixel)
+      -> REAL;
 
   /**
    * This function makes a corktirmesh list of nodes of a polyhedron
