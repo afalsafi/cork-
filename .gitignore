@@ -68,7 +68,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
-CMAKecache.txt
+CMakecache.txt
 
 # Chutzpah Test files
 _Chutzpah*
