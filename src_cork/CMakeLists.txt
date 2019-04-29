@@ -71,7 +71,7 @@ COMPILE_FLAGS ""
 
 #add_definitions(-DDLLEXPORT)
 
-add_library(corkpp ${cork_SRC})
+add_library(corkpp STATIC ${cork_SRC})
 
 #link mpir
 target_link_libraries(corkpp PUBLIC mpir)
