@@ -2,7 +2,19 @@ cmake_minimum_required(VERSION 3.5)
 set (CMAKE_CXX_STANDARD 14)
 project(tetgen)
 
-add_library(tetgen tetgen.cc predicates.cxx tetgen_interface.cc)
+file(
+  GLOB tetgen_SRC
+  tetgen.cc
+  predicates.cxx
+  tetgen_interface.cc
+  )
+
+set_source_files_properties(
+${tetgen_SRC}
+PROPERTIES
+COMPILER_FLAGS ""
+)
+add_library(tetgen ${tetgen_SRC})
 # target_compile_definitions(tetgen PRIVATE -DTETLIBRARY)
 
 # Generate position independent code

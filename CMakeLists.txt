@@ -17,5 +17,5 @@ include_directories("./src_cork")
 
 add_subdirectory("./src_cork/")
 
-add_executable(cork_exe ./src_cork/main.cpp)
-target_link_libraries(cork_exe PUBLIC cork64)
+# add_executable(cork_exe ./src_cork/main.cpp)
+# target_link_libraries(cork_exe PUBLIC cork64)

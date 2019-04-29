@@ -47,6 +47,7 @@ file(
     "./tetgen/*.cc"
 )
 
+
 file(
 	GLOB public_headers
 	"./*.h"
@@ -62,15 +63,21 @@ add_definitions(
 	-DANSI_DECLARATORS
 	)
 
+set_source_files_properties(
+${cork_SRC}
+PROPERTIES
+COMPILE_FLAGS ""
+)
+
 #add_definitions(-DDLLEXPORT)
 
-add_library(cork64 ${cork_SRC})
+add_library(corkpp ${cork_SRC})
 
 #link mpir
-target_link_libraries(cork64 PUBLIC mpir)
+target_link_libraries(corkpp PUBLIC mpir)
 
 #link tetgen 
-target_link_libraries(cork64 PUBLIC tetgen)
+target_link_libraries(corkpp PUBLIC tetgen)
 
 #install public facing headers and lib
 # install (TARGETS cork64 DESTINATION ${PROJECT_SOURCE_DIR}/lib)

@@ -157,7 +157,7 @@ namespace corkpp {
   void corktrimesh_maker_from_node_faces(
       const std::vector<point_t> & precipitate_vertices,
       const std::vector<face_t> & faces, CorkTriMesh & out);
-  // } // namespace Cork
+  } // namespace Cork
 
 #endif /* CORK_INTERFACE_H */
-}  // namespace corkpp
+// }  // namespace corkpp

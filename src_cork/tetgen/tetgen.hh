@@ -19,6 +19,7 @@
 #define tetgenH
 
 #include <vector>
+#include <functional>
 // To compile TetGen as a library instead of an executable program, define
 //   the TETLIBRARY symbol.
 #ifndef TETLIBRARY
@@ -120,18 +121,18 @@ namespace corkpp {
     //   either counterclockwise or clockwise order and they form a ring, so
     //   every two consecutive points forms an edge of the polygon.
     typedef struct {
-      std::vector<int> vertexlist;
-      int numberofvertices;
+      std::vector<int> vertexlist{};
+      int numberofvertices{0};
     } polygon;
 
     // A "facet" describes a polygonal region possibly with holes, edges, and
     //   points floating in it.  Each facet consists of a list of polygons and
     //   a list of hole points (which lie strictly inside holes).
     typedef struct {
-      std::vector<polygon> polygonlist;
-      int numberofpolygons;
-      std::vector<REAL> holelist;
-      int numberofholes;
+      std::vector<polygon> polygonlist{};
+      int numberofpolygons{0};
+      std::vector<REAL> holelist{};
+      int numberofholes{0};
     } facet;
 
     // A "voroedge" is an edge of the Voronoi diagram. It corresponds to a
@@ -142,8 +143,8 @@ namespace corkpp {
     //   be -1 if it is a ray, in this case, the unit normal of this ray is
     //   given in 'vnormal'.
     typedef struct {
-      int v1, v2;
-      REAL vnormal[3];
+      int v1{0}, v2{0};
+      REAL vnormal[31];
     } voroedge;
 
     // A "vorofacet" is an facet of the Voronoi diagram. It corresponds to a
@@ -154,36 +155,37 @@ namespace corkpp {
     //   list of Voronoi edges, 'elist[0]' saves the number of Voronoi edges
     //   (including rays) of this facet.
     typedef struct {
-      int c1, c2;
-      std::vector<int> elist;
+      int c1{0}, c2{0};
+      std::vector<int> elist{};
     } vorofacet;
 
     // Additional parameters associated with an input (or mesh) vertex.
     //   These informations are provided by CAD libraries.
     typedef struct {
       REAL uv[2];
-      int tag;
-      int type;  // 0, 1, or 2.
+      int tag{0};
+      int type{0};  // 0, 1, or 2.
     } pointparam;
 
     // Callback functions for meshing PSCs.
-    typedef REAL (*GetVertexParamOnEdge)(void *, int, int);
-    typedef void (*GetSteinerOnEdge)(void *, int, REAL, REAL *);
-    typedef void (*GetVertexParamOnFace)(void *, int, int, REAL *);
-    typedef void (*GetEdgeSteinerParamOnFace)(void *, int, REAL, int, REAL *);
-    typedef void (*GetSteinerOnFace)(void *, int, REAL *, REAL *);
+    // typedef REAL (*GetVertexParamOnEdge)(void *, int, int);
+    // typedef void (*GetSteinerOnEdge)(void *, int, REAL, REAL *);
+    // typedef void (*GetVertexParamOnFace)(void *, int, int, REAL *);
+    // typedef void (*GetEdgeSteinerParamOnFace)(void *, int, REAL, int, REAL *);
+    // typedef void (*GetSteinerOnFace)(void *, int, REAL *, REAL *);
 
     // A callback function for mesh refinement.
-    typedef bool (*TetSizeFunc)(REAL *, REAL *, REAL *, REAL *, REAL *, REAL);
+    using TetSizeFunc = std::function<bool((
+                                            REAL *, REAL *, REAL *, REAL *, REAL *, REAL))>;
 
     // Items are numbered starting from 'firstnumber' (0 or 1), default is 0.
-    int firstnumber;
+    int firstnumber{1};
 
     // Dimension of the mesh (2 or 3), default is 3.
-    int mesh_dim;
+    int mesh_dim{3};
 
     // Does the lines in .node file contain index or not, default is 1.
-    int useindex;
+    int useindex{1};
 
     // 'pointlist':  An array of point coordinates.  The first point's x
     //   coordinate is at index [0] and its y coordinate at index [1], its
@@ -195,15 +197,15 @@ namespace corkpp {
     //   tensor occupies 'numberofpointmtr' REALs.
     // 'pointmarkerlist':  An array of point markers; one integer per point.
     // 'point2tetlist': An array of tetrahedra indices; one integer per point.
-    std::vector<REAL> pointlist;
-    std::vector<REAL> pointattributelist;
-    std::vector<REAL> pointmtrlist;
-    std::vector<int> pointmarkerlist;
-    std::vector<int> point2tetlist;
-    std::vector<pointparam> pointparamlist;
-    int numberofpoints;
-    int numberofpointattributes;
-    int numberofpointmtrs;
+    std::vector<REAL> pointlist{};
+    std::vector<REAL> pointattributelist{};
+    std::vector<REAL> pointmtrlist{};
+    std::vector<int> pointmarkerlist{};
+    std::vector<int> point2tetlist{};
+    std::vector<pointparam> pointparamlist{};
+    int numberofpoints{0};
+    int numberofpointattributes{0};
+    int numberofpointmtrs{0};
 
     // 'tetrahedronlist':  An array of tetrahedron corners.  The first
     //   tetrahedron's first corner is at index [0], followed by its other
@@ -218,28 +220,28 @@ namespace corkpp {
     // 'tet2facelist':  An array of tetrahedron face indices; 4 ints per
     // element. 'tet2edgelist':  An array of tetrahedron edge indices; 6 ints
     // per element.
-    std::vector<int> tetrahedronlist;
-    std::vector<REAL> tetrahedronattributelist;
-    std::vector<REAL> tetrahedronvolumelist;
-    std::vector<int> neighborlist;
-    std::vector<int> tet2facelist;
-    std::vector<int> tet2edgelist;
-    int numberoftetrahedra;
-    int numberofcorners;
-    int numberoftetrahedronattributes;
+    std::vector<int> tetrahedronlist{};
+    std::vector<REAL> tetrahedronattributelist{};
+    std::vector<REAL> tetrahedronvolumelist{};
+    std::vector<int> neighborlist{};
+    std::vector<int> tet2facelist{};
+    std::vector<int> tet2edgelist{};
+    int numberoftetrahedra{0};
+    int numberofcorners{0};
+    int numberoftetrahedronattributes{0};
 
     // 'facetlist':  An array of facets.  Each entry is a structure of facet.
     // 'facetmarkerlist':  An array of facet markers; one int per facet.
-    facet * facetlist;
-    std::vector<int> facetmarkerlist;
-    int numberoffacets;
+    std::vector<facet> facetlist{};
+    std::vector<int> facetmarkerlist{};
+    int numberoffacets{0};
 
     // 'holelist':  An array of holes (in volume).  Each hole is given by a
     //   seed (point) which lies strictly inside it. The first seed's x, y and z
     //   coordinates are at indices [0], [1] and [2], followed by the
     //   remaining seeds.  Three REALs per hole.
-    std::vector<REAL> holelist;
-    int numberofholes;
+    std::vector<REAL> holelist{};
+    int numberofholes{0};
 
     // 'regionlist': An array of regions (subdomains).  Each region is given by
     //   a seed (point) which lies strictly inside it. The first seed's x, y and
@@ -249,8 +251,8 @@ namespace corkpp {
     // Note that each regional attribute is used only if you select the 'A'
     //   switch, and each volume constraint is used only if you select the
     //   'a' switch (with no number following).
-    std::vector<REAL> regionlist;
-    int numberofregions;
+    std::vector<REAL> regionlist{};
+    int numberofregions{0};
 
     // 'facetconstraintlist':  An array of facet constraints.  Each constraint
     //   specifies a maximum area bound on the subfaces of that facet.  The
@@ -258,8 +260,8 @@ namespace corkpp {
     //   maximum area bound at index [1], followed by the remaining facet con-
     //   straints. Two REALs per facet constraint.  Note: the facet marker is
     //   actually an integer.
-    std::vector<REAL> facetconstraintlist;
-    int numberoffacetconstraints;
+    std::vector<REAL> facetconstraintlist{};
+    int numberoffacetconstraints{0};
 
     // 'segmentconstraintlist': An array of segment constraints. Each constraint
     //   specifies a maximum length bound on the subsegments of that segment.
@@ -267,8 +269,8 @@ namespace corkpp {
     //   index [0] and [1], and the maximum length bound at index [2], followed
     //   by the remaining segment constraints.  Three REALs per constraint.
     //   Note the segment endpoints are actually integers.
-    std::vector<REAL> segmentconstraintlist;
-    int numberofsegmentconstraints;
+    std::vector<REAL> segmentconstraintlist{};
+    int numberofsegmentconstraints{0};
 
     // 'trifacelist':  An array of face (triangle) corners.  The first face's
     //   three corners are at indices [0], [1] and [2], followed by the
@@ -280,12 +282,12 @@ namespace corkpp {
     //   followed by the remaining faces.  Three ints per face.
     // 'face2tetlist':  An array of tetrahedra indices; 2 ints per face.
     // 'face2edgelist':  An array of edge indices; 3 ints per face.
-    std::vector<int> trifacelist;
-    std::vector<int> trifacemarkerlist;
-    std::vector<int> o2facelist;
-    std::vector<int> face2tetlist;
-    std::vector<int> face2edgelist;
-    int numberoftrifaces;
+    std::vector<int> trifacelist{};
+    std::vector<int> trifacemarkerlist{};
+    std::vector<int> o2facelist{};
+    std::vector<int> face2tetlist{};
+    std::vector<int> face2edgelist{};
+    int numberoftrifaces{0};
 
     // 'edgelist':  An array of edge endpoints.  The first edge's endpoints
     //   are at indices [0] and [1], followed by the remaining edges.
@@ -294,11 +296,11 @@ namespace corkpp {
     // 'o2edgelist':  An array of midpoints of edges. It is output only if the
     //   second order option (-o2) is applied. One int per edge.
     // 'edge2tetlist':  An array of tetrahedra indices.  One int per edgelist;
-    std::vector<int> edgelist;
-    std::vector<int> edgemarkerlist;
-    std::vector<int> o2edgelist;
-    std::vector<int> edge2tetlist;
-    int numberofedges;
+    std::vector<int> edgelist{};
+    std::vector<int> edgemarkerlist{};
+    std::vector<int> o2edgelist{};
+    std::vector<int> edge2tetlist{};
+    int numberofedges{0};
 
     // 'vpointlist':  An array of Voronoi vertex coordinates (like pointlist).
     // 'vedgelist':  An array of Voronoi edges.  Each entry is a 'voroedge'.
@@ -306,25 +308,25 @@ namespace corkpp {
     // 'vcelllist':  An array of Voronoi cells.  Each entry is an array of
     //   indices pointing into 'vfacetlist'. The 0th entry is used to store
     //   the length of this array.
-    std::vector<REAL> vpointlist;
-    std::vector<voroedge> vedgelist;
-    std::vector<vorofacet> vfacetlist;
-    std::vector<std::vector<int>> vcelllist;
-    int numberofvpoints;
-    int numberofvedges;
-    int numberofvfacets;
-    int numberofvcells;
+    std::vector<REAL> vpointlist{};
+    std::vector<voroedge> vedgelist{};
+    std::vector<vorofacet> vfacetlist{};
+    std::vector<std::vector<int>> vcelllist{};
+    int numberofvpoints{0};
+    int numberofvedges{0};
+    int numberofvfacets{0};
+    int numberofvcells{0};
 
     // Variable (and callback functions) for meshing PSCs.
-    void * geomhandle;
-    GetVertexParamOnEdge getvertexparamonedge;
-    GetSteinerOnEdge getsteineronedge;
-    GetVertexParamOnFace getvertexparamonface;
-    GetEdgeSteinerParamOnFace getedgesteinerparamonface;
-    GetSteinerOnFace getsteineronface;
+    // void * geomhandle;
+    // GetVertexParamOnEdge getvertexparamonedge;
+    // GetSteinerOnEdge getsteineronedge;
+    // GetVertexParamOnFace getvertexparamonface;
+    // GetEdgeSteinerParamOnFace getedgesteinerparamonface;
+    // GetSteinerOnFace getsteineronface;
 
     // A callback function.
-    TetSizeFunc tetunsuitable;
+    TetSizeFunc tetunsuitable{};
 
     // Input & output routines.
     bool load_node_call(FILE * infile, int markers, int uvflag, char *);
@@ -570,6 +572,8 @@ namespace corkpp {
 
     // Constructor & destructor.
     tetgenio() { initialize(); }
+    tetgenio(const tetgenio & other) = default;
+    tetgenio(tetgenio & other) = default;
     ~tetgenio() { deinitialize(); }
 
   };  // class tetgenio
@@ -595,81 +599,81 @@ namespace corkpp {
 
    public:
     // Switches of TetGen.
-    int plc;                  // '-p', 0.
-    int psc;                  // '-s', 0.
-    int refine;               // '-r', 0.
-    int quality;              // '-q', 0.
-    int nobisect;             // '-Y', 0.
-    int coarsen;              // '-R', 0.
-    int weighted;             // '-w', 0.
-    int brio_hilbert;         // '-b', 1.
-    int incrflip;             // '-l', 0.
-    int flipinsert;           // '-L', 0.
-    int metric;               // '-m', 0.
-    int varvolume;            // '-a', 0.
-    int fixedvolume;          // '-a', 0.
-    int regionattrib;         // '-A', 0.
-    int cdtrefine;            // '-D', 0.
-    int use_equatorial_lens;  // '-Dl', 0.
-    int insertaddpoints;      // '-i', 0.
-    int diagnose;             // '-d', 0.
-    int convex;               // '-c', 0.
-    int nomergefacet;         // '-M', 0.
-    int nomergevertex;        // '-M', 0.
-    int noexact;              // '-X', 0.
-    int nostaticfilter;       // '-X', 0.
-    int zeroindex;            // '-z', 0.
-    int facesout;             // '-f', 0.
-    int edgesout;             // '-e', 0.
-    int neighout;             // '-n', 0.
-    int voroout;              // '-v', 0.
-    int meditview;            // '-g', 0.
-    int vtkview;              // '-k', 0.
-    int nobound;              // '-B', 0.
-    int nonodewritten;        // '-N', 0.
-    int noelewritten;         // '-E', 0.
-    int nofacewritten;        // '-F', 0.
-    int noiterationnum;       // '-I', 0.
-    int nojettison;           // '-J', 0.
-    int docheck;              // '-C', 0.
-    int quiet;                // '-Q', 0.
-    int verbose;              // '-V', 0.
+    int plc{0};                  // '-p', 0.
+    int psc{0};                  // '-s', 0.
+    int refine{0};               // '-r', 0.
+    int quality{0};              // '-q', 0.
+    int nobisect{0};             // '-Y', 0.
+    int coarsen{0};              // '-R', 0.
+    int weighted{0};             // '-w', 0.
+    int brio_hilbert{0};         // '-b', 1.
+    int incrflip{0};             // '-l', 0.
+    int flipinsert{0};           // '-L', 0.
+    int metric{0};               // '-m', 0.
+    int varvolume{0};            // '-a', 0.
+    int fixedvolume{0};          // '-a', 0.
+    int regionattrib{0};         // '-A', 0.
+    int cdtrefine{0};            // '-D', 0.
+    int use_equatorial_lens{0};  // '-Dl', 0.
+    int insertaddpoints{0};      // '-i', 0.
+    int diagnose{0};             // '-d', 0.
+    int convex{0};               // '-c', 0.
+    int nomergefacet{0};         // '-M', 0.
+    int nomergevertex{0};        // '-M', 0.
+    int noexact{0};              // '-X', 0.
+    int nostaticfilter{0};       // '-X', 0.
+    int zeroindex{0};            // '-z', 0.
+    int facesout{0};             // '-f', 0.
+    int edgesout{0};             // '-e', 0.
+    int neighout{0};             // '-n', 0.
+    int voroout{0};              // '-v', 0.
+    int meditview{0};            // '-g', 0.
+    int vtkview{0};              // '-k', 0.
+    int nobound{0};              // '-B', 0.
+    int nonodewritten{0};        // '-N', 0.
+    int noelewritten{0};         // '-E', 0.
+    int nofacewritten{0};        // '-F', 0.
+    int noiterationnum{0};       // '-I', 0.
+    int nojettison{0};           // '-J', 0.
+    int docheck{0};              // '-C', 0.
+    int quiet{0};                // '-Q', 0.
+    int verbose{0};              // '-V', 0.
 
     // Parameters of TetGen.
-    int vertexperblock;           // '-x', 4092.
-    int tetrahedraperblock;       // '-x', 8188.
-    int shellfaceperblock;        // '-x', 2044.
-    int nobisect_nomerge;         // '-Y', 1.
-    int supsteiner_level;         // '-Y/', 2.
-    int addsteiner_algo;          // '-Y//', 1.
-    int coarsen_param;            // '-R', 0.
-    int weighted_param;           // '-w', 0.
-    int fliplinklevel;            // -1.
-    int flipstarsize;             // -1.
-    int fliplinklevelinc;         //  1.
-    int reflevel;                 // '-D', 3.
-    int optlevel;                 // '-O', 2.
-    int optscheme;                // '-O', 7.
-    int delmaxfliplevel;          // 1.
-    int order;                    // '-o', 1.
-    int reversetetori;            // '-o/', 0.
-    int steinerleft;              // '-S', 0.
-    int no_sort;                  // 0.
-    int hilbert_order;            // '-b///', 52.
-    int hilbert_limit;            // '-b//'  8.
-    int brio_threshold;           // '-b' 64.
-    REAL brio_ratio;              // '-b/' 0.125.
-    REAL facet_separate_ang_tol;  // '-p', 179.9.
-    REAL facet_overlap_ang_tol;   // '-p/',  0.1.
-    REAL facet_small_ang_tol;     // '-p//', 15.0.
-    REAL maxvolume;               // '-a', -1.0.
-    REAL minratio;                // '-q', 0.0.
-    REAL mindihedral;             // '-q', 5.0.
-    REAL optmaxdihedral;          // 165.0.
-    REAL optminsmtdihed;          // 179.0.
-    REAL optminslidihed;          // 179.0.
-    REAL epsilon;                 // '-T', 1.0e-8.
-    REAL coarsen_percent;         // -R1/#, 1.0.
+    int vertexperblock{0};           // '-x', 4092.
+    int tetrahedraperblock{0};       // '-x', 8188.
+    int shellfaceperblock{0};        // '-x', 2044.
+    int nobisect_nomerge{0};         // '-Y', 1.
+    int supsteiner_level{0};         // '-Y/', 2.
+    int addsteiner_algo{0};          // '-Y//', 1.
+    int coarsen_param{0};            // '-R', 0.
+    int weighted_param{0};           // '-w', 0.
+    int fliplinklevel{0};            // -1.
+    int flipstarsize{0};             // -1.
+    int fliplinklevelinc{0};         //  1.
+    int reflevel{0};                 // '-D', 3.
+    int optlevel{0};                 // '-O', 2.
+    int optscheme{0};                // '-O', 7.
+    int delmaxfliplevel{0};          // 1.
+    int order{0};                    // '-o', 1.
+    int reversetetori{0};            // '-o/', 0.
+    int steinerleft{0};              // '-S', 0.
+    int no_sort{0};                  // 0.
+    int hilbert_order{0};            // '-b///', 52.
+    int hilbert_limit{0};            // '-b//'  8.
+    int brio_threshold{0};           // '-b' 64.
+    REAL brio_ratio{0};              // '-b/' 0.125.
+    REAL facet_separate_ang_tol{0};  // '-p', 179.9.
+    REAL facet_overlap_ang_tol{0};   // '-p/',  0.1.
+    REAL facet_small_ang_tol{0};     // '-p//', 15.0.
+    REAL maxvolume{0};               // '-a', -1.0.
+    REAL minratio{0};                // '-q', 0.0.
+    REAL mindihedral{0};             // '-q', 5.0.
+    REAL optmaxdihedral{0};          // 165.0.
+    REAL optminsmtdihed{0};          // 179.0.
+    REAL optminslidihed{0};          // 179.0.
+    REAL epsilon{0};                 // '-T', 1.0e-8.
+    REAL coarsen_percent{0};         // -R1/#, 1.0.
 
     // Strings of command line arguments and input/output file names.
     char commandline[1024];
@@ -679,9 +683,9 @@ namespace corkpp {
     char bgmeshfilename[1024];
 
     // Read an additional tetrahedral mesh and treat it as holes [2018-07-30].
-    int hole_mesh;  // '-H', 0.
+    int hole_mesh{0};  // '-H', 0.
     char hole_mesh_filename[1024];
-    int apply_flow_bc;  // '-K', 0.
+    int apply_flow_bc{0};  // '-K', 0.
 
     // The input object of TetGen. They are recognized by either the input
     //   file extensions or by the specified options.
@@ -705,7 +709,7 @@ namespace corkpp {
       VTK,
       MESH,
       NEU_MESH
-    } object;
+    } object{objecttype::NODES};
 
     void syntax();
     void usage();
@@ -1043,6 +1047,9 @@ namespace corkpp {
       int newindex(void ** newptr);
 
       arraypool(int sizeofobject, int log2objperblk);
+      arraypool(const arraypool & ohter) = delete;
+      arraypool& operator = (const arraypool&) = delete;
+      arraypool(arraypool & other) = delete;
       ~arraypool();
     };
 
@@ -1096,6 +1103,9 @@ namespace corkpp {
 
       memorypool();
       memorypool(int, int, int, int);
+      memorypool(const memorypool & other) = delete;
+      memorypool& operator = (const memorypool&) = delete;
+      memorypool(memorypool & other) = default;
       ~memorypool();
 
       void poolinit(int, int, int, int);
@@ -1122,8 +1132,8 @@ namespace corkpp {
 
     class badface {
      public:
-      triface tt;
-      face ss;
+      triface tt{};
+      face ss{};
       REAL key, cent[6];  // circumcenter or cos(dihedral angles) at 6 edges.
       point forg, fdest, fapex, foppo, noppo;
       badface * nextitem;
@@ -1143,20 +1153,20 @@ namespace corkpp {
     class insertvertexflags {
 
      public:
-      int iloc;  // input/output.
-      int bowywat, lawson;
-      int splitbdflag, validflag, respectbdflag;
-      int rejflag, chkencflag, cdtflag;
-      int assignmeshsize;
-      int sloc, sbowywat;
+      int iloc{0};  // input/output.
+      int bowywat{0}, lawson{0};
+      int splitbdflag{0}, validflag{0}, respectbdflag{0};
+      int rejflag{0}, chkencflag{0}, cdtflag{0};
+      int assignmeshsize{0};
+      int sloc{0}, sbowywat{0};
 
       // Used by Delaunay refinement.
-      int refineflag;  // 0, 1, 2, 3
-      triface refinetet;
-      face refinesh;
-      int smlenflag;  // for useinsertradius.
-      REAL smlen;     // for useinsertradius.
-      point parentpt;
+      int refineflag{0};  // 0, 1, 2, 3
+      triface refinetet{};
+      face refinesh{};
+      int smlenflag{0};  // for useinsertradius.
+      REAL smlen{0};     // for useinsertradius.
+      point parentpt{};
 
       insertvertexflags() {
         iloc = bowywat = lawson = 0;
@@ -1186,27 +1196,27 @@ namespace corkpp {
 
      public:
       // Elementary flip flags.
-      int enqflag;  // (= flipflag)
-      int chkencflag;
+      int enqflag{0};  // (= flipflag)
+      int chkencflag{0};
 
       // Control flags
-      int unflip;          // Undo the performed flips.
-      int collectnewtets;  // Collect the new tets created by flips.
-      int collectencsegflag;
+      int unflip{0};          // Undo the performed flips.
+      int collectnewtets{0};  // Collect the new tets created by flips.
+      int collectencsegflag{0};
 
       // Optimization flags.
-      int remove_ndelaunay_edge;  // Remove a non-Delaunay edge.
-      REAL bak_tetprism_vol;      // The value to be minimized.
-      REAL tetprism_vol_sum;
-      int remove_large_angle;  // Remove a large dihedral angle at edge.
-      REAL cosdihed_in;        // The input cosine of the dihedral angle (> 0).
-      REAL cosdihed_out;       // The improved cosine of the dihedral angle.
+      int remove_ndelaunay_edge{0};  // Remove a non-Delaunay edge.
+      REAL bak_tetprism_vol{0};      // The value to be minimized.
+      REAL tetprism_vol_sum{0};
+      int remove_large_angle{0};  // Remove a large dihedral angle at edge.
+      REAL cosdihed_in{0};        // The input cosine of the dihedral angle (> 0).
+      REAL cosdihed_out{0};       // The improved cosine of the dihedral angle.
 
       // Boundary recovery flags.
-      int checkflipeligibility;
+      int checkflipeligibility{0};
       point seg[2];   // A constraining edge to be recovered.
       point fac[3];   // A constraining face to be recovered.
-      point remvert;  // A vertex to be removed.
+      point remvert{};  // A vertex to be removed.
 
       flipconstraints() {
         enqflag = 0;
@@ -1242,17 +1252,17 @@ namespace corkpp {
 
      public:
       // The one of goals of optimization.
-      int max_min_volume;       // Maximize the minimum volume.
-      int min_max_aspectratio;  // Minimize the maximum aspect ratio.
-      int min_max_dihedangle;   // Minimize the maximum dihedral angle.
+      int max_min_volume{0};       // Maximize the minimum volume.
+      int min_max_aspectratio{0};  // Minimize the maximum aspect ratio.
+      int min_max_dihedangle{0};   // Minimize the maximum dihedral angle.
 
       // The initial and improved value.
-      REAL initval, imprval;
+      REAL initval{0}, imprval{0};
 
-      int numofsearchdirs;
-      REAL searchstep;
-      int maxiter;   // Maximum smoothing iterations (disabled by -1).
-      int smthiter;  // Performed iterations.
+      int numofsearchdirs{0};
+      REAL searchstep{0};
+      int maxiter{0};   // Maximum smoothing iterations (disabled by -1).
+      int smthiter{0};  // Performed iterations.
 
       optparameters() {
         max_min_volume = 0;
@@ -1327,106 +1337,106 @@ namespace corkpp {
     ///////////////////////////////////////////////////////////////////////////////
 
     // Pointer to the input data (a set of nodes, a PLC, or a mesh).
-    tetgenio *in, *addin;
+    tetgenio *in{NULL}, *addin{NULL};
 
     // Pointer to the switches and parameters.
-    tetgenbehavior * b;
+    tetgenbehavior * b{NULL};
 
     // Pointer to a background mesh (contains size specification map).
-    tetgenmesh * bgm;
+    tetgenmesh * bgm{NULL};
 
     // Memorypools to store mesh elements (points, tetrahedra, subfaces, and
     //   segments) and extra pointers between tetrahedra, subfaces, and
     //   segments.
-    memorypool *tetrahedrons, *subfaces, *subsegs, *points;
-    memorypool *tet2subpool, *tet2segpool;
+    memorypool *tetrahedrons{NULL}, *subfaces{NULL}, *subsegs{NULL}, *points{NULL};
+    memorypool *tet2subpool{NULL}, *tet2segpool{NULL};
 
     // Memorypools to store bad-quality (or encroached) elements.
-    memorypool *badtetrahedrons, *badsubfacs, *badsubsegs;
+    memorypool *badtetrahedrons{NULL}, *badsubfacs{NULL}, *badsubsegs{NULL};
 
     // A memorypool to store faces to be flipped.
-    memorypool * flippool;
-    arraypool * unflipqueue;
-    badface * flipstack;
+    memorypool * flippool{NULL};
+    arraypool * unflipqueue{NULL};
+    badface * flipstack{NULL};
 
     // Arrays used for point insertion (the Bowyer-Watson algorithm).
-    arraypool *cavetetlist, *cavebdrylist, *caveoldtetlist;
-    arraypool *cavetetshlist, *cavetetseglist, *cavetetvertlist;
-    arraypool *caveencshlist, *caveencseglist;
-    arraypool *caveshlist, *caveshbdlist, *cavesegshlist;
+    arraypool *cavetetlist{NULL}, *cavebdrylist{NULL}, *caveoldtetlist{NULL};
+    arraypool *cavetetshlist{NULL}, *cavetetseglist{NULL}, *cavetetvertlist{NULL};
+    arraypool *caveencshlist{NULL}, *caveencseglist{NULL};
+    arraypool *caveshlist{NULL}, *caveshbdlist{NULL}, *cavesegshlist{NULL};
 
     // Stacks used for CDT construction and boundary recovery.
-    arraypool *subsegstack, *subfacstack, *subvertstack;
+    arraypool *subsegstack{NULL}, *subfacstack{NULL}, *subvertstack{NULL};
 
     // Arrays of encroached segments and subfaces (for mesh refinement).
-    arraypool *encseglist, *encshlist;
+    arraypool *encseglist{NULL}, *encshlist{NULL};
 
     // The map between facets to their vertices (for mesh refinement).
-    int * idx2facetlist;
-    point * facetverticeslist;
+    int * idx2facetlist{NULL};
+    point * facetverticeslist{NULL};
 
     // The map between segments to their endpoints (for mesh refinement).
-    point * segmentendpointslist;
+    point * segmentendpointslist{NULL};
 
     // The infinite vertex.
-    point dummypoint;
+    point dummypoint{NULL};
     // The recently visited tetrahedron, subface.
-    triface recenttet;
-    face recentsh;
+    triface recenttet{};
+    face recentsh{};
 
     // PI is the ratio of a circle's circumference to its diameter.
     static REAL PI;
 
     // Array (size = numberoftetrahedra * 6) for storing high-order nodes of
     //   tetrahedra (only used when -o2 switch is selected).
-    point * highordertable;
+    point * highordertable{NULL};
 
     // Various variables.
-    int numpointattrib;       // Number of point attributes.
-    int numelemattrib;        // Number of tetrahedron attributes.
-    int sizeoftensor;         // Number of REALs per metric tensor.
-    int pointmtrindex;        // Index to find the metric tensor of a point.
-    int pointparamindex;      // Index to find the u,v coordinates of a point.
-    int point2simindex;       // Index to find a simplex adjacent to a point.
-    int pointmarkindex;       // Index to find boundary marker of a point.
-    int pointinsradiusindex;  // Index to find the insertion radius of a point.
-    int elemattribindex;      // Index to find attributes of a tetrahedron.
-    int volumeboundindex;     // Index to find volume bound of a tetrahedron.
-    int elemmarkerindex;      // Index to find marker of a tetrahedron.
-    int shmarkindex;          // Index to find boundary marker of a subface.
-    int areaboundindex;       // Index to find area bound of a subface.
-    int checksubsegflag;    // Are there segments in the tetrahedralization yet?
-    int checksubfaceflag;   // Are there subfaces in the tetrahedralization yet?
-    int checkconstraints;   // Are there variant (node, seg, facet) constraints?
-    int nonconvex;          // Is current mesh non-convex?
-    int autofliplinklevel;  // The increase of link levels, default is 1.
-    int useinsertradius;    // Save the insertion radius for Steiner points.
-    long samples;           // Number of random samples for point location.
-    unsigned long randomseed;       // Current random number seed.
-    REAL cosmaxdihed, cosmindihed;  // The cosine values of max/min dihedral.
-    REAL cossmtdihed;  // The cosine value of a bad dihedral to be smoothed.
-    REAL cosslidihed;  // The cosine value of the max dihedral of a sliver.
-    REAL minfaceang, minfacetdihed;  // The minimum input (dihedral) angles.
-    REAL tetprism_vol_sum;  // The total volume of tetrahedral-prisms (in 4D).
-    REAL longest;           // The longest possible edge length.
-    REAL minedgelength;     // = longest * b->epsion.
-    REAL xmax, xmin, ymax, ymin, zmax, zmin;  // Bounding box of points.
+    int numpointattrib{0};       // Number of point attributes.
+    int numelemattrib{0};        // Number of tetrahedron attributes.
+    int sizeoftensor{0};         // Number of REALs per metric tensor.
+    int pointmtrindex{0};        // Index to find the metric tensor of a point.
+    int pointparamindex{0};      // Index to find the u,v coordinates of a point.
+    int point2simindex{0};       // Index to find a simplex adjacent to a point.
+    int pointmarkindex{0};       // Index to find boundary marker of a point.
+    int pointinsradiusindex{0};  // Index to find the insertion radius of a point.
+    int elemattribindex{0};      // Index to find attributes of a tetrahedron.
+    int volumeboundindex{0};     // Index to find volume bound of a tetrahedron.
+    int elemmarkerindex{0};      // Index to find marker of a tetrahedron.
+    int shmarkindex{0};          // Index to find boundary marker of a subface.
+    int areaboundindex{0};       // Index to find area bound of a subface.
+    int checksubsegflag{0};    // Are there segments in the tetrahedralization yet?
+    int checksubfaceflag{0};   // Are there subfaces in the tetrahedralization yet?
+    int checkconstraints{0};   // Are there variant (node, seg, facet) constraints?
+    int nonconvex{0};          // Is current mesh non-convex?
+    int autofliplinklevel{0};  // The increase of link levels, default is 1.
+    int useinsertradius{0};    // Save the insertion radius for Steiner points.
+    long samples{0};           // Number of random samples for point location.
+    unsigned long randomseed{0};       // Current random number seed.
+    REAL cosmaxdihed{0}, cosmindihed{0};  // The cosine values of max/min dihedral.
+    REAL cossmtdihed{0};  // The cosine value of a bad dihedral to be smoothed.
+    REAL cosslidihed{0};  // The cosine value of the max dihedral of a sliver.
+    REAL minfaceang{0}, minfacetdihed{0};  // The minimum input (dihedral) angles.
+    REAL tetprism_vol_sum{0};  // The total volume of tetrahedral-prisms (in 4D).
+    REAL longest{0};           // The longest possible edge length.
+    REAL minedgelength{0};     // = longest * b->epsion.
+    REAL xmax{0}, xmin{0}, ymax{0}, ymin{0}, zmax{0}, zmin{0};  // Bounding box of points.
 
     // Counters.
-    long insegments;       // Number of input segments.
-    long hullsize;         // Number of exterior boundary faces.
-    long meshedges;        // Number of mesh edges.
-    long meshhulledges;    // Number of boundary mesh edges.
-    long steinerleft;      // Number of Steiner points not yet used.
-    long dupverts;         // Are there duplicated vertices?
-    long unuverts;         // Are there unused vertices?
-    long nonregularcount;  // Are there non-regular vertices?
-    long st_segref_count, st_facref_count, st_volref_count;  // Steiner points.
-    long fillregioncount, cavitycount, cavityexpcount;
-    long flip14count, flip26count, flipn2ncount;
-    long flip23count, flip32count, flip44count, flip41count;
-    long flip31count, flip22count;
-    unsigned long totalworkmemory;  // Total memory used by working arrays.
+    long insegments{0};       // Number of input segments.
+    long hullsize{0};         // Number of exterior boundary faces.
+    long meshedges{0};        // Number of mesh edges.
+    long meshhulledges{0};    // Number of boundary mesh edges.
+    long steinerleft{0};      // Number of Steiner points not yet used.
+    long dupverts{0};         // Are there duplicated vertices?
+    long unuverts{0};         // Are there unused vertices?
+    long nonregularcount{0};  // Are there non-regular vertices?
+    long st_segref_count{0}, st_facref_count{0}, st_volref_count{0};  // Steiner points.
+    long fillregioncount{0}, cavitycount{0}, cavityexpcount{0};
+    long flip14count{0}, flip26count{0}, flipn2ncount{0};
+    long flip23count{0}, flip32count{0}, flip44count{0}, flip41count{0};
+    long flip31count{0}, flip22count{0};
+    unsigned long totalworkmemory{0};  // Total memory used by working arrays.
 
     ///////////////////////////////////////////////////////////////////////////////
     //                                                                           //
@@ -2190,31 +2200,31 @@ namespace corkpp {
     ///////////////////////////////////////////////////////////////////////////////
 
     void initializetetgenmesh() {
-      in = addin = NULL;
-      b = NULL;
-      bgm = NULL;
+      // in = addin = NULL;
+      // b = NULL;
+      // bgm = NULL;
 
-      tetrahedrons = subfaces = subsegs = points = NULL;
-      badtetrahedrons = badsubfacs = badsubsegs = NULL;
-      tet2segpool = tet2subpool = NULL;
-      flippool = NULL;
+      // tetrahedrons = subfaces = subsegs = points = NULL;
+      // badtetrahedrons = badsubfacs = badsubsegs = NULL;
+      // tet2segpool = tet2subpool = NULL;
+      // flippool = NULL;
 
-      dummypoint = NULL;
-      flipstack = NULL;
-      unflipqueue = NULL;
+      // dummypoint = NULL;
+      // flipstack = NULL;
+      // unflipqueue = NULL;
 
-      cavetetlist = cavebdrylist = caveoldtetlist = NULL;
-      cavetetshlist = cavetetseglist = cavetetvertlist = NULL;
-      caveencshlist = caveencseglist = NULL;
-      caveshlist = caveshbdlist = cavesegshlist = NULL;
+      // cavetetlist = cavebdrylist = caveoldtetlist = NULL;
+      // cavetetshlist = cavetetseglist = cavetetvertlist = NULL;
+      // caveencshlist = caveencseglist = NULL;
+      // caveshlist = caveshbdlist = cavesegshlist = NULL;
 
-      subsegstack = subfacstack = subvertstack = NULL;
-      encseglist = encshlist = NULL;
-      idx2facetlist = NULL;
-      facetverticeslist = NULL;
-      segmentendpointslist = NULL;
+      // subsegstack = subfacstack = subvertstack = NULL;
+      // encseglist = encshlist = NULL;
+      // idx2facetlist = NULL;
+      // facetverticeslist = NULL;
+      // segmentendpointslist = NULL;
 
-      highordertable = NULL;
+      // highordertable = NULL;
 
       numpointattrib = numelemattrib = 0;
       sizeoftensor = 0;
@@ -2338,6 +2348,8 @@ namespace corkpp {
     }
 
     tetgenmesh() { initializetetgenmesh(); }
+    tetgenmesh(const tetgenmesh & other) = delete ;
+    tetgenmesh& operator = (const tetgenmesh&) = delete;
 
     ~tetgenmesh() { freememory(); }  // ~tetgenmesh()
 
@@ -2388,12 +2400,12 @@ namespace corkpp {
 
   class selfint_event {
    public:
-    int e_type;
-    int f_marker1;  // Tag of the 1st facet.
-    int s_marker1;  // Tag of the 1st segment.
+    int e_type{0};
+    int f_marker1{0};  // Tag of the 1st facet.
+    int s_marker1{0};  // Tag of the 1st segment.
     int f_vertices1[3];
-    int f_marker2;  // Tag of the 2nd facet.
-    int s_marker2;  // Tag of the 2nd segment.
+    int f_marker2{0};  // Tag of the 2nd facet.
+    int s_marker2{0};  // Tag of the 2nd segment.
     int f_vertices2[3];
     REAL int_point[3];
     selfint_event() {
@@ -2405,7 +2417,7 @@ namespace corkpp {
 
   static selfint_event sevent;
 
-  inline void terminatetetgen(tetgenmesh * m, int x) {
+  inline void terminatetetgen( int x) {
 #ifdef TETLIBRARY
     throw x;
 #else
