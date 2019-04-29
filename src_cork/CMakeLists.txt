@@ -66,7 +66,7 @@ add_definitions(
 set_source_files_properties(
 ${cork_SRC}
 PROPERTIES
-COMPILE_FLAGS ""
+COMPILE_FLAGS "-Wno-dev"
 )
 
 #add_definitions(-DDLLEXPORT)

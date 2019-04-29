@@ -31,7 +31,7 @@ file(
 set_source_files_properties(
 ${mpir_SRC}
 PROPERTIES
-COMPILER_FLAGS ""
+COMPILER_FLAGS "Wno-dev"
 )
 
 add_definitions(-DHAVE_CONFIG_H)

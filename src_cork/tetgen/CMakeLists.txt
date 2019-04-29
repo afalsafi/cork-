@@ -12,7 +12,7 @@ file(
 set_source_files_properties(
 ${tetgen_SRC}
 PROPERTIES
-COMPILER_FLAGS ""
+COMPILER_FLAGS "-Wno-dev"
 )
 add_library(tetgen STATIC ${tetgen_SRC})
 # target_compile_definitions(tetgen PRIVATE -DTETLIBRARY)
