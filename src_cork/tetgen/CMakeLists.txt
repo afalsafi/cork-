@@ -14,7 +14,7 @@ ${tetgen_SRC}
 PROPERTIES
 COMPILER_FLAGS ""
 )
-add_library(tetgen ${tetgen_SRC})
+add_library(tetgen STATIC ${tetgen_SRC})
 # target_compile_definitions(tetgen PRIVATE -DTETLIBRARY)
 
 # Generate position independent code
