@@ -27,11 +27,6 @@ file(
 file(
 	GLOB public_headers
 	"./*.h"
-    )
-set_source_files_properties(
-${mpir_SRC}
-PROPERTIES
-COMPILER_FLAGS "Wno-dev -fPIC"
 )
 
 add_definitions(-DHAVE_CONFIG_H)
@@ -40,7 +35,7 @@ if(WIN32)
 	add_definitions(-D_WIN64) #usually building for x64
 endif()
 
-add_library(mpir  ${mpir_SRC})
+add_library(mpir ${mpir_SRC})
 
 #install public facing headers and lib
 install (TARGETS mpir DESTINATION ${PROJECT_SOURCE_DIR}/lib)
