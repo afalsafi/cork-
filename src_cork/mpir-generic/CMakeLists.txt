@@ -31,13 +31,13 @@ file(
 
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_LIB)
-if(WIN32)
-	add_definitions(-D_WIN64) #usually building for x64
-endif()
+# if(WIN32)
+# 	add_definitions(-D_WIN64) #usually building for x64
+# endif()
 
 add_library(mpir ${mpir_SRC})
 
 #install public facing headers and lib
-install (TARGETS mpir DESTINATION ${PROJECT_SOURCE_DIR}/lib)
-install (FILES ${public_headers} DESTINATION ${PROJECT_SOURCE_DIR}/include)
+# install (TARGETS mpir DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+# install (FILES ${public_headers} DESTINATION ${PROJECT_SOURCE_DIR}/include)
 
