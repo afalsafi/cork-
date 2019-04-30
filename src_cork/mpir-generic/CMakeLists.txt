@@ -29,6 +29,13 @@ file(
 	"./*.h"
 )
 
+
+set_source_files_properties(
+${mpir_SRC}
+PROPERTIES
+COMPILER_FLAGS "-Wno-deprecated"
+)
+
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_LIB)
 # if(WIN32)

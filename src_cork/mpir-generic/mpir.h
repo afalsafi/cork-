@@ -1929,7 +1929,7 @@ enum
 #if defined( _MSC_VER )
 #define _MSC_MPIR_VERSION "2.7.2"
 #endif
-#define __MPIR_RELEASE (int)(__MPIR_VERSION * 10000 + __MPIR_VERSION_MINOR * 100 + __MPIR_VERSION_PATCHLEVEL)
+#define __MPIR_RELEASE (char *)(__MPIR_VERSION * 10000 + __MPIR_VERSION_MINOR * 100 + __MPIR_VERSION_PATCHLEVEL)
 /* These are for programs like MPFR to use the same CC and CFLAGS as MPIR */
 #if ! defined (__GMP_WITHIN_CONFIGURE)
 #endif
