@@ -9,11 +9,11 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 # set (CMAKE_STATIC_COMPILER "g++-7)
 # set (CMAKE_CC_COMPILER "clang")
-set (CMAKE_CC_FLAGS  "-Wno-dev -Wno-conversion ${INC} -g -fPIC")
+set (CMAKE_CC_FLAGS  "-w -Wno-conversion ${INC} -g -fPIC")
 
 
 # set (CMAKE_CXX_COMPILER "clang++")
-set (CMAKE_CXX_FLAGS  "-Wno-dev -Wno-conversion ${INC} -g -DTETLIBRARY -fPIC")
+set (CMAKE_CXX_FLAGS  "-w -Wno-conversion ${INC} -g -DTETLIBRARY -fPIC")
 
 include_directories("./")
 include_directories("./src_cork")
