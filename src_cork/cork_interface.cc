@@ -55,10 +55,10 @@ namespace corkpp {
       face_vertices[i] << vertices[face[i]][0], vertices[face[i]][1],
           vertices[face[i]][2];
     }
-    return (face_vertices[1] - face_vertices[0])
-        .cross(face_vertices[2] - face_vertices[1])
-        .normalized()
-        .derived();
+    return -(face_vertices[1] - face_vertices[0])
+                .cross(face_vertices[2] - face_vertices[1])
+                .normalized()
+                .derived();
   }
   /*-----------------------------------------------------------------------------*/
   double face_area_calculator(const std::vector<point_t> & vertices,
