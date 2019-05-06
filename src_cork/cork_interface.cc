@@ -50,11 +50,11 @@ namespace corkpp {
     corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
     CorkTriMesh intersection;
     computeIntersection(in0, in1, intersection);
-    for (int i = 0; i < vertices_precipitate.size(); ++i) {
-      std::cout << intersection.vertices[3 * i + 0] << ","
-                << intersection.vertices[3 * i + 1] << ","
-                << intersection.vertices[3 * i + 2] << std::endl;
-    }
+    // for (int i = 0; i < vertices_precipitate.size(); ++i) {
+    //   std::cout << intersection.vertices[3 * i + 0] << ","
+    //             << intersection.vertices[3 * i + 1] << ","
+    //             << intersection.vertices[3 * i + 2] << std::endl;
+    // }
     auto && vol = volume_calculator(intersection);
     return vol;
   }
