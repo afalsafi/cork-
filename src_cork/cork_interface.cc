@@ -6,9 +6,10 @@ namespace corkpp {
 
   auto calculate_intersection_normal_volume(
       const std::vector<point_t> vertices_precipitate,
-      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4> {
+      const std::vector<point_t> vertices_pixel)
+      -> std::tuple<REAL, std::array<REAL, 3>> {
     std::vector<face_t> faces_precipitate, faces_pixel;
-    std::array <REAL, 4> ret_vol_norm;
+    std::array <REAL, 3> ret_norm;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
     CorkTriMesh in0;
@@ -24,11 +25,10 @@ namespace corkpp {
     intersect_of_faces(intersection, difference, intersection_and_difference);
     auto && vol = volume_calculator(intersection);
     auto && normal = -average_normal_calculator(intersection_and_difference);
-    ret_vol_norm [0] = vol ;
-    ret_vol_norm [1] = normal(0);
-    ret_vol_norm [2] = normal(1);
-    ret_vol_norm [3] = normal(2);
-    return ret_vol_norm;
+    ret_norm [1] = normal(0);
+    ret_norm [2] = normal(1);
+    ret_norm [3] = normal(2);
+    return std::make_tuple(vol, ret_norm);
   }
 
   /*-----------------------------------------------------------------------------*/
@@ -39,12 +39,22 @@ namespace corkpp {
     std::vector<face_t> faces_precipitate, faces_pixel;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
+    // std::cout << vertices_precipitate.size() << std::endl;
+    // for (int i = 0; i < vertices_precipitate.size(); ++i) {
+    //   std::cout << vertices_pixel.at(i)[2]<< std::endl;
+    // }
+
     CorkTriMesh in0;
     CorkTriMesh in1;
     corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate, in0);
     corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
     CorkTriMesh intersection;
     computeIntersection(in0, in1, intersection);
+    for (int i = 0; i < vertices_precipitate.size(); ++i) {
+      std::cout << intersection.vertices[3 * i + 0] << ","
+                << intersection.vertices[3 * i + 1] << ","
+                << intersection.vertices[3 * i + 2] << std::endl;
+    }
     auto && vol = volume_calculator(intersection);
     return vol;
   }
@@ -318,10 +328,12 @@ namespace corkpp {
     ret_vertices[0] = {origin[0], origin[1], origin[2]};
     ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
     ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
-    ret_vertices[3] = {origin[0], origin[1], origin[2] + size[2]};
-    ret_vertices[4] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
-    ret_vertices[5] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
-    ret_vertices[6] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
+
+    ret_vertices[3] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
+    ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
+    ret_vertices[5] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
+    ret_vertices[6] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
+    
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
     return ret_vertices;

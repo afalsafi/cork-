@@ -61,7 +61,8 @@ namespace corkpp {
 
   auto calculate_intersection_normal_volume(
       const std::vector<point_t> vertices_precipitate,
-      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4>;
+      const std::vector<point_t> vertices_pixel, REAL pixel_size = 1.0)
+      -> std::array<REAL, 4>;
 
   /**
    * This function recieves to set of vertices "vertices_pre" &
