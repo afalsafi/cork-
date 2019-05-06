@@ -61,8 +61,8 @@ namespace corkpp {
 
   auto calculate_intersection_normal_volume(
       const std::vector<point_t> vertices_precipitate,
-      const std::vector<point_t> vertices_pixel, REAL pixel_size = 1.0)
-      -> std::array<REAL, 4>;
+      const std::vector<point_t> vertices_pixel)
+    -> std::tuple<REAL, std::array<REAL, 3>> ;
 
   /**
    * This function recieves to set of vertices "vertices_pre" &
@@ -149,6 +149,7 @@ namespace corkpp {
    * This function retruns a list of cube vertices given one of its corner's
    * coordinates and the vector connecting that to its farthest corner
    */
+  std::vector<point_t> cube_vertice_maker_pixel(point_t origin, point_t size);
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size);
 
   /**

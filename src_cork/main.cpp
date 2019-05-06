@@ -32,20 +32,20 @@ int main(int argc, char * argv[]) {
   std::vector<corkpp::point_t> vertices_precipitate;
 
 
-  REAL side {2.8};
+  REAL side {1.4};
   REAL side2 {1.0};
 
-  REAL side_p {2.9};
-  REAL side2_p {1.1};
-  corkpp::point_t origin_precipitate{0.0, 0.0, 0.0};
+  REAL side_p {1.4};
+  REAL side2_p {1.0};
+  corkpp::point_t origin_precipitate{1.4, 1.4, 0.0};
   corkpp::point_t size_precipitate{side_p, side_p, side2_p};
   vertices_precipitate =
     corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
-
+  vertices_precipitate.pop_back();
 
   std::vector<corkpp::point_t> vertices_pixel;
 
-  corkpp::point_t origin_pixel{0.0, 0.0, 0.0};
+  corkpp::point_t origin_pixel{1.4, 1.4, 0.0};
   corkpp::point_t size_pixel{side, side, side2};
   vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 

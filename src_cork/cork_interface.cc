@@ -319,6 +319,25 @@ namespace corkpp {
     // std::cout << counter << std::endl;
   }
   /*-----------------------------------------------------------------------------*/
+  std::vector<point_t> cube_vertice_maker_pixel(point_t origin, point_t size) {
+    std::vector<point_t> ret_vertices(9, {0.0, 0.0, 0.0});
+    ret_vertices[0] = {origin[0], origin[1], origin[2]};
+    ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
+    ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
+
+    ret_vertices[3] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
+    ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
+    ret_vertices[5] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
+    ret_vertices[6] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
+
+    ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
+                       origin[2] + size[2]};
+
+    ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
+                       (origin[2] + size[2])};
+    return ret_vertices;
+  }
+
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size) {
     std::vector<point_t> ret_vertices(9, {0.0, 0.0, 0.0});
     ret_vertices[0] = {origin[0], origin[1], origin[2]};
@@ -329,12 +348,10 @@ namespace corkpp {
     ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
     ret_vertices[5] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
     ret_vertices[6] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
-    
+
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
 
-    ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
-                       (origin[2] + size[2])};
     return ret_vertices;
   }
   /*-----------------------------------------------------------------------------*/
