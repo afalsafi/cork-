@@ -50,11 +50,7 @@ namespace corkpp {
     corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
     CorkTriMesh intersection;
     computeIntersection(in0, in1, intersection);
-    // for (int i = 0; i < vertices_precipitate.size(); ++i) {
-    //   std::cout << intersection.vertices[3 * i + 0] << ","
-    //             << intersection.vertices[3 * i + 1] << ","
-    //             << intersection.vertices[3 * i + 2] << std::endl;
-    // }
+
     auto && vol = volume_calculator(intersection);
     return vol;
   }
@@ -324,7 +320,7 @@ namespace corkpp {
   }
   /*-----------------------------------------------------------------------------*/
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size) {
-    std::vector<point_t> ret_vertices(8, {0.0, 0.0, 0.0});
+    std::vector<point_t> ret_vertices(9, {0.0, 0.0, 0.0});
     ret_vertices[0] = {origin[0], origin[1], origin[2]};
     ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
     ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
@@ -336,6 +332,9 @@ namespace corkpp {
     
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
+
+    ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
+                       (origin[2] + size[2])};
     return ret_vertices;
   }
   /*-----------------------------------------------------------------------------*/

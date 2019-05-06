@@ -30,41 +30,24 @@
 
 int main(int argc, char * argv[]) {
   std::vector<corkpp::point_t> vertices_precipitate;
-  // corkpp::point_t origin_precipitate{-1.0, -1.0, -1.0};
-  // corkpp::point_t size_precipitate{0.5, 0.5, 0.5};
-  // vertices_precipitate =
-  //     corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
 
-  vertices_precipitate.push_back({1.4, 1.4, 0.0});
-  vertices_precipitate.push_back({1.4, 1.4, 1.0});
-  vertices_precipitate.push_back({2.8, 1.4, 0.0});
-  vertices_precipitate.push_back({2.8, 1.4, 1.0});
-  vertices_precipitate.push_back({1.4, 2.8, 0.0});
-  vertices_precipitate.push_back({1.4, 2.8, 1.0});
-  vertices_precipitate.push_back({2.8, 2.8, 0.0});
-  vertices_precipitate.push_back({2.8, 2.8, 1.0});
+
+  REAL side {2.8};
+  REAL side2 {1.0};
+
+  REAL side_p {2.9};
+  REAL side2_p {1.1};
+  corkpp::point_t origin_precipitate{0.0, 0.0, 0.0};
+  corkpp::point_t size_precipitate{side_p, side_p, side2_p};
+  vertices_precipitate =
+    corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
 
 
   std::vector<corkpp::point_t> vertices_pixel;
-  // corkpp::point_t origin_pixel{-2.5, -2.5, -2.5};
-  // corkpp::point_t size_pixel{5.5, 5.5, 5.5};
-  // vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 
-  vertices_pixel.push_back({0.0, 0.0, 0.0});
-  vertices_pixel.push_back({5.6, 0.0, 0.0});
-  vertices_pixel.push_back({0.0, 5.6, 0.0});
-  
-  vertices_pixel.push_back({0.0, 5.6, 1.0});
-  vertices_pixel.push_back({5.6, 0.0, 1.0});
-  vertices_pixel.push_back({5.6, 5.6, 0.0});
-
-  vertices_pixel.push_back({0.0, 0.0, 1.0});
-
-  vertices_pixel.push_back({5.6, 5.6, 1.0});
-
-  // auto && vol_norm =
-  //     corkpp::calculate_intersection_normal_volume(vertices_precipitate,
-  //     vertices_pixel);
+  corkpp::point_t origin_pixel{0.0, 0.0, 0.0};
+  corkpp::point_t size_pixel{side, side, side2};
+  vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 
   auto && vol = corkpp::calculate_intersection_volume(vertices_precipitate,
                                                       vertices_pixel);
