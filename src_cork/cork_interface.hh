@@ -47,7 +47,7 @@ namespace corkpp {
   using point_t = std::array<double, 3>;
   using vector_t = Eigen::Vector3f;
   using poly_t = Eigen::Matrix3Xf;
-  constexpr float tolerance = 1e-3;
+  constexpr float tolerance = 1e-4;
 
   /**
    * This function recieves to set of vertices "vertices_pre" &
@@ -135,7 +135,7 @@ namespace corkpp {
    * the faces of the the corktrimesh sould be arranged such that their
    * right-hand normal vector point to the inside of the polyhedron
    */
-  double volume_calculator(const CorkTriMesh & in);
+  double volume_calculator(CorkTriMesh & in);
   /**
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to "in0" and does not belong to "in1"
@@ -147,8 +147,9 @@ namespace corkpp {
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to both "in0" and "in1"
    */
-  void intersect_of_faces(const CorkTriMesh & in0, const CorkTriMesh & in1,
-                          CorkTriMesh & out, REAL pixel_size = 1);
+  void intersect_of_faces(const CorkTriMesh & in_diff,
+                          const CorkTriMesh & in_intersect, CorkTriMesh & out,
+                          REAL pixel_size = 1.0);
   /**
    * This function retruns a list of cube vertices given one of its corner's
    * coordinates and the vector connecting that to its farthest corner
