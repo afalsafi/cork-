@@ -9,7 +9,7 @@ namespace corkpp {
       const std::vector<point_t> vertices_pixel)
       -> std::tuple<REAL, std::array<REAL, 3>> {
     std::vector<face_t> faces_precipitate, faces_pixel;
-    std::array <REAL, 3> ret_norm;
+    std::array<REAL, 3> ret_norm;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
     CorkTriMesh in0;
@@ -17,7 +17,8 @@ namespace corkpp {
     CorkTriMesh intersection;
     CorkTriMesh difference;
     CorkTriMesh intersection_and_difference;
-    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate, in0);
+    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate,
+                                      in0);
     corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
 
     computeIntersection(in0, in1, intersection);
@@ -25,9 +26,9 @@ namespace corkpp {
     intersect_of_faces(intersection, difference, intersection_and_difference);
     auto && vol = volume_calculator(intersection);
     auto && normal = -average_normal_calculator(intersection_and_difference);
-    ret_norm [1] = normal(0);
-    ret_norm [2] = normal(1);
-    ret_norm [3] = normal(2);
+    ret_norm[1] = normal(0);
+    ret_norm[2] = normal(1);
+    ret_norm[3] = normal(2);
     return std::make_tuple(vol, ret_norm);
   }
 
@@ -39,14 +40,15 @@ namespace corkpp {
     std::vector<face_t> faces_precipitate, faces_pixel;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
-    // std::cout << vertices_precipitate.size() << std::endl;
-    // for (int i = 0; i < vertices_precipitate.size(); ++i) {
-    //   std::cout << vertices_pixel.at(i)[2]<< std::endl;
-    // }
+    std::cout << vertices_precipitate.size() << std::endl;
+    for (int i = 0; i < vertices_precipitate.size(); ++i) {
+      std::cout << vertices_pixel.at(i)[2] << std::endl;
+    }
 
     CorkTriMesh in0;
     CorkTriMesh in1;
-    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate, in0);
+    corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate,
+                                      in0);
     corktrimesh_maker_from_node_faces(vertices_pixel, faces_pixel, in1);
     CorkTriMesh intersection;
     computeIntersection(in0, in1, intersection);
@@ -171,7 +173,10 @@ namespace corkpp {
       face_constant = face_constant_calculator(vertices, face, face_normal);
       face_height = abs(point_plane_distance_calculator(
           point_inside, face_normal, face_constant));
-      ret_volume += face_area * face_height / 3.0;
+      if (face_normal != Eigen::Vector3f::Zero()) {
+        ret_volume += face_area * face_height / 3.0;
+      }
+      std::cout << ret_volume << std::endl;
     }
     // std::cout << ret_volume << std::endl;
     return ret_volume;
@@ -320,7 +325,7 @@ namespace corkpp {
   }
   /*-----------------------------------------------------------------------------*/
   std::vector<point_t> cube_vertice_maker_pixel(point_t origin, point_t size) {
-    std::vector<point_t> ret_vertices(9, {0.0, 0.0, 0.0});
+    std::vector<point_t> ret_vertices(8, {0.0, 0.0, 0.0});
     ret_vertices[0] = {origin[0], origin[1], origin[2]};
     ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
     ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
@@ -333,8 +338,8 @@ namespace corkpp {
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
 
-    ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
-                       (origin[2] + size[2])};
+    // ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
+    //                    (origin[2] + size[2])};
     return ret_vertices;
   }
 
@@ -351,7 +356,7 @@ namespace corkpp {
 
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
-    
+
     return ret_vertices;
   }
   /*-----------------------------------------------------------------------------*/
@@ -379,4 +384,3 @@ namespace corkpp {
     }
   }
 }  // namespace corkpp
-
