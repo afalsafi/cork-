@@ -49,27 +49,27 @@ namespace corkpp {
     // pointlist = new REAL[numberofpoints * 3];
     pointlist.resize(numberofpoints * 3);
     if (pointlist.size() == 0) {
-      terminatetetgen(NULL, 1);
+      terminatetetgen( 1);
     }
     if (numberofpointattributes > 0) {
       // pointattributelist = new REAL[numberofpoints *
       // numberofpointattributes];
       pointattributelist.resize(numberofpoints * numberofpointattributes);
       if (pointattributelist.size() == 0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen(1);
       }
     }
     if (markers) {
       pointmarkerlist.resize(numberofpoints);
       if (pointmarkerlist.size() == 0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen( 1);
       }
     }
     if (uvflag) {
       std::vector<pointparam> pointrparamlist;
       pointparamlist.resize(numberofpoints);
       if (pointparamlist.size() == 0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -294,7 +294,7 @@ namespace corkpp {
     if (numberofedges > 0) {
       edgelist.resize(numberofedges * 2);
       if (edgelist.size() == 0.0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen( 1);
       }
       stringptr = findnextnumber(stringptr);
       if (*stringptr == '\0') {
@@ -317,13 +317,13 @@ namespace corkpp {
         if (*stringptr == '\0') {
           printf("Error:  Edge %d is missing vertex %d in %s.\n",
                  i + firstnumber, j + 1, inedgefilename);
-          terminatetetgen(NULL, 1);
+          terminatetetgen(1);
         }
         corner = (int)strtol(stringptr, &stringptr, 0);
         if (corner < firstnumber || corner >= numberofpoints + firstnumber) {
           printf("Error:  Edge %d has an invalid vertex index.\n",
                  i + firstnumber);
-          terminatetetgen(NULL, 1);
+          terminatetetgen( 1);
         }
         edgelist[index++] = corner;
       }
@@ -384,12 +384,12 @@ namespace corkpp {
     if (numberoftrifaces > 0) {
       trifacelist.resize(numberoftrifaces * 3);
       if (trifacelist.size() == 0.0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen(1);
       }
       if (markers) {
         trifacemarkerlist.resize(numberoftrifaces);
         if (trifacemarkerlist.size() == 0) {
-          terminatetetgen(NULL, 1);
+          terminatetetgen( 1);
         }
       }
     }
@@ -404,13 +404,13 @@ namespace corkpp {
         if (*stringptr == '\0') {
           printf("Error:  Face %d is missing vertex %d in %s.\n",
                  i + firstnumber, j + 1, infilename);
-          terminatetetgen(NULL, 1);
+          terminatetetgen( 1);
         }
         corner = (int)strtol(stringptr, &stringptr, 0);
         if (corner < firstnumber || corner >= numberofpoints + firstnumber) {
           printf("Error:  Face %d has an invalid vertex index.\n",
                  i + firstnumber);
-          terminatetetgen(NULL, 1);
+          terminatetetgen( 1);
         }
         trifacelist[index++] = corner;
       }
@@ -494,14 +494,14 @@ namespace corkpp {
     // Allocate memory for tetrahedra.
     tetrahedronlist.resize(numberoftetrahedra * numberofcorners);
     if (tetrahedronlist.size() == 0) {
-      terminatetetgen(NULL, 1);
+      terminatetetgen(1);
     }
     // Allocate memory for output tetrahedron attributes if necessary.
     if (numberoftetrahedronattributes > 0) {
       tetrahedronattributelist.resize(numberoftetrahedra *
                                       numberoftetrahedronattributes);
       if (tetrahedronattributelist.size() == 0) {
-        terminatetetgen(NULL, 1);
+        terminatetetgen(1);
       }
     }
 
@@ -516,13 +516,13 @@ namespace corkpp {
         if (*stringptr == '\0') {
           printf("Error:  Tetrahedron %d is missing vertex %d in %s.\n",
                  i + firstnumber, j + 1, infilename);
-          terminatetetgen(NULL, 1);
+          terminatetetgen(1);
         }
         corner = (int)strtol(stringptr, &stringptr, 0);
         if (corner < firstnumber || corner >= numberofpoints + firstnumber) {
           printf("Error:  Tetrahedron %d has an invalid vertex index.\n",
                  i + firstnumber);
-          terminatetetgen(NULL, 1);
+          terminatetetgen(1);
         }
         tetrahedronlist[index++] = corner;
       }
@@ -583,7 +583,7 @@ namespace corkpp {
 
     tetrahedronvolumelist.resize(volelements);
     if (tetrahedronvolumelist.size() == 0) {
-      terminatetetgen(NULL, 1);
+      terminatetetgen( 1);
     }
 
     // Read the list of volume constraints.
@@ -774,7 +774,7 @@ namespace corkpp {
     // Allocate space for pointmtrlist.
     pointmtrlist.resize(numberofpoints * numberofpointmtrs);
     if (pointmtrlist.size() == 0) {
-      terminatetetgen(NULL, 1);
+      terminatetetgen( 1);
     }
     mtrindex = 0;
     for (i = 0; i < numberofpoints; i++) {
@@ -784,7 +784,7 @@ namespace corkpp {
         if (*stringptr == '\0') {
           printf("Error:  Metric %d is missing value #%d in %s.\n",
                  i + firstnumber, j + 1, mtrfilename);
-          terminatetetgen(NULL, 1);
+          terminatetetgen( 1);
         }
         mtr = (REAL)strtod(stringptr, &stringptr);
         pointmtrlist[mtrindex++] = mtr;
@@ -3047,7 +3047,7 @@ namespace corkpp {
         "object.1.node, object.1.ele,\n  object.1.face, and object.1.edge\n");
     printf("\n");
     printf("Please send bugs/comments to Hang Si <si@wias-berlin.de>\n");
-    terminatetetgen(NULL, 0);
+    terminatetetgen( 0);
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -3489,7 +3489,7 @@ namespace corkpp {
       if (infilename[0] == '\0') {
         // No input file name. Print the syntax and exit.
         syntax();
-        terminatetetgen(NULL, 0);
+        terminatetetgen( 0);
       }
       // Recognize the object from file extension if it is available.
       if (!strcmp(&infilename[strlen(infilename) - 5], ".node")) {
@@ -4109,7 +4109,7 @@ namespace corkpp {
     firstblock = (void **)malloc(itemsperblock * itembytes + sizeof(void *) +
                                  alignbytes);
     if (firstblock == (void **)NULL) {
-      terminatetetgen(NULL, 1);
+      terminatetetgen( 1);
     }
     // Set the next block pointer to NULL.
     *(firstblock) = (void *)NULL;
@@ -4170,7 +4170,7 @@ namespace corkpp {
           newblock = (void **)malloc(itemsperblock * itembytes +
                                      sizeof(void *) + alignbytes);
           if (newblock == (void **)NULL) {
-            terminatetetgen(NULL, 1);
+            terminatetetgen( 1);
           }
           *nowblock = (void *)newblock;
           // The next block pointer is NULL.
@@ -4806,7 +4806,7 @@ namespace corkpp {
     //   flags and element counter.
     if (!(sizeof(int) <= sizeof(tetrahedron)) ||
         ((sizeof(tetrahedron) % sizeof(int)))) {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
     elemmarkerindex = (elesize - sizeof(tetrahedron)) / sizeof(int);
 
@@ -4986,7 +4986,7 @@ namespace corkpp {
 
     oriB = -orient3d(pt[0], pt[2], pt[3], pt[4]);
     if (oriB == 0.0) {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
     // Flip the sign if there are odd number of swaps.
     if ((swaps % 2) != 0)
@@ -5064,7 +5064,7 @@ namespace corkpp {
 
     oriB = -orient3d(pt[0], pt[2], pt[3], pt[4]);
     if (oriB == 0.0) {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
     // Flip the sign if there are odd number of swaps.
     if ((swaps % 2) != 0)
@@ -7272,7 +7272,7 @@ namespace corkpp {
     sevent.f_vertices2[1] = pointmark(pb);
     sevent.f_vertices2[2] = pointmark(pd);
 
-    terminatetetgen(this, 3);
+    terminatetetgen( 3);
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -7344,7 +7344,7 @@ namespace corkpp {
           sevent.f_vertices2[2] = 0;
         } else {
           // Two identical segments. Why report it?
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       } else if (etype == 2) {
         printf("PLC Error:  A segment lies in a facet.\n");
@@ -7389,10 +7389,10 @@ namespace corkpp {
           sevent.f_vertices2[2] = pointmark(sapex(colface));
         } else {
           // Two identical subfaces. Why report it?
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
     } else if (dir == ACROSSVERT) {
       point pp = dest(*itet);
@@ -7492,7 +7492,7 @@ namespace corkpp {
             sevent.int_point[2] = pp[2];
           }
         } else {
-          terminatetetgen(this, 2);  // Report a bug.
+          terminatetetgen( 2);  // Report a bug.
         }
       } else if (pointtype(pp) == FREEFACETVERTEX) {
         face parentsh;
@@ -7545,17 +7545,17 @@ namespace corkpp {
             sevent.int_point[2] = pp[2];
           }
         } else {
-          terminatetetgen(this, 2);  // Report a bug.
+          terminatetetgen( 2);  // Report a bug.
         }
       } else if (pointtype(pp) == FREEVOLVERTEX) {
         // This is not a PLC error.
         // We should shift the vertex.
         // not down yet.
-        terminatetetgen(this, 2);  // Report a bug.
+        terminatetetgen( 2);  // Report a bug.
       } else {
-        terminatetetgen(this, 2);  // Report a bug.
+        terminatetetgen( 2);  // Report a bug.
       }
-      terminatetetgen(this, 3);
+      terminatetetgen( 3);
     } else if (dir == ACROSSEDGE) {
       if (issubseg(*itet)) {
         face checkseg;
@@ -7611,7 +7611,7 @@ namespace corkpp {
           sevent.int_point[1] = P[1];
           sevent.int_point[2] = P[2];
         }
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
     } else if (dir == ACROSSFACE) {
       if (issubface(*itet)) {
@@ -7665,11 +7665,11 @@ namespace corkpp {
           sevent.int_point[1] = ip[1];
           sevent.int_point[2] = ip[2];
         }
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
     } else {
       // An unknown 'dir'.
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
     return 0;
   }
@@ -7713,7 +7713,7 @@ namespace corkpp {
       spivot(iface, parentsh);
       facemark = shellmark(parentsh);
     } else {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
     if (intflag == 2) {
@@ -7775,7 +7775,7 @@ namespace corkpp {
         } else if (poss[0] == 2) {
           crosspt = p3;
         } else {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         if (!issteinerpoint(crosspt)) {
           if (etype == 1) {
@@ -7822,7 +7822,7 @@ namespace corkpp {
           }
         } else {
           // It is a Steiner point. To be processed.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       } else if ((types[0] == (int)TOUCHFACE) || (types[0] == (int)TOUCHEDGE)) {
         // The triangle and a vertex of the edge intersect.
@@ -7832,7 +7832,7 @@ namespace corkpp {
         } else if (poss[1] == 1) {
           touchpt = dest(*iedge);
         } else {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         if (!issteinerpoint(touchpt)) {
           printf("PLC Error:  A vertex and a facet intersect at (%g,%g,%g)\n",
@@ -7856,12 +7856,12 @@ namespace corkpp {
           sevent.int_point[2] = touchpt[2];
         } else {
           // It is a Steiner point. To be processed.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       } else if (types[0] == (int)SHAREVERT) {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
     } else if (intflag == 4) {
       if (types[0] == (int)SHAREFACE) {
@@ -7882,13 +7882,13 @@ namespace corkpp {
         sevent.f_vertices2[1] = pointmark(p2);
         sevent.f_vertices2[2] = pointmark(p3);
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
     } else {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
-    terminatetetgen(this, 3);
+    terminatetetgen( 3);
     return 0;
   }
 
@@ -8568,7 +8568,7 @@ namespace corkpp {
           tsbond(topcastets[0], flipfaces[0]);
         } else {
           // An invalid 2-to-2 flip. Report a bug.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         // Connect the bot subface to the bottom tets.
         esymself(botcastets[0]);
@@ -8582,7 +8582,7 @@ namespace corkpp {
           tsbond(botcastets[0], flipfaces[1]);
         } else {
           // An invalid 2-to-2 flip. Report a bug.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }  // if (scount > 0)
     }    // if (checksubfaceflag)
@@ -9279,7 +9279,7 @@ namespace corkpp {
             if (n1 < 3) {
               // This is only possible when the mesh contains inverted
               //   elements.  Reprot a bug.
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
             if (j > 2) {
               // The Star(flipedge) overlaps other Stars.
@@ -9575,7 +9575,7 @@ namespace corkpp {
             }
           } else if (nn == 3) {
             // Report a bug.
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
         }
         if (!rejflag && fc->checkflipeligibility) {
@@ -10392,7 +10392,7 @@ namespace corkpp {
               }
               if (j == 0) {
                 // Not found such a face.
-                terminatetetgen(this, 2);
+                terminatetetgen( 2);
               }
               neightet = spintet;
               if (b->verbose > 3) {
@@ -10824,7 +10824,7 @@ namespace corkpp {
               *paryseg = checkseg;
             } else {
               // assert(0); // Not possible.
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
           }
         } else {
@@ -10870,7 +10870,7 @@ namespace corkpp {
               *parysh = checksh;
             } else {
               // assert(0); // Not possible.
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
           }
         } else {
@@ -11424,7 +11424,7 @@ namespace corkpp {
     longest = sqrt(x * x + y * y + z * z);
     if (longest == 0.0) {
       printf("Error:  The point set is trivial.\n");
-      terminatetetgen(this, 10);
+      terminatetetgen( 10);
     }
     // Two identical points are distinguished by 'minedgelength'.
     minedgelength = longest * b->epsilon;
@@ -11873,7 +11873,7 @@ namespace corkpp {
         break;
     }
     if (searchtet->ver == 4) {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
     // Walk through tetrahedra to locate the point.
@@ -12138,7 +12138,7 @@ namespace corkpp {
           if (oppo(fliptets[2]) == newpt) {
             if (oppo(fliptets[3]) == newpt) {
               // Both tets exist! A 4-to-1 flip is found.
-              terminatetetgen(this, 2);  // Report a bug.
+              terminatetetgen( 2);  // Report a bug.
             } else {
               esym(fliptets[2], fliptets[0]);
               fnext(fliptets[0], fliptets[1]);
@@ -12447,7 +12447,7 @@ namespace corkpp {
       if (i == in->numberofpoints - 1) {
         printf("Exception:  All vertices are (nearly) identical (Tol = %g).\n",
                b->epsilon);
-        terminatetetgen(this, 10);
+        terminatetetgen( 10);
       }
     }
     if (i > 1) {
@@ -12471,7 +12471,7 @@ namespace corkpp {
       if (i == in->numberofpoints - 1) {
         printf("Exception:  All vertices are (nearly) collinear (Tol = %g).\n",
                b->epsilon);
-        terminatetetgen(this, 10);
+        terminatetetgen( 10);
       }
       for (j = 0; j < 3; j++) {
         v2[j] = permutarray[i][j] - permutarray[0][j];
@@ -12494,7 +12494,7 @@ namespace corkpp {
       if (i == in->numberofpoints) {
         printf("Exception:  All vertices are coplanar (Tol = %g).\n",
                b->epsilon);
-        terminatetetgen(this, 10);
+        terminatetetgen( 10);
       }
       ori = orient3dfast(permutarray[0], permutarray[1], permutarray[2],
                          permutarray[i]);
@@ -14037,7 +14037,7 @@ namespace corkpp {
               break;
             } else {  // (00)
               // startpt == endpt. Not possible.
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
           }
         }
@@ -15268,11 +15268,11 @@ namespace corkpp {
 
     leftarray = new shellface *[arraysize];
     if (leftarray == NULL) {
-      terminatetetgen(this, 1);
+      terminatetetgen( 1);
     }
     rightarray = new shellface *[arraysize];
     if (rightarray == NULL) {
-      terminatetetgen(this, 1);
+      terminatetetgen( 1);
     }
     leftsize = rightsize = 0;
 
@@ -15624,7 +15624,7 @@ namespace corkpp {
         if (nonconvex) {
           return ACROSSFACE;  // return ACROSSSUB; // Hit a bounday.
         } else {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
 
@@ -15809,7 +15809,7 @@ namespace corkpp {
         }
       }
     } else {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
     if (refpt == NULL) {
@@ -15936,7 +15936,7 @@ namespace corkpp {
           }
         }
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
 
     }  // while (1)
@@ -16120,9 +16120,9 @@ namespace corkpp {
                        pointmark(p2), shellmark(sseg));
                 printf("  Segment 2: [%d, %d] #%d\n", pointmark(p3),
                        pointmark(p4), shellmark(parentseg));
-                terminatetetgen(this, 4);
+                terminatetetgen( 4);
               } else {
-                terminatetetgen(this, 2);
+                terminatetetgen( 2);
               }
             } else if (ivf.iloc == (int)ONVERTEX) {
               // The new point (in the segment) is coincident with an existing
@@ -16132,12 +16132,12 @@ namespace corkpp {
                                   ACROSSVERT);
             } else {
               // An unknown case. Report a bug.
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
           }
         } else {
           // An unknown case. Report a bug.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
     }  // while
@@ -16172,7 +16172,7 @@ namespace corkpp {
           // A vertex lies on the search edge.
           report_selfint_edge(pa, pb, searchsh, searchtet, dir);
         } else {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
       int t1ver;
@@ -16192,7 +16192,7 @@ namespace corkpp {
             *searchtet = spintet;
             return 1;
           } else {
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
         }
         fnextself(spintet);
@@ -16381,7 +16381,7 @@ namespace corkpp {
                 sesymself(searchsh);
                 senextself(searchsh);
               } else if (ori == 0) {
-                terminatetetgen(this, 2);
+                terminatetetgen( 2);
               }
               if (sscoutsegment(&searchsh, dest(neightet), 0, 0, 1) ==
                   SHAREEDGE) {
@@ -17180,7 +17180,7 @@ namespace corkpp {
                     pa = org(toptet);
                     pb = dest(toptet);
                   } else if (ori == 0) {
-                    terminatetetgen(this, 2);
+                    terminatetetgen( 2);
                   }
                   // Search the face [b,a,c] in 'botnewtets'.
                   for (j = 0; j < botnewtets->objects; j++) {
@@ -17256,7 +17256,7 @@ namespace corkpp {
               break;  // Find a subface.
             }
             if (pc == dummypoint) {
-              terminatetetgen(this, 2);  // Check this case.
+              terminatetetgen( 2);  // Check this case.
               break;                     // Find a subface.
             }
             // Go to the adjacent tet.
@@ -17297,7 +17297,7 @@ namespace corkpp {
                   *parytet = toptet;
                 } else {
                   // The 'bottet' is not inside the cavity!
-                  terminatetetgen(this, 2);  // Check this case
+                  terminatetetgen( 2);  // Check this case
                 }
               } else {  // mflag == false
                 // Adjust 'toptet' and 'bottet' to be the crossing edges.
@@ -17322,7 +17322,7 @@ namespace corkpp {
                       eprevself(bottet);  // [d,b]
                     } else {
                       // b,c,#,and d are coplanar!.
-                      terminatetetgen(this, 2);  // assert(0);
+                      terminatetetgen( 2);  // assert(0);
                     }
                     break;  // Not matched
                   }
@@ -17468,10 +17468,10 @@ namespace corkpp {
             // Found. Return it.
             recentsh = *parysh;
           } else {
-            terminatetetgen(this, 2);  // assert(0);
+            terminatetetgen( 2);  // assert(0);
           }
         } else {
-          // terminatetetgen(this, 2); // Report a bug
+          // terminatetetgen( 2); // Report a bug
         }
       }
 
@@ -18253,7 +18253,7 @@ namespace corkpp {
     if (bfacearray->objects > 0) {
       if (fcount == 0) {
         printf("!! No flip is found in %ld faces.\n", bfacearray->objects);
-        terminatetetgen(this, 2);  // assert(0);
+        terminatetetgen( 2);  // assert(0);
       }
     }
 
@@ -18500,7 +18500,7 @@ namespace corkpp {
         if (!insertpoint_cdt(steinpt, &searchtet, &splitsh, &splitseg, &ivf,
                              cavpoints, cavfaces, cavshells, newtets, crosstets,
                              misfaces)) {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         if (useinsertradius) {
           save_segmentpoint_insradius(steinpt, ivf.parentpt, ivf.smlen);
@@ -18509,7 +18509,7 @@ namespace corkpp {
         if (steinerleft > 0)
           steinerleft--;
       } else {
-        terminatetetgen(this, 2);  // assert(0);
+        terminatetetgen( 2);  // assert(0);
       }
     } else {
       if (useinsertradius) {
@@ -18554,7 +18554,7 @@ namespace corkpp {
           if (!insertpoint_cdt(steinpt, &searchtet, &splitsh, &splitseg, &ivf,
                                cavpoints, cavfaces, cavshells, newtets,
                                crosstets, misfaces)) {
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
           if (useinsertradius) {
             save_segmentpoint_insradius(steinpt, ivf.parentpt, ivf.smlen);
@@ -18563,7 +18563,7 @@ namespace corkpp {
           if (steinerleft > 0)
             steinerleft--;
         } else {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
     }  // while
@@ -18745,7 +18745,7 @@ namespace corkpp {
                 dir = scoutsegment(sorg(*paryseg), sdest(*paryseg), paryseg,
                                    &searchtet, NULL, NULL);
                 if (dir != SHAREEDGE) {
-                  terminatetetgen(this, 2);
+                  terminatetetgen( 2);
                 }
                 // Insert this segment.
                 // Let the segment remember an adjacent tet.
@@ -18761,7 +18761,7 @@ namespace corkpp {
             }  // success - remesh cavity
           }    // success - form cavity
           else {
-            terminatetetgen(this, 2);  // Report a bug.
+            terminatetetgen( 2);  // Report a bug.
           }                            // Not success - form cavity
         } else {
           // Put all subfaces in R back to tg_facfaces.
@@ -19225,7 +19225,7 @@ namespace corkpp {
     }
     if (n < 3) {
       // It is only possible when the mesh contains inverted tetrahedra.
-      terminatetetgen(this, 2);  // Report a bug
+      terminatetetgen( 2);  // Report a bug
     }
 
     if ((b->flipstarsize > 0) && (n > b->flipstarsize)) {
@@ -19458,7 +19458,7 @@ namespace corkpp {
             }  // i
             // There must be an intersection face/edge.
             if (dir == DISJOINT) {
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
           } else if (dir == ACROSSEDGE) {
             while (1) {  // Loop I-I-I
@@ -19491,7 +19491,7 @@ namespace corkpp {
               fnextself(*searchtet);
             }  // while (1) // Loop I-I-I
           } else {
-            terminatetetgen(this, 2);  // Report a bug
+            terminatetetgen( 2);  // Report a bug
           }
 
           // Adjust to the intersecting edge/vertex.
@@ -19506,7 +19506,7 @@ namespace corkpp {
               // Failed to recover the edge.
               break;  // Loop I-I
             } else {
-              terminatetetgen(this, 2);  // Report a bug
+              terminatetetgen( 2);  // Report a bug
             }
           }
 
@@ -19554,12 +19554,12 @@ namespace corkpp {
             if (sedge) {
               // return report_selfint_edge(startpt, endpt, sedge, searchtet,
               // dir);
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             } else {
               return 0;
             }
           } else {
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
 
           // The face/edge is not flipped.
@@ -20044,7 +20044,7 @@ namespace corkpp {
       } else if (dir == ACROSSEDGE) {
         // PLC check.
         if (issubseg(searchtet)) {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         if (n > 4) {
           // In this case, 'abtets' is separated by the plane (containing the
@@ -20070,10 +20070,10 @@ namespace corkpp {
           //   However, there will be invalid tets (either zero or negtive
           //   volume). Otherwise, [c,d] should already be recovered by the
           //   recoveredge() function.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
 
       delete[] abtets;
@@ -20128,7 +20128,7 @@ namespace corkpp {
       ivf.respectbdflag = 1;
       ivf.assignmeshsize = b->metric;
       if (!insertpoint(steinerpt, &searchtet, &splitsh, misseg, &ivf)) {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
     }  // if (endi > 0)
 
@@ -20421,14 +20421,14 @@ namespace corkpp {
                   }
                 }       // if (searchsh != NULL)
               } else {  // intflag == 4. Coplanar case.
-                terminatetetgen(this, 2);
+                terminatetetgen( 2);
               }
               break;
             }  // if (intflag > 0)
           }
           fnextself(spintet);
           if (spintet.tet == searchtet->tet) {
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
         }  // while (1)
         // Try to flip the edge [d,e].
@@ -20494,7 +20494,7 @@ namespace corkpp {
           // The segment must exist.
           sstpivot1(bdsegs[i], searchtet);
           if (searchtet.tet == NULL) {
-            terminatetetgen(this, 2);
+            terminatetetgen( 2);
           }
         } else {
           // This edge is not a segment (due to a Steiner point).
@@ -20582,7 +20582,7 @@ namespace corkpp {
               ivf.respectbdflag = 1;
               ivf.assignmeshsize = b->metric;
               if (!insertpoint(steinerpt, &searchtet, &searchsh, NULL, &ivf)) {
-                terminatetetgen(this, 2);
+                terminatetetgen( 2);
               }
               // Save this Steiner point (for removal).
               //   Re-use the array 'subvertstack'.
@@ -20662,7 +20662,7 @@ namespace corkpp {
             ivf.respectbdflag = 1;
             ivf.assignmeshsize = b->metric;
             if (!insertpoint(steinerpt, &searchtet, &searchsh, NULL, &ivf)) {
-              terminatetetgen(this, 2);
+              terminatetetgen( 2);
             }
             // Save this Steiner point (for removal).
             //   Re-use the array 'subvertstack'.
@@ -23566,7 +23566,7 @@ namespace corkpp {
     if (b->convex) {  // -c option.
       // Assume the mesh is convex. Exterior tets have region attribute -1.
       if (!(in->numberoftetrahedronattributes > 0)) {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
     } else {
       // Assume the mesh is non-convex.
@@ -25560,7 +25560,7 @@ namespace corkpp {
     } else {
       // Point is not inserted.
       if (ivf.iloc == (int)NEARVERTEX) {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
       pointdealloc(newpt);
       // Mark this segment to avoid splitting in the future.
@@ -25640,7 +25640,7 @@ namespace corkpp {
 
     circumsphere(pa, pb, pc, NULL, cent, &rd);
     if (rd == 0) {
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
     if (b->use_equatorial_lens) {
@@ -25775,7 +25775,7 @@ namespace corkpp {
     //   pivoting and backward and forward substitute.
     if (!lu_decmp(A, 3, indx, &D, 0)) {
       // A degenerate triangle.
-      terminatetetgen(this, 2);
+      terminatetetgen( 2);
     }
 
     lu_solve(A, 3, indx, rhs, 0);
@@ -26059,7 +26059,7 @@ namespace corkpp {
         }
       } else {
         if (ivf.iloc == (int)NEARVERTEX) {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
       // Mark this subface to avoid splitting in the future.
@@ -26111,7 +26111,7 @@ namespace corkpp {
           printf("The desired number of Steiner points is reached.\n");
         }
       } else {
-        terminatetetgen(this, 2);
+        terminatetetgen( 2);
       }
       badsubfacs->traversalinit();
       bface = (face *)badsubfacs->traverse();
@@ -26237,7 +26237,7 @@ namespace corkpp {
 
     if (in->tetunsuitable != NULL) {
       // Execute the user-defined meshing sizing evaluation.
-      if ((*(in->tetunsuitable))(pa, pb, pc, pd, NULL, 0)) {
+      if ((in->tetunsuitable)(pa, pb, pc, pd, NULL, 0)) {
         // Calculate the circumcenter of this tet.
         rhs[0] = 0.5 * dot(vda, vda);
         rhs[1] = 0.5 * dot(vdb, vdb);
@@ -26349,7 +26349,7 @@ namespace corkpp {
       for (i = 0; i < 4; i++) {
         L[i] = sqrt(dot(N[i], N[i]));
         if (L[i] == 0) {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
         for (j = 0; j < 3; j++)
           N[i][j] /= L[i];
@@ -26552,7 +26552,7 @@ namespace corkpp {
         }
       } else {
         if (ivf.iloc == (int)NEARVERTEX) {
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
       if (splitflag) {
@@ -26609,7 +26609,7 @@ namespace corkpp {
           printf("The desired number of Steiner points is reached.\n");
         }
       } else {
-        terminatetetgen(this, 2);  // Unknown case.
+        terminatetetgen( 2);  // Unknown case.
       }
       // Unmark all queued tet.
       badtetrahedrons->traversalinit();
@@ -27643,7 +27643,7 @@ namespace corkpp {
           // if ((oldang - newang) < 0.00174) diff = 0.0; // about 0.1 degree.
         } else {
           // Unknown objective function.
-          terminatetetgen(this, 2);
+          terminatetetgen( 2);
         }
       }
 
@@ -29893,7 +29893,7 @@ namespace corkpp {
     // Initialize the 'highordertable'.
     highordertable = new point[tetrahedrons->items * 6];
     if (highordertable == (point *)NULL) {
-      terminatetetgen(this, 1);
+      terminatetetgen( 1);
     }
 
     // This will overwrite the slot for element markers.
@@ -30084,7 +30084,7 @@ namespace corkpp {
       outfile = fopen(outnodefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outnodefilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Number of points, number of dimensions, number of point attributes,
       //   and number of boundary markers (zero or one).
@@ -30094,14 +30094,14 @@ namespace corkpp {
       out->pointlist.resize(points->items * 3);
       if (out->pointlist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Allocate space for 'pointattributelist' if necessary;
       if (nextras > 0) {
         out->pointattributelist.resize(points->items * nextras);
         if (out->pointattributelist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       // Allocate space for 'pointmarkerlist' if necessary;
@@ -30109,14 +30109,14 @@ namespace corkpp {
         out->pointmarkerlist.resize(points->items);
         if (out->pointmarkerlist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       if (b->psc) {
         out->pointparamlist.resize(points->items);
         if (out->pointparamlist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       out->numberofpoints = points->items;
@@ -30270,7 +30270,7 @@ namespace corkpp {
       outfile = fopen(outmtrfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outmtrfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of points, number of point metrices,
       fprintf(outfile, "%ld  %d\n", points->items, msize);
@@ -30279,7 +30279,7 @@ namespace corkpp {
       out->numberofpointmtrs = msize;
       out->pointmtrlist.resize(points->items * msize);
       if (out->pointmtrlist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -30317,7 +30317,7 @@ namespace corkpp {
       outfile = fopen(outmtrfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outmtrfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of points,
       // fprintf(outfile, "%ld\n", points->items);
@@ -30325,7 +30325,7 @@ namespace corkpp {
       // Allocate space for 'point2tetlist'.
       out->point2tetlist.resize(points->items);
       if (out->point2tetlist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -30411,7 +30411,7 @@ namespace corkpp {
       outfile = fopen(outelefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outelefilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Number of tetras, points per tetra, attributes per tetra.
       fprintf(outfile, "%ld  %d  %d\n", ntets, b->order == 1 ? 4 : 10, eextras);
@@ -30420,14 +30420,14 @@ namespace corkpp {
       out->tetrahedronlist.resize(ntets * (b->order == 1 ? 4 : 10));
       if (out->tetrahedronlist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Allocate memory for output tetrahedron attributes if necessary.
       if (eextras > 0) {
         out->tetrahedronattributelist.resize(ntets * eextras);
         if (out->tetrahedronattributelist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       out->numberoftetrahedra = ntets;
@@ -30564,7 +30564,7 @@ namespace corkpp {
       outfile = fopen(facefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", facefilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       fprintf(outfile, "%ld  %d\n", faces, !b->nobound);
     } else {
@@ -30572,7 +30572,7 @@ namespace corkpp {
       out->trifacelist.resize(faces * 3);
       if (out->trifacelist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       if (b->order == 2) {
         out->o2facelist.resize(faces * 3);
@@ -30582,7 +30582,7 @@ namespace corkpp {
         out->trifacemarkerlist.resize(faces);
         if (out->trifacemarkerlist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       if (b->neighout > 1) {
@@ -30590,7 +30590,7 @@ namespace corkpp {
         out->face2tetlist.resize(faces * 2);
         if (out->face2tetlist.size() == 0) {
           printf("Error:  Out of memory.\n");
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       out->numberoftrifaces = faces;
@@ -30780,7 +30780,7 @@ namespace corkpp {
       outfile = fopen(facefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", facefilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       fprintf(outfile, "%ld  0\n", hullsize);
     } else {
@@ -30788,7 +30788,7 @@ namespace corkpp {
       out->trifacelist.resize(hullsize * 3);
       if (out->trifacelist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       out->numberoftrifaces = hullsize;
       index = 0;
@@ -30881,7 +30881,7 @@ namespace corkpp {
       outfile = fopen(facefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", facefilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of subfaces.
       fprintf(outfile, "%ld  %d\n", subfaces->items, !b->nobound);
@@ -30889,7 +30889,7 @@ namespace corkpp {
       // Allocate memory for 'trifacelist'.
       out->trifacelist.resize(subfaces->items * 3);
       if (out->trifacelist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       if (b->order == 2) {
         out->o2facelist.resize(subfaces->items * 3);
@@ -30898,14 +30898,14 @@ namespace corkpp {
         // Allocate memory for 'trifacemarkerlist'.
         out->trifacemarkerlist.resize(subfaces->items);
         if (out->trifacemarkerlist.size() == 0) {
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       if (b->neighout > 1) {
         // '-nn' switch.
         out->face2tetlist.resize(subfaces->items * 2);
         if (out->face2tetlist.size() == 0) {
-          terminatetetgen(this, 1);
+          terminatetetgen( 1);
         }
       }
       out->numberoftrifaces = subfaces->items;
@@ -31081,7 +31081,7 @@ namespace corkpp {
       outfile = fopen(edgefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", edgefilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Write the number of edges, boundary markers (0 or 1).
       fprintf(outfile, "%ld  %d\n", meshedges, !b->nobound);
@@ -31091,7 +31091,7 @@ namespace corkpp {
       out->edgelist.resize(meshedges * 2);
       if (out->edgelist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       if (b->order == 2) {  // -o2 switch
         out->edgelist.resize(meshedges);
@@ -31350,7 +31350,7 @@ namespace corkpp {
       outfile = fopen(edgefilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", edgefilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of subsegments.
       fprintf(outfile, "%ld  1\n", subsegs->items);
@@ -31358,14 +31358,14 @@ namespace corkpp {
       // Allocate memory for 'edgelist'.
       out->edgelist.resize(subsegs->items * (b->order == 1 ? 2 : 3));
       if (out->edgelist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       if (b->order == 2) {
         out->o2edgelist.resize(subsegs->items);
       }
       out->edgemarkerlist.resize(subsegs->items);
       if (out->edgemarkerlist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       if (b->neighout > 1) {
         out->edge2tetlist.resize(subsegs->items);
@@ -31494,7 +31494,7 @@ namespace corkpp {
       outfile = fopen(neighborfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", neighborfilename);
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       // Number of tetrahedra, four faces per tetrahedron.
       fprintf(outfile, "%ld  %d\n", ntets, 4);
@@ -31503,7 +31503,7 @@ namespace corkpp {
       out->neighborlist.resize(ntets * 4);
       if (out->neighborlist.size() == 0) {
         printf("Error:  Out of memory.\n");
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
       nlist = out->neighborlist;
     }
@@ -31639,7 +31639,7 @@ namespace corkpp {
       outfile = fopen(outfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of voronoi points, 3 dim, no attributes, no marker.
       fprintf(outfile, "%ld  3  0  0\n", ntets);
@@ -31648,7 +31648,7 @@ namespace corkpp {
       out->numberofvpoints = (int)ntets;
       out->vpointlist.resize(out->numberofvpoints * 3);
       if (out->vpointlist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -31704,7 +31704,7 @@ namespace corkpp {
       outfile = fopen(outfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of Voronoi edges, no marker.
       fprintf(outfile, "%ld  0\n", faces);
@@ -31811,7 +31811,7 @@ namespace corkpp {
       outfile = fopen(outfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of Voronoi faces.
       fprintf(outfile, "%ld  0\n", edges);
@@ -31819,7 +31819,7 @@ namespace corkpp {
       out->numberofvfacets = edges;
       out->vfacetlist.resize(out->numberofvfacets);
       if (out->vfacetlist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -31928,7 +31928,7 @@ namespace corkpp {
       outfile = fopen(outfilename, "w");
       if (outfile == (FILE *)NULL) {
         printf("File I/O Error:  Cannot create file %s.\n", outfilename);
-        terminatetetgen(this, 3);
+        terminatetetgen( 3);
       }
       // Number of Voronoi cells.
       fprintf(outfile, "%ld\n", points->items - unuverts - dupverts);
@@ -31936,7 +31936,7 @@ namespace corkpp {
       out->numberofvcells = points->items - unuverts - dupverts;
       out->vcelllist.resize(out->numberofvcells);
       if (out->vcelllist.size() == 0) {
-        terminatetetgen(this, 1);
+        terminatetetgen( 1);
       }
     }
 
@@ -32800,17 +32800,17 @@ namespace corkpp {
     tetgenio in, addin, bgmin;
 
     if (!b.parse_commandline(argc, argv)) {
-      terminatetetgen(NULL, 10);
+      terminatetetgen( 10);
     }
 
     // Read input files.
     if (b.refine) {  // -r
       if (!in.load_tetmesh(b.infilename, (int)b.object)) {
-        terminatetetgen(NULL, 10);
+        terminatetetgen( 10);
       }
     } else {  // -p
       if (!in.load_plc(b.infilename, (int)b.object)) {
-        terminatetetgen(NULL, 10);
+        terminatetetgen( 10);
       }
     }
     if (b.insertaddpoints) {  // -i
@@ -32829,7 +32829,7 @@ namespace corkpp {
 #else  // with TETLIBRARY
 
     if (!b.parse_commandline(switches)) {
-      terminatetetgen(NULL, 10);
+      terminatetetgen( 10);
     }
     tetrahedralize(&b, in, out, addin, bgmin);
 

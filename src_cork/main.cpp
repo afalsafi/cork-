@@ -32,7 +32,7 @@ int main(int argc, char * argv[]) {
   std::vector<corkpp::point_t> vertices0;
   std::vector<corkpp::face_t> faces0;
   corkpp::point_t origin0{0.0, 0.0, 0.0};
-  corkpp::point_t size0{1.0, 1.0, 1.0};
+  corkpp::point_t size0{1.5, 1.5, 1.5};
   vertices0 = corkpp::cube_vertice_maker(origin0, size0);
   corkpp::make_faces_from_nodes(vertices0, faces0);
 
@@ -48,36 +48,46 @@ int main(int argc, char * argv[]) {
 
 
 
-  vertices1.push_back({0.00, 0.00, 0.00});
-  vertices1.push_back({0.75, 0.00, 0.00});
-  vertices1.push_back({0.00, 0.75, 0.00});
-  vertices1.push_back({0.00, 0.00, 0.75});
-  vertices1.push_back({0.50, 0.50, 0.50});
+  // vertices1.push_back({0.00, 0.00, 0.00});
+  // vertices1.push_back({0.75, 0.00, 0.00});
+  // vertices1.push_back({0.00, 0.75, 0.00});
+  // vertices1.push_back({0.00, 0.00, 0.75});
+  // vertices1.push_back({0.50, 0.50, 0.50});
+
+
 
 
   std::vector<corkpp::face_t> faces1;
-  // corkpp::point_t origin1{0.5, 0.5, 0.5};
-  // corkpp::point_t size1{1.0, 1.5, 1.0};
-  // vertices1 = corkpp::cube_vertice_maker(origin1, size1);
+  corkpp::point_t origin1{-0.5, -0.5, -0.5};
+  corkpp::point_t size1{1.0, 1.0, 1.0};
+  vertices1 = corkpp::cube_vertice_maker(origin1, size1);
   // vertices1.pop_back();
-  corkpp::make_faces_from_nodes(vertices1, faces1);
-  corkpp::CorkTriMesh in0;
-  corkpp::CorkTriMesh in1;
-  corkpp::CorkTriMesh intersection;
-  corkpp::CorkTriMesh difference;
-  corkpp::CorkTriMesh intersection_and_difference;
-  corkpp::corktrimesh_maker_from_node_faces(vertices0, faces0, in0);
-  corkpp::corktrimesh_maker_from_node_faces(vertices1, faces1, in1);
+  // corkpp::make_faces_from_nodes(vertices1, faces1);
+  // corkpp::CorkTriMesh in0;
+  // corkpp::CorkTriMesh in1;
+  // corkpp::CorkTriMesh intersection;
+  // corkpp::CorkTriMesh difference;
+  // corkpp::CorkTriMesh intersection_and_difference;
+  // corkpp::corktrimesh_maker_from_node_faces(vertices0, faces0, in0);
+  // corkpp::corktrimesh_maker_from_node_faces(vertices1, faces1, in1);
 
-  corkpp::computeIntersection(in0, in1, intersection);
-  corkpp::computeDifference(in0, in1, difference);
-  corkpp::intersect_of_faces(intersection, difference,
-                             intersection_and_difference);
+  // corkpp::computeIntersection(in0, in1, intersection);
+  // corkpp::computeDifference(in0, in1, difference);
+  // corkpp::intersect_of_faces(intersection, difference,
+  //                            intersection_and_difference);
 
-  auto && vol = volume_calculator(intersection);
-  auto && normal = average_normal_calculator(intersection_and_difference);
-  std::cout << "the normal vector is:" << std::endl << normal << std::endl;
-  std::cout << "the volume is:" << std::endl << vol << std::endl;
+  // auto && vol = volume_calculator(intersection);
+  // auto && normal = average_normal_calculator(intersection_and_difference);
+  // std::cout << "the normal vector is:" << std::endl << normal << std::endl;
+  // std::cout << "the volume is:" << std::endl << vol << std::endl;
+
+  auto && vol = corkpp::calculate_intersection_volume(vertices1, vertices0);
+  std::cout << vol << std::endl;
+
+  auto && vol_norm =
+      corkpp::calculate_intersection_volume_normal(vertices1, vertices0);
+  std::cout << vol_norm[0] << std::endl << vol_norm[1] << "," << vol_norm[2] << ","
+            << vol_norm[3] << "," << std::endl;
 
   return 0;
 }
