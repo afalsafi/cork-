@@ -40,11 +40,6 @@ namespace corkpp {
     std::vector<face_t> faces_precipitate, faces_pixel;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
-    std::cout << vertices_precipitate.size() << std::endl;
-    for (int i = 0; i < vertices_precipitate.size(); ++i) {
-      std::cout << vertices_pixel.at(i)[2] << std::endl;
-    }
-
     CorkTriMesh in0;
     CorkTriMesh in1;
     corktrimesh_maker_from_node_faces(vertices_precipitate, faces_precipitate,
@@ -176,7 +171,7 @@ namespace corkpp {
       if (face_normal != Eigen::Vector3f::Zero()) {
         ret_volume += face_area * face_height / 3.0;
       }
-      std::cout << ret_volume << std::endl;
+      // std::cout << ret_volume << std::endl;
     }
     // std::cout << ret_volume << std::endl;
     return ret_volume;
