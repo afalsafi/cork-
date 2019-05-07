@@ -175,12 +175,12 @@ namespace corkpp {
       }
       // std::cout << ret_volume << std::endl;
     }
-    std::cout << repetition.size()<< std::endl;
+    // std::cout << repetition.size()<< std::endl;
     for (uint i = 0; i < repetition.size(); ++i) {
       in.n_triangles = in.n_triangles - 1 ;
       in.triangles.erase(in.triangles.begin() + (3 * repetition[i] + 0),
                          in.triangles.begin() + (3 * repetition[i] + 2));
-      std::cout << "done" << std::endl;
+      // std::cout << "done" << std::endl;
     }
 
     // std::cout << ret_volume << std::endl;
@@ -226,7 +226,7 @@ namespace corkpp {
                                      normals_intersect[counter_new]) /
             pixel_size;
         counter_new++;
-      } else {std::cout << "done";}
+      } //else {std::cout << "done";}
     }
 
     uint counter_intersect {0};
@@ -255,14 +255,14 @@ namespace corkpp {
           }
           if (counter_intersect >= 3) {
             new_face_checker[i] = true;
-            std::cout << counter_intersect << std::endl;
-            for (uint k = 0; k < 3; ++k) {
-              std:: cout << normals_intersect[j][k] << "," ;
-            }std::cout<< constants_intersect[j] << std::endl;
-            for (uint k = 0; k < 3; ++k) {
-              std:: cout << normal_diff[k] << "," ;
-            }std::cout<< constant_diff << std::endl;
-            std::cout << std::endl;
+            // std::cout << counter_intersect << std::endl;
+            // for (uint k = 0; k < 3; ++k) {
+            //   std:: cout << normals_intersect[j][k] << "," ;
+            // }std::cout<< constants_intersect[j] << std::endl;
+            // for (uint k = 0; k < 3; ++k) {
+            //   std:: cout << normal_diff[k] << "," ;
+            // }std::cout<< constant_diff << std::endl;
+            // std::cout << std::endl;
           }
         }
         counter_intersect = 0;
