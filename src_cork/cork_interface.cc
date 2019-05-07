@@ -170,18 +170,18 @@ namespace corkpp {
           point_inside, face_normal, face_constant));
       if (face_normal != Eigen::Vector3f::Zero()) {
         ret_volume += face_area * face_height / 3.0;
-      } else {
-        repetition.push_back(i);
+      // } else {
+      //   repetition.push_back(i);
       }
       // std::cout << ret_volume << std::endl;
     }
     // std::cout << repetition.size()<< std::endl;
-    for (uint i = 0; i < repetition.size(); ++i) {
-      in.n_triangles = in.n_triangles - 1 ;
-      in.triangles.erase(in.triangles.begin() + (3 * repetition[i] + 0),
-                         in.triangles.begin() + (3 * repetition[i] + 2));
-      // std::cout << "done" << std::endl;
-    }
+    // for (uint i = 0; i < repetition.size(); ++i) {
+    //   in.n_triangles = in.n_triangles - 1 ;
+    //   in.triangles.erase(in.triangles.begin() + (3 * repetition[i] + 0),
+    //                      in.triangles.begin() + (3 * repetition[i] + 2));
+    //   // std::cout << "done" << std::endl;
+    // }
 
     // std::cout << ret_volume << std::endl;
     return ret_volume;
