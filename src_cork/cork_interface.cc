@@ -4,11 +4,11 @@ namespace corkpp {
 
   /*-----------------------------------------------------------------------------*/
 
-  auto calculate_intersection_normal(
+  auto calculate_intersection_volume_normal(
       const std::vector<point_t> vertices_precipitate,
-      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 3> {
+      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4> {
     std::vector<face_t> faces_precipitate, faces_pixel;
-    std::array<REAL, 3> ret_norm;
+    std::array<REAL, 4> ret_vol_norm;
     make_faces_from_nodes(vertices_precipitate, faces_precipitate);
     make_faces_from_nodes(vertices_pixel, faces_pixel);
     CorkTriMesh in0;
@@ -24,10 +24,11 @@ namespace corkpp {
     computeDifference(in1, in0, difference);
     intersect_of_faces(difference, intersection, intersection_and_difference, 1.0);
     auto && normal = -average_normal_calculator(intersection_and_difference);
-    ret_norm[0] = normal(0);
-    ret_norm[1] = normal(1);
-    ret_norm[2] = normal(2);
-    return  ret_norm;
+    ret_vol_norm[0] = volume_calculator(intersection);
+    ret_vol_norm[1] = normal(0);
+    ret_vol_norm[2] = normal(1);
+    ret_vol_norm[3] = normal(2);
+    return ret_vol_norm;
   }
 
   /*-----------------------------------------------------------------------------*/
@@ -105,10 +106,10 @@ namespace corkpp {
       face_vertices[i] << vertices[face[i]][0], vertices[face[i]][1],
           vertices[face[i]][2];
     }
-    return (face_vertices[1] - face_vertices[0])
-        .cross(face_vertices[2] - face_vertices[1])
-        .normalized()
-        .derived();
+    return -(face_vertices[1] - face_vertices[0])
+                .cross(face_vertices[2] - face_vertices[1])
+                .normalized()
+                .derived();
   }
   /*-----------------------------------------------------------------------------*/
   double face_area_calculator(const std::vector<point_t> & vertices,
@@ -169,18 +170,18 @@ namespace corkpp {
           point_inside, face_normal, face_constant));
       if (face_normal != Eigen::Vector3f::Zero()) {
         ret_volume += face_area * face_height / 3.0;
-      } else {
-        repetition.push_back(i);
+      // } else {
+      //   repetition.push_back(i);
       }
       // std::cout << ret_volume << std::endl;
     }
-    std::cout << repetition.size()<< std::endl;
-    for (uint i = 0; i < repetition.size(); ++i) {
-      in.n_triangles = in.n_triangles - 1 ;
-      in.triangles.erase(in.triangles.begin() + (3 * repetition[i] + 0),
-                         in.triangles.begin() + (3 * repetition[i] + 2));
-      std::cout << "done" << std::endl;
-    }
+    // std::cout << repetition.size()<< std::endl;
+    // for (uint i = 0; i < repetition.size(); ++i) {
+    //   in.n_triangles = in.n_triangles - 1 ;
+    //   in.triangles.erase(in.triangles.begin() + (3 * repetition[i] + 0),
+    //                      in.triangles.begin() + (3 * repetition[i] + 2));
+    //   // std::cout << "done" << std::endl;
+    // }
 
     // std::cout << ret_volume << std::endl;
     return ret_volume;
@@ -225,7 +226,7 @@ namespace corkpp {
                                      normals_intersect[counter_new]) /
             pixel_size;
         counter_new++;
-      } else {std::cout << "done";}
+      } //else {std::cout << "done";}
     }
 
     uint counter_intersect {0};
@@ -254,14 +255,14 @@ namespace corkpp {
           }
           if (counter_intersect >= 3) {
             new_face_checker[i] = true;
-            std::cout << counter_intersect << std::endl;
-            for (uint k = 0; k < 3; ++k) {
-              std:: cout << normals_intersect[j][k] << "," ;
-            }std::cout<< constants_intersect[j] << std::endl;
-            for (uint k = 0; k < 3; ++k) {
-              std:: cout << normal_diff[k] << "," ;
-            }std::cout<< constant_diff << std::endl;
-            std::cout << std::endl;
+            // std::cout << counter_intersect << std::endl;
+            // for (uint k = 0; k < 3; ++k) {
+            //   std:: cout << normals_intersect[j][k] << "," ;
+            // }std::cout<< constants_intersect[j] << std::endl;
+            // for (uint k = 0; k < 3; ++k) {
+            //   std:: cout << normal_diff[k] << "," ;
+            // }std::cout<< constant_diff << std::endl;
+            // std::cout << std::endl;
           }
         }
         counter_intersect = 0;
@@ -355,36 +356,16 @@ namespace corkpp {
     // std::cout << counter << std::endl;
   }
   /*-----------------------------------------------------------------------------*/
-  std::vector<point_t> cube_vertice_maker_pixel(point_t origin, point_t size) {
-    std::vector<point_t> ret_vertices(8, {0.0, 0.0, 0.0});
-    ret_vertices[0] = {origin[0], origin[1], origin[2]};
-    ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
-    ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
-
-    ret_vertices[3] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
-    ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
-    ret_vertices[5] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
-    ret_vertices[6] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
-
-    ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
-                       origin[2] + size[2]};
-
-    // ret_vertices[8] = {(origin[0] + size[0]) / 2, (origin[1] + size[1]) / 2,
-    //                    (origin[2] + size[2])};
-    return ret_vertices;
-  }
 
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size) {
     std::vector<point_t> ret_vertices(8, {0.0, 0.0, 0.0});
     ret_vertices[0] = {origin[0], origin[1], origin[2]};
     ret_vertices[1] = {origin[0] + size[0], origin[1], origin[2]};
     ret_vertices[2] = {origin[0], origin[1] + size[1], origin[2]};
-
+    ret_vertices[6] = {origin[0], origin[1], origin[2] + size[2]};
+    ret_vertices[4] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
+    ret_vertices[5] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
     ret_vertices[3] = {origin[0] + size[0], origin[1] + size[1], origin[2]};
-    ret_vertices[4] = {origin[0], origin[1], origin[2] + size[2]};
-    ret_vertices[5] = {origin[0], origin[1] + size[1], origin[2] + size[2]};
-    ret_vertices[6] = {origin[0] + size[0], origin[1], origin[2] + size[2]};
-
     ret_vertices[7] = {origin[0] + size[0], origin[1] + size[1],
                        origin[2] + size[2]};
 
