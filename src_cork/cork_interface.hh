@@ -47,7 +47,7 @@ namespace corkpp {
   using point_t = std::array<double, 3>;
   using vector_t = Eigen::Vector3f;
   using poly_t = Eigen::Matrix3Xf;
-  constexpr float tolerance = 1e-3;
+  constexpr float tolerance = 1e-4;
 
   /**
    * This function recieves to set of vertices "vertices_pre" &
@@ -59,10 +59,15 @@ namespace corkpp {
    * "vertices_precipitate" that lie inside "vertices_pixel"
    */
 
-  auto calculate_intersection_normal_volume(
+  auto calculate_intersection_volume_normal(
       const std::vector<point_t> vertices_precipitate,
-      const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4>;
+      const std::vector<point_t> vertices_pixel)
+      ->  std::array<REAL, 4>;
 
+  auto
+  calculate_intersection_normal(const std::vector<point_t> vertices_precipitate,
+                                const std::vector<point_t> vertices_pixel)
+      -> std::array<REAL, 3>;
   /**
    * This function recieves to set of vertices "vertices_pre" &
    * "vertices_precipitate" and it does:
@@ -91,9 +96,9 @@ namespace corkpp {
   /**
    * this function returns the normal vetor of a triangular facet
    * it should be noted that the order of the facet nodes has influence on
-   * the sign of the normal vector. If the triangle sets passed to this function
-   * are output of tetgen package we know that the order of the vertices
-   * indeices will make the calculated normal vector pointing outward
+   * the sign of the normal vector. If the triangle sets passed to this
+   * function are output of tetgen package we know that the order of the
+   * vertices indeices will make the calculated normal vector pointing outward
    */
   vector_t face_normal_calculator(const std::vector<point_t> & vertices,
                                   const face_t & face);
@@ -121,8 +126,8 @@ namespace corkpp {
                                 const face_t & face, vector_t normal) -> double;
   /**
    * this function returns a point inside a convex polyhedron considering the
-   * fact that any line connecting two points in a convex space lies inside the
-   * space
+   * fact that any line connecting two points in a convex space lies inside
+   * the space
    */
   vector_t a_point_polyhedron_claculator(const std::vector<point_t> & vertices);
   /**
@@ -130,7 +135,7 @@ namespace corkpp {
    * the faces of the the corktrimesh sould be arranged such that their
    * right-hand normal vector point to the inside of the polyhedron
    */
-  double volume_calculator(const CorkTriMesh & in);
+  double volume_calculator(CorkTriMesh & in);
   /**
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to "in0" and does not belong to "in1"
@@ -142,8 +147,9 @@ namespace corkpp {
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to both "in0" and "in1"
    */
-  void intersect_of_faces(const CorkTriMesh & in0, const CorkTriMesh & in1,
-                          CorkTriMesh & out, REAL pixel_size = 1);
+  void intersect_of_faces(const CorkTriMesh & in_diff,
+                          const CorkTriMesh & in_intersect, CorkTriMesh & out,
+                          REAL pixel_size = 1.0);
   /**
    * This function retruns a list of cube vertices given one of its corner's
    * coordinates and the vector connecting that to its farthest corner
@@ -151,13 +157,13 @@ namespace corkpp {
   std::vector<point_t> cube_vertice_maker(point_t origin, point_t size);
 
   /**
-   * This function returns a corktrimesh given a set of points and correspondent
-   * faces to them
+   * This function returns a corktrimesh given a set of points and
+   * correspondent faces to them
    */
   void corktrimesh_maker_from_node_faces(
       const std::vector<point_t> & precipitate_vertices,
       const std::vector<face_t> & faces, CorkTriMesh & out);
-  } // namespace Cork
+}  // namespace corkpp
 
 #endif /* CORK_INTERFACE_H */
 // }  // namespace corkpp
