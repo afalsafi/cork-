@@ -30,20 +30,27 @@
 // namespace corkpp {
 int main(int argc, char * argv[]) {
   std::vector<corkpp::point_t> vertices_precipitate;
-  corkpp::point_t origin_precipitate{-0.5, -0.0, -0.0};
-  corkpp::point_t size_precipitate{1.0, 1.0, 1.0};
-  vertices_precipitate =
-      corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
+  corkpp::point_t origin_precipitate{1.40, 1.40, 0.00};
+  corkpp::point_t size_precipitate{1.40, 1.40, 1.00};
+  // vertices_precipitate =
+  //     corkpp::cube_vertice_maker(origin_precipitate, size_precipitate);
+
+  vertices_precipitate.push_back({0.10, 0.10, 0.10});
+  vertices_precipitate.push_back({0.75, 0.10, 0.10});
+  vertices_precipitate.push_back({0.10, 0.75, 0.10});
+  vertices_precipitate.push_back({0.10, 0.10, 0.75});
+  vertices_precipitate.push_back({0.50, 0.50, 0.50});
 
   std::vector<corkpp::point_t> vertices_pixel;
-  corkpp::point_t origin_pixel{0.0, 0.0, 0.0};
+  corkpp::point_t origin_pixel{0.1, 0.1, -0.1};
   corkpp::point_t size_pixel{1.0, 1.0, 1.0};
   vertices_pixel = corkpp::cube_vertice_maker(origin_pixel, size_pixel);
 
-  auto && vol_norm =
-      corkpp::calculate_intersection_normal_volume(vertices_precipitate, vertices_pixel);
+  auto && vol_norm = corkpp::calculate_intersection_normal_volume(
+      vertices_precipitate, vertices_pixel);
 
-  auto && vol = corkpp::calculate_intersection_volume(vertices_precipitate, vertices_pixel);
+  auto && vol = corkpp::calculate_intersection_volume(vertices_precipitate,
+                                                      vertices_pixel);
   for (uint i = 0; i < vol_norm.size(); ++i) {
     std::cout << vol_norm[i] << std::endl;
   }

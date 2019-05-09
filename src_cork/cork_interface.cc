@@ -165,7 +165,9 @@ namespace corkpp {
       face_constant = face_constant_calculator(vertices, face, face_normal);
       face_height = abs(point_plane_distance_calculator(
           point_inside, face_normal, face_constant));
-      ret_volume += face_area * face_height / 3.0;
+      if (face_normal != Eigen::Vector3f::Zero()) {
+        ret_volume += face_area * face_height / 3.0;
+      }
     }
     // std::cout << ret_volume << std::endl;
     return ret_volume;
