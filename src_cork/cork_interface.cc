@@ -4,7 +4,7 @@ namespace corkpp {
 
   /*-----------------------------------------------------------------------------*/
 
-  auto calculate_intersection_normal_volume(
+  auto calculate_intersection_volume_normal(
       const std::vector<point_t> vertices_precipitate,
       const std::vector<point_t> vertices_pixel) -> std::array<REAL, 4> {
     std::vector<face_t> faces_precipitate, faces_pixel;

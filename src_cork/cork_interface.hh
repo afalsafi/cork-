@@ -135,7 +135,7 @@ namespace corkpp {
    * the faces of the the corktrimesh sould be arranged such that their
    * right-hand normal vector point to the inside of the polyhedron
    */
-  double volume_calculator(CorkTriMesh & in);
+  double volume_calculator(const CorkTriMesh & in);
   /**
    * these function create a "out" CorkTrimesh consists of the facets that
    * belong to "in0" and does not belong to "in1"
